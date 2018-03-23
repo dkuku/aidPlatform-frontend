@@ -1,35 +1,34 @@
-import React from 'react'
-import logo from 'assets/logo.svg'
-import styled, { keyframes } from 'styled-components'
+import React, { Component } from 'react'
+import { Menu } from 'semantic-ui-react'
 
-const rotate360 = keyframes`
-  from {
-    transform: rotate(0deg);
+export default class Header extends Component {
+  state = { activeItem: 'Login' }
+
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+
+  render() {
+    const { activeItem } = this.state
+
+    return (
+      <Menu>
+        <Menu.Item name="Browse" active={activeItem === 'browse'} onClick={this.handleItemClick}>
+          Browse
+        </Menu.Item>
+
+        <Menu.Item name="Search" active={activeItem === 'search'} onClick={this.handleItemClick}>
+          Search
+        </Menu.Item>
+
+        <Menu.Item name="Newest" active={activeItem === 'newest'} onClick={this.handleItemClick}>
+          Newest Requests
+        </Menu.Item>
+        <Menu.Menu position="right">
+          <Menu.Item>
+            <Menu.Item name="Sign Up" active={activeItem === 'Signup'} onClick={this.handleItemClick} />
+          </Menu.Item>
+          <Menu.Item name="Login" active={activeItem === 'Login'} onClick={this.handleItemClick} />
+        </Menu.Menu>
+      </Menu>
+    )
   }
-  to {
-    transform: rotate(360deg);
-  }
-`
-
-const TopBar = styled.div`
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: #fff;
-
-  .redux-logo {
-    animation: ${rotate360} infinite 20s linear;
-    height: 80px;
-  }
-`
-
-function Header() {
-  return (
-    <TopBar>
-      <img src={logo} className="redux-logo" alt="logo" />
-      <h2>Welcome to Create Redux App</h2>
-    </TopBar>
-  )
 }
-
-export default Header

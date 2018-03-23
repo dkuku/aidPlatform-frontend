@@ -5,6 +5,7 @@ import configureStore from 'store'
 import Routes from 'routes'
 import 'styles/global-styles'
 import registerServiceWorker from 'utils/registerServiceWorker'
+import 'semantic-ui-css/semantic.min.css'
 
 render(
   <Provider store={configureStore()}>
