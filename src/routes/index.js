@@ -1,10 +1,12 @@
 import React from 'react'
 import { CounterContainer } from 'containers'
-import { Header } from 'components'
+import { Header, Map } from 'components'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import styled from 'styled-components'
 
-const Container = styled.div`text-align: center;`
+const Container = styled.div`
+  text-align: center;
+`
 
 function Routes() {
   return (
@@ -12,6 +14,7 @@ function Routes() {
       <Container>
         <Header />
         <Route path="/" component={CounterContainer} />
+        <Map />
       </Container>
     </Router>
   )
