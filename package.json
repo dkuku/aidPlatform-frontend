@@ -4,10 +4,12 @@
   "version": "0.1.0",
   "author": "Daniel Kukula",
   "dependencies": {
+    "fusejs": "^1.4.3",
     "google-maps-react": "^1.1.6",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-fuzzy": "^0.5.2",
     "react-google-maps": "^9.4.5",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
