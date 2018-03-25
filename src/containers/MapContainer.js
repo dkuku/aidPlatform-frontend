@@ -1,0 +1,41 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import * as MapActions from 'actions/map'
+import { Grid } from 'semantic-ui-react'
+import { Map, TaskList } from 'components'
+
+class MapContainer extends React.Component {
+  static propTypes = {
+    markers: PropTypes.array.isRequired,
+  }
+
+  componentDidMount() {
+    const url = 'http://localhost:3000/api/v1/tasks'
+
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        this.setState({ markers: data.data.tasks })
+      })
+  }
+
+  render() {
+    return (
+      <Grid divided="vertically">
+        <Grid.Row columns={2}>
+          <Grid.Column width={4}>
+            <TaskList />
+          </Grid.Column>
+          <Grid.Column width={12}>
+            <Map />
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    )
+  }
+}
+
+export default MapContainer
