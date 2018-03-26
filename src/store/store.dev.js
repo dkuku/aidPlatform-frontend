@@ -9,13 +9,19 @@ export default function configureStore(initialState = {}) {
     applyMiddleware(...middlewares),
     // other store enhancers if any
   ]
-  const composeEnhancers = composeWithDevTools(
-    {
-      // other compose enhancers if any
-      // Specify here other options if needed
-    }
-  )
+  const composeEnhancers = composeWithDevTools({
+    // other compose enhancers if any
+    // Specify here other options if needed
+  })
+
   const store = createStore(rootReducer, initialState, composeEnhancers(...enhancers))
+
+  store.subscribe(() => {
+    console.log(store.getState())
+  })
+
+  // store.dispatch(addMarker({description: "test marker", title: "first.test.marker", lat: "51.5", lng: '0.2'}))
+
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
     module.hot.accept('../reducers', () => {

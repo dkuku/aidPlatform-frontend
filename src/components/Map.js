@@ -2,8 +2,12 @@ import React, { Component } from 'react'
 import GoogleMapsWrapper from './GoogleMapsWrapper.js'
 import { Marker } from 'react-google-maps'
 import MarkerClusterer from 'react-google-maps/lib/components/addons/MarkerClusterer'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { createStructuredSelector, createSelector } from 'reselect'
+import * as MarkersActions from 'actions/markers'
 
-export default class MapSearch extends React.Component {
+class MapSearch extends Component {
   componentWillMount() {
     let refs = {}
 
@@ -21,16 +25,6 @@ export default class MapSearch extends React.Component {
       },
     })
   }
-  componentDidMount() {
-    const url = 'http://localhost:3000/api/v1/tasks'
-
-    fetch(url)
-      .then(res => res.json())
-      .then(data => {
-        console.log(data)
-        this.setState({ markers: data.data.tasks })
-      })
-  }
 
   render() {
     return (
@@ -45,7 +39,7 @@ export default class MapSearch extends React.Component {
         onBoundsChanged={this.state.onBoundsChanged}
       >
         <MarkerClusterer averageCenter enableRetinaIcons gridSize={20}>
-          {this.state.markers.map(marker => (
+          {this.props.markers.map(marker => (
             <Marker key={Number(marker.id)} position={{ lat: Number(marker.lat), lng: Number(marker.lng) }} />
           ))}
         </MarkerClusterer>
@@ -53,3 +47,14 @@ export default class MapSearch extends React.Component {
     )
   }
 }
+const mapStateToProps = state => {
+  return {
+    markers: state.markers,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(MarkersActions, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MapSearch)

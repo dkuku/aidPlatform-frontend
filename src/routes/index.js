@@ -14,8 +14,8 @@ function Routes() {
     <Router>
       <Container>
         <Header />
-        <Route path="/" component={CounterContainer} />
         <Route path="/" component={MapContainer} />
+        <Route path="/" component={CounterContainer} />
       </Container>
     </Router>
   )
