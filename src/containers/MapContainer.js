@@ -2,13 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import * as MapActions from 'actions/map'
+import { createStructuredSelector, createSelector } from 'reselect'
+import * as MarkersActions from 'actions/markers'
 import { Grid } from 'semantic-ui-react'
 import { Map, TaskList } from 'components'
 
 class MapContainer extends React.Component {
   static propTypes = {
-    markers: PropTypes.array.isRequired,
+    addMarker: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
@@ -17,11 +18,9 @@ class MapContainer extends React.Component {
     fetch(url)
       .then(res => res.json())
       .then(data => {
-        console.log(data)
-        this.setState({ markers: data.data.tasks })
+        this.props.updateMarkers({ markers: data.data.tasks })
       })
   }
-
   render() {
     return (
       <Grid divided="vertically">
@@ -38,4 +37,14 @@ class MapContainer extends React.Component {
   }
 }
 
-export default MapContainer
+const mapStateToProps = state => {
+  return {
+    markers: state.markers,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(MarkersActions, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MapContainer)

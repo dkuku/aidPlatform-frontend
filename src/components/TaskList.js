@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { createStructuredSelector, createSelector } from 'reselect'
+import * as MarkersActions from 'actions/markers'
 import { Accordion, Icon } from 'semantic-ui-react'
 
-export default class TaskList extends React.Component {
+class TaskList extends Component {
   state = {
     activeIndex: 0,
-    markers: [],
   }
-
   handleClick = (e, titleProps) => {
     const { index } = titleProps
     const { activeIndex } = this.state
@@ -15,22 +17,12 @@ export default class TaskList extends React.Component {
     this.setState({ activeIndex: newIndex })
   }
 
-  componentDidMount() {
-    const url = 'http://localhost:3000/api/v1/tasks'
-
-    fetch(url)
-      .then(res => res.json())
-      .then(data => {
-        console.log(data)
-        this.setState({ markers: data.data.tasks })
-      })
-  }
-
   render() {
-    const { activeIndex, markers } = this.state
+    //const {markers} = this.props
+    const { activeIndex } = this.state
     return (
       <Accordion fluid styled>
-        {markers.map(marker => (
+        {this.props.markers.map(marker => (
           <div>
             <Accordion.Title active={activeIndex === marker.id} index={marker.id} onClick={this.handleClick}>
               <Icon name="dropdown" />
@@ -45,3 +37,14 @@ export default class TaskList extends React.Component {
     )
   }
 }
+const mapStateToProps = state => {
+  return {
+    markers: state.markers,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(MarkersActions, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskList)
