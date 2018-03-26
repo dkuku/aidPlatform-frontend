@@ -13,7 +13,7 @@ class MapContainer extends React.Component {
   }
 
   componentDidMount() {
-    const url = 'http://localhost:3000/api/v1/tasks'
+    const url = '/api/tasks'
 
     fetch(url)
       .then(res => res.json())
