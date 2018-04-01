@@ -23,7 +23,7 @@ class TaskList extends Component {
     return (
       <Accordion fluid styled>
         {this.props.markers.map(marker => (
-          <div>
+          <div key={marker.id}>
             <Accordion.Title active={activeIndex === marker.id} index={marker.id} onClick={this.handleClick}>
               <Icon name="dropdown" />
               {marker.title}

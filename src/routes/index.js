@@ -1,7 +1,7 @@
 import React from 'react'
 import { CounterContainer } from 'containers'
 import { MapContainer } from 'containers'
-import { Header, Map } from 'components'
+import { TopMenu, Map } from 'components'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -13,7 +13,7 @@ function Routes() {
   return (
     <Router>
       <Container>
-        <Header />
+        <TopMenu />
         <Route path="/" component={MapContainer} />
         <Route path="/" component={CounterContainer} />
       </Container>
