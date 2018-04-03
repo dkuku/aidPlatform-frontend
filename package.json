@@ -3,7 +3,15 @@
   "description": "Aid platform for your neighborhood",
   "version": "0.1.0",
   "author": "Daniel Kukula",
-  "dependencies": {
+  "proxy": {
+    "/api/": {
+      "target": "http://localhost:3000",
+      "pathRewrite": {
+        "^/api": "/api/v1"
+      }
+    }
+  },
+"dependencies": {
     "fusejs": "^1.4.3",
     "google-maps-react": "^1.1.6",
     "prop-types": "^15.6.0",

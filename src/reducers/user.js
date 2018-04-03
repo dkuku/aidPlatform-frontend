@@ -11,11 +11,32 @@ const userDemo = {
 export default function user(state = initialUserState, action) {
   switch (action.type) {
     case SIGNUP:
-      console.log('signup')
-      return userDemo
+      fetch('api/sign_up', {
+        method: 'post',
+        headers: {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user: {
+            email: 'rar@wp.pl',
+            password: '1234qwer',
+            password_confirmation: '1234qwer',
+            first_name: 'aaa1111',
+            last_name: 'aaa11111',
+          },
+        }),
+      })
+        .then(response => response.json())
+        .then(function(data) {
+          console.log(data)
+          return data.data.user
+        })
+
     case LOGIN:
+      console.log(action.payload)
+      return action.payload.user
       console.log('login')
-      return userDemo
     case LOGOUT:
       console.log('logout')
       return {}
