@@ -14,7 +14,6 @@ const markerDemo = [
 export default function markers(state = markerDemo, action) {
   switch (action.type) {
     case UPDATE_MARKERS:
-      console.log(action.markers.markers)
       return action.markers.markers
     case ADD_MARKER:
       return [...state, action.marker]
