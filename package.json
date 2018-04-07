@@ -11,7 +11,7 @@
       }
     }
   },
-"dependencies": {
+  "dependencies": {
     "fusejs": "^1.4.3",
     "google-maps-react": "^1.1.6",
     "prop-types": "^15.6.0",
