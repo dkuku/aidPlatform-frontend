@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link, withRouter } from 'react-router-dom'
 import Proptypes from 'prop-types'
 import { Menu } from 'semantic-ui-react'
 import { bindActionCreators } from 'redux'
@@ -12,15 +13,15 @@ class TopMenu extends Component {
     logout: Proptypes.func.isRequired,
   }
   handleLoginClick = () => {
-    this.props.login()
+    this.props.history.push('/login')
+  }
+
+  handleSignupClick = () => {
+    this.props.history.push('/login/signup')
   }
 
   handleLogoutClick = () => {
     this.props.logout()
-  }
-
-  handleSignupClick = () => {
-    this.props.signup()
   }
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
@@ -34,7 +35,7 @@ class TopMenu extends Component {
       <Menu.Item name="Logout" active={activeItem === 'logout'} onClick={this.handleLogoutClick} />
     ) : (
       <React.Fragment>
-        <Menu.Item name="Sign Up" active={activeItem === 'signup'} onClick={this.handleSignupClick} />,
+        <Menu.Item name="Sign Up" active={activeItem === 'signup'} onClick={this.handleSignupClick} />
         <Menu.Item name="Login" active={activeItem === 'login'} onClick={this.handleLoginClick} />
       </React.Fragment>
     )
@@ -71,4 +72,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(UserActions, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TopMenu)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TopMenu))
