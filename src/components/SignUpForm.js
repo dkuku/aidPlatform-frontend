@@ -1,16 +1,20 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Message, Segment, Modal } from 'semantic-ui-react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import axios from 'axios'
 import * as UserActions from 'actions/user'
 
-const headers = {
-  Accept: 'application/json, text/plain, */*',
-  'Content-Type': 'application/json',
+const inlineStyle = {
+  modal: {
+    marginTop: '0px !important',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
 }
 function signupBody(email, password, password_confirmation, first_name, last_name) {
-  return JSON.stringify({
+  return {
     user: {
       first_name: first_name,
       last_name: last_name,
@@ -18,33 +22,60 @@ function signupBody(email, password, password_confirmation, first_name, last_nam
       password_confirmation: password_confirmation,
       email: email,
     },
-  })
+  }
 }
 
 class SignUpForm extends Component {
   state = {
+    user: {},
     email: '',
     password: '',
+    password_confirmation: '',
+    first_name: '',
+    last_name: '',
+    modalOpen: false,
+    modalData: '',
+    modalHeader: '',
+    modalButton: () => {},
   }
-
-  handleChange = (e, { name, value }) => this.setState({ [name]: value })
-  handleSignUpSubmit = () => {
-    fetch('/api/sign_up', {
-      method: 'post',
-      headers: headers,
-      body: signupBody(
-        this.state.email,
-        this.state.password,
-        this.state.password_confirmation,
-        this.state.first_name,
-        this.state.last_name
-      ),
+  handleOpen = () => this.setState({ modalOpen: true })
+  handleClose = () => this.setState({ modalOpen: false })
+  handleChange = (e, { name, value }) =>
+    this.setState({
+      [name]: value,
     })
-      .then(res => res.json())
-      .then(data => {
-        this.props.signup({ user: data.data.user })
+  handleSignUpSubmit = () => {
+    const { first_name, last_name, email, password, password_confirmation } = this.state
+    axios
+      .post('/api/sign_up', signupBody(email, password, password_confirmation, first_name, last_name))
+      .then(response => {
+        if (response.status === 200) {
+          this.setState({ modalHeader: `User created` })
+        }
+        this.setState({
+          modalData: `Hi ${first_name} ${last_name}. Your account was created. 
+            You can login to the website using your email address ${email}`,
+        })
+        console.log(response)
+        this.setState({
+          modalButton: () => {
+            this.props.history.push('/')
+          },
+        })
+        this.props.signup({ user: response.data.data.user })
+        this.setState({ modalOpen: true })
       })
-    this.props.history.push('/')
+      .catch(error => {
+        this.setState({ modalHeader: `Error` })
+        this.setState({
+          modalData: error.response.data[0] || 'There was an error submitting the form, please try again in 5 minutes',
+        })
+        this.setState({
+          modalButton: () => this.setState({ modalOpen: false }),
+        })
+        this.setState({ modalOpen: true })
+        console.log(error.response.data)
+      })
   }
   render() {
     return (
@@ -76,7 +107,6 @@ class SignUpForm extends Component {
                   label="First Name"
                   placeholder="First Name"
                   name="first_name"
-                  name="first_name"
                   onChange={this.handleChange}
                 />
                 <Form.Input
@@ -85,7 +115,6 @@ class SignUpForm extends Component {
                   iconPosition="left"
                   label="Last Name"
                   placeholder="Last Name"
-                  name="last_name"
                   name="last_name"
                   onChange={this.handleChange}
                 />
@@ -116,7 +145,6 @@ class SignUpForm extends Component {
                   type="password"
                   label="Confirm Password"
                   name="password_confirmation"
-                  name="password_confirmation"
                   onChange={this.handleChange}
                 />
                 <Form.Checkbox label="I agree to the Terms and Conditions" />
@@ -131,15 +159,22 @@ class SignUpForm extends Component {
             </Message>
           </Grid.Column>
         </Grid>
+        <Modal style={inlineStyle.modal} open={this.state.modalOpen} onClose={this.handleClose}>
+          <Modal.Header> {this.state.modalHeader} </Modal.Header>
+          <Modal.Content>{this.state.modalData}</Modal.Content>
+          <Modal.Actions>
+            <Button color="teal" onClick={this.state.modalButton}>
+              OK
+            </Button>{' '}
+          </Modal.Actions>
+        </Modal>
       </div>
     )
   }
 }
 
 const mapStateToProps = state => {
-  return {
-    user: state.user,
-  }
+  return { user: state.user }
 }
 
 function mapDispatchToProps(dispatch) {
