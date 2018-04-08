@@ -6,6 +6,8 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
 import * as MarkersActions from 'actions/markers'
+import * as VariablesActions from 'actions/variables'
+const { InfoBox } = require('react-google-maps/lib/components/addons/InfoBox')
 
 class MapSearch extends Component {
   componentWillMount() {
@@ -54,7 +56,7 @@ const mapStateToProps = state => {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(MarkersActions, dispatch)
+  return bindActionCreators({ ...MarkersActions, ...VariablesActions }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapSearch)
