@@ -1,4 +1,4 @@
-import { UPDATE_MARKERS, ADD_MARKER, DELETE_MARKER, EDIT_MARKER } from 'constants/ActionTypes'
+import { UPDATE_MARKERS, ADD_MARKER, DELETE_MARKER, EDIT_MARKER, ACTIVE_MARKER } from 'constants/ActionTypes'
 
 const initialMarkersState = []
 const markerDemo = [
@@ -28,6 +28,8 @@ export default function markers(state = markerDemo, action) {
           return marker
         }
       })
+    case ACTIVE_MARKER:
+      return state
     case DELETE_MARKER:
       return state.filter(({ id }) => id !== action.id)
     default:
