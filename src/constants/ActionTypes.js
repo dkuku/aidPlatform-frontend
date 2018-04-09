@@ -8,7 +8,7 @@ export const ADD_MARKER = 'ADD_MARKER'
 export const DELETE_MARKER = 'DELETE_MARKER'
 export const EDIT_MARKER = 'EDIT_MARKER'
 
-export const ACTIVE_MARKER = 'ACTIVE_MARKER'
+export const ACTIVE_INDEX = 'ACTIVE_INDEX'
 
 //User
 export const LOGIN = 'LOGIN'

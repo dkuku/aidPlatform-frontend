@@ -3,12 +3,13 @@ import counter from './counter'
 import markers from './markers'
 import filters from './filters'
 import user from './user'
-import activeMarker from './variables'
+import activeIndex from './activeIndex'
+
 const rootReducer = combineReducers({
   counter,
   markers,
   filters,
   user,
-  activeMarker,
+  activeIndex,
 })
 export default rootReducer

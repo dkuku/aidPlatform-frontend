@@ -38,11 +38,9 @@ class MapContainer extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    markers: state.markers,
-  }
-}
+const mapStateToProps = state => ({
+  markers: state.markers,
+})
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(MarkersActions, dispatch)
