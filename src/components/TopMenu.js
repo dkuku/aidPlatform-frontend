@@ -8,35 +8,44 @@ import { createStructuredSelector, createSelector } from 'reselect'
 import * as UserActions from 'actions/user'
 
 class TopMenu extends Component {
-  static propTypes = {
-    login: Proptypes.func.isRequired,
-    logout: Proptypes.func.isRequired,
-  }
-  handleLoginClick = () => {
-    this.props.history.push('/login')
-  }
-
-  handleSignupClick = () => {
-    this.props.history.push('/login/signup')
-  }
-
-  handleLogoutClick = () => {
-    this.props.logout()
-  }
-
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
-
   render() {
-    console.log(Object.keys(this.props.user).length)
     const isLoggedIn = Object.keys(this.props.user).length > 1 ? true : false
     const activeItem = 'login'
 
     const LoginLinks = isLoggedIn ? (
-      <Menu.Item name="Logout" active={activeItem === 'logout'} onClick={this.handleLogoutClick} />
+      <React.Fragment>
+        <Menu.Item
+          name="Add Task"
+          active={activeItem === 'task'}
+          onClick={() => {
+            this.props.history.push('/add')
+          }}
+        />
+        <Menu.Item
+          name="Logout"
+          active={activeItem === 'logout'}
+          onClick={() => {
+            this.props.history.push('/')
+            this.props.logout()
+          }}
+        />
+      </React.Fragment>
     ) : (
       <React.Fragment>
-        <Menu.Item name="Sign Up" active={activeItem === 'signup'} onClick={this.handleSignupClick} />
-        <Menu.Item name="Login" active={activeItem === 'login'} onClick={this.handleLoginClick} />
+        <Menu.Item
+          name="Sign Up"
+          active={activeItem === 'signup'}
+          onClick={() => {
+            this.props.history.push('/login/signup')
+          }}
+        />
+        <Menu.Item
+          name="Login"
+          active={activeItem === 'login'}
+          onClick={() => {
+            this.props.history.push('/login')
+          }}
+        />
       </React.Fragment>
     )
 

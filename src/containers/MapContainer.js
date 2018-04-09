@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
 import * as MarkersActions from 'actions/markers'
 import { Grid } from 'semantic-ui-react'
-import { Map, TaskList } from 'components'
+import { Map, TaskList, MapNav } from 'components'
 
 class MapContainer extends React.Component {
   static propTypes = {
@@ -29,6 +29,7 @@ class MapContainer extends React.Component {
             <TaskList />
           </Grid.Column>
           <Grid.Column width={12}>
+            <MapNav />
             <Map />
           </Grid.Column>
         </Grid.Row>
@@ -37,11 +38,9 @@ class MapContainer extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    markers: state.markers,
-  }
-}
+const mapStateToProps = state => ({
+  markers: state.markers,
+})
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(MarkersActions, dispatch)

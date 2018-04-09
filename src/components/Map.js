@@ -1,18 +1,22 @@
 import React, { Component } from 'react'
 import GoogleMapsWrapper from './GoogleMapsWrapper.js'
-import { Marker } from 'react-google-maps'
-import MarkerClusterer from 'react-google-maps/lib/components/addons/MarkerClusterer'
+import { Marker, InfoWindow } from 'react-google-maps'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
 import * as MarkersActions from 'actions/markers'
+import * as Active from 'actions/activeIndex'
+import { updateActiveIndex } from '../actions/activeIndex'
+const { MarkerWithLabel } = require('react-google-maps/lib/components/addons/MarkerWithLabel')
 
 class MapSearch extends Component {
+  state = {
+    activeIndex: 0,
+  }
   componentWillMount() {
     let refs = {}
 
     this.setState({
-      markers: [{ lat: 51.5, lng: -0.2 }],
       onMapMounted: map => {
         refs.map = map
       },
@@ -27,6 +31,7 @@ class MapSearch extends Component {
   }
 
   render() {
+    const { activeIndex, updateActiveIndex } = this.props
     return (
       <GoogleMapsWrapper
         googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMh8-5D3mJSXspmJrhSTtt0ToGiA-JLBc&libraries=geometry,drawing,places" // libraries=geometry,drawing,places
@@ -38,23 +43,37 @@ class MapSearch extends Component {
         onMapMounted={this.state.onMapMounted}
         onBoundsChanged={this.state.onBoundsChanged}
       >
-        <MarkerClusterer averageCenter enableRetinaIcons gridSize={20}>
-          {this.props.markers.map(marker => (
-            <Marker key={Number(marker.id)} position={{ lat: Number(marker.lat), lng: Number(marker.lng) }} />
-          ))}
-        </MarkerClusterer>
+        {this.props.markers.map(marker => (
+          <Marker
+            key={Number(marker.id)}
+            position={{ lat: Number(marker.lat), lng: Number(marker.lng) }}
+            onClick={() => updateActiveIndex(marker.id)}
+          >
+            {marker.id === activeIndex && (
+              <InfoWindow>
+                <div
+                  onClick={() => {
+                    alert('hello')
+                  }}
+                >
+                  <h3>{marker.title}</h3>
+                  <div>{marker.description}</div>
+                </div>
+              </InfoWindow>
+            )}
+          </Marker>
+        ))}
       </GoogleMapsWrapper>
     )
   }
 }
-const mapStateToProps = state => {
-  return {
-    markers: state.markers,
-  }
-}
+const mapStateToProps = state => ({
+  markers: state.markers,
+  activeIndex: state.activeIndex,
+})
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(MarkersActions, dispatch)
+  return bindActionCreators({ ...MarkersActions, ...Active }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapSearch)

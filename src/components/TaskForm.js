@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Form, Grid, Header, Message, Segment, Modal } from 'semantic-ui-react'
+import { Button, Form, TextArea, Select, Grid, Header, Modal, Message, Segment } from 'semantic-ui-react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import * as UserActions from 'actions/user'
-
 const inlineStyle = {
   modal: {
     marginTop: '0px !important',
@@ -13,48 +12,52 @@ const inlineStyle = {
     marginRight: 'auto',
   },
 }
-function signupBody(email, password, password_confirmation, first_name, last_name) {
+const options = [{ key: 'm', text: 'Male', value: 'male' }, { key: 'f', text: 'Female', value: 'female' }]
+function addTaskBody(user_id, title, description, lat, lng) {
   return {
-    user: {
-      first_name: first_name,
-      last_name: last_name,
-      password: password,
-      password_confirmation: password_confirmation,
-      email: email,
+    task: {
+      user_id: user_id,
+      title: title,
+      description: description,
+      lat: lat,
+      lng: lng,
     },
   }
 }
 
-class SignUpForm extends Component {
+class TaskForm extends Component {
   state = {
-    user: {},
-    email: '',
-    password: '',
-    password_confirmation: '',
-    first_name: '',
-    last_name: '',
+    title: '',
+    description: '',
+    lat: 51.65,
+    lng: 0.05,
     modalOpen: false,
     modalData: '',
     modalHeader: '',
     modalButton: () => {},
   }
+
   handleOpen = () => this.setState({ modalOpen: true })
   handleClose = () => this.setState({ modalOpen: false })
   handleChange = (e, { name, value }) =>
     this.setState({
       [name]: value,
     })
-  handleSignUpSubmit = () => {
-    const { first_name, last_name, email, password, password_confirmation } = this.state
+  handleTaskSubmit = () => {
+    const { title, description, lat, lng, modalButton, modalHeader, modalOpen, modalData } = this.state
+    console.log(this.props)
     axios
-      .post('/api/sign_up', signupBody(email, password, password_confirmation, first_name, last_name))
+      .post('/api/tasks', addTaskBody(this.props.user.id, title, description, lat, lng), {
+        headers: { 'AUTH-TOKEN': this.props.user.authentication_token },
+      })
       .then(response => {
         if (response.status === 200) {
-          this.setState({ modalHeader: `User created` })
+          this.setState({ modalHeader: `Task created` })
         }
         this.setState({
-          modalData: `Hi ${first_name} ${last_name}. Your account was created. 
-            You can login to the website using your email address ${email}`,
+          modalData: `Your request ${title}. 
+          With the description: ${description}
+          Was added to the website`,
         })
         console.log(response)
         this.setState({
@@ -62,7 +65,6 @@ class SignUpForm extends Component {
             this.props.history.push('/')
           },
         })
-        this.props.signup({ user: response.data.data.user })
         this.setState({ modalOpen: true })
       })
       .catch(error => {
@@ -96,57 +98,20 @@ class SignUpForm extends Component {
           <Grid.Column style={{ maxWidth: 450 }}>
             <Header as="h2" color="teal" textAlign="center">
               {' '}
-              Create new account
+              Add new Request
             </Header>
-            <Form size="large" onSubmit={this.handleSignUpSubmit}>
+            <Form size="large" onSubmit={this.handleTaskSubmit}>
               <Segment stacked>
+                <Form.Input fluid label="Title" placeholder="Title" name="title" onChange={this.handleChange} />
                 <Form.Input
-                  fluid
-                  icon="user"
-                  iconPosition="left"
-                  label="First Name"
-                  placeholder="First Name"
-                  name="first_name"
+                  label="Description"
+                  placeholder="Description"
+                  name="description"
+                  control={TextArea}
                   onChange={this.handleChange}
                 />
-                <Form.Input
-                  fluid
-                  icon="user"
-                  iconPosition="left"
-                  label="Last Name"
-                  placeholder="Last Name"
-                  name="last_name"
-                  onChange={this.handleChange}
-                />
-                <Form.Input
-                  fluid
-                  icon="user"
-                  iconPosition="left"
-                  placeholder="E-mail address"
-                  label="Email Address"
-                  name="email"
-                  onChange={this.handleChange}
-                />
-                <Form.Input
-                  fluid
-                  icon="lock"
-                  iconPosition="left"
-                  placeholder="Password"
-                  type="password"
-                  label="Password"
-                  name="password"
-                  onChange={this.handleChange}
-                />
-                <Form.Input
-                  fluid
-                  icon="lock"
-                  iconPosition="left"
-                  placeholder="Password"
-                  type="password"
-                  label="Confirm Password"
-                  name="password_confirmation"
-                  onChange={this.handleChange}
-                />
+                <Form.Field control={Select} label="Gender" options={options} placeholder="Gender" />
+
                 <Form.Checkbox label="I agree to the Terms and Conditions" />
 
                 <Button color="teal" fluid size="large">
@@ -154,9 +119,6 @@ class SignUpForm extends Component {
                 </Button>
               </Segment>
             </Form>
-            <Message>
-              Already have an account? <Link to={'/login'}>Login</Link>
-            </Message>
           </Grid.Column>
         </Grid>
         <Modal style={inlineStyle.modal} open={this.state.modalOpen} onClose={this.handleClose}>
@@ -174,11 +136,13 @@ class SignUpForm extends Component {
 }
 
 const mapStateToProps = state => {
-  return { user: state.user }
+  return {
+    user: state.user,
+  }
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(UserActions, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm)
+export default connect(mapStateToProps, mapDispatchToProps)(TaskForm)
