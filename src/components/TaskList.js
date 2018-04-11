@@ -10,7 +10,9 @@ class TaskList extends Component {
   state = {
     activeIndex: 0,
   }
-
+  componentDidUpdate() {
+    this.refs[this.props.activeIndex].scrollIntoView({ block: 'start', behavior: 'smooth' })
+  }
   handleClick = (e, titleProps) => {
     const { index } = titleProps
     const { activeIndex } = this.state
@@ -25,7 +27,7 @@ class TaskList extends Component {
     return (
       <Accordion styled style={{ height: '700px', overflow: 'hidden', 'overflow-y': 'scroll' }}>
         {this.props.markers.map(marker => (
-          <div key={marker.id}>
+          <div ref={marker.id} key={marker.id}>
             <Accordion.Title active={activeIndex === marker.id} index={marker.id} onClick={this.handleClick}>
               <Icon name="dropdown" />
               {marker.title}
