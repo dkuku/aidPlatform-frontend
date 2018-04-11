@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
-import GoogleMapsWrapper from './GoogleMapsWrapper.js'
-import { Marker, InfoWindow } from 'react-google-maps'
+import { Card, Image, Icon } from 'semantic-ui-react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
+import GoogleMapsWrapper from './GoogleMapsWrapper.js'
+import { Marker, InfoWindow } from 'react-google-maps'
 import * as MarkersActions from 'actions/markers'
 import * as Active from 'actions/activeIndex'
 import { updateActiveIndex } from '../actions/activeIndex'
-const { MarkerWithLabel } = require('react-google-maps/lib/components/addons/MarkerWithLabel')
 
 class MapSearch extends Component {
   state = {
@@ -51,14 +51,21 @@ class MapSearch extends Component {
           >
             {marker.id === activeIndex && (
               <InfoWindow>
-                <div
-                  onClick={() => {
-                    alert('hello')
-                  }}
-                >
-                  <h3>{marker.title}</h3>
-                  <div>{marker.description}</div>
-                </div>
+                <Card>
+                  <Card.Content>
+                    <Card.Header>{marker.title}</Card.Header>
+                    <Card.Meta>
+                      <span className="date">Joined in 2015</span>
+                    </Card.Meta>
+                    <Card.Description>{marker.description}</Card.Description>
+                  </Card.Content>
+                  <Card.Content extra>
+                    <a>
+                      <Icon name="user" />
+                      22 Friends
+                    </a>
+                  </Card.Content>
+                </Card>
               </InfoWindow>
             )}
           </Marker>
