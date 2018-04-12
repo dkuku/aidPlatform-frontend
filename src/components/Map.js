@@ -8,6 +8,9 @@ import { Marker, InfoWindow } from 'react-google-maps'
 import * as MarkersActions from 'actions/markers'
 import * as Active from 'actions/activeIndex'
 import { updateActiveIndex } from '../actions/activeIndex'
+const help = 'http://localhost:3001/markers/green-pin.png'
+const material = 'http://localhost:3001/markers/blue-pin.png'
+const done = 'http://localhost:3001/markers/pink-pin.png'
 
 class MapSearch extends Component {
   state = {
@@ -29,9 +32,14 @@ class MapSearch extends Component {
       },
     })
   }
-
+  markerPin = (type, status, fulfiled) => {
+    return (fulfiled === 5) | status ? done : type == 'material' ? material : help
+  }
   render() {
-    const { activeIndex, updateActiveIndex } = this.props
+    const { activeIndex, updateActiveIndex, currentLocation } = this.props
+    console.log(currentLocation)
+    const { latitude, longitude } = currentLocation
+
     return (
       <GoogleMapsWrapper
         googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMh8-5D3mJSXspmJrhSTtt0ToGiA-JLBc&libraries=geometry,drawing,places" // libraries=geometry,drawing,places
@@ -39,7 +47,7 @@ class MapSearch extends Component {
         containerElement={<div style={{ height: `600px` }} />}
         mapElement={<div style={{ height: `100%` }} />}
         defaultZoom={9}
-        defaultCenter={{ lat: 51.5, lng: -0.2 }}
+        defaultCenter={{ lat: latitude, lng: longitude }}
         onMapMounted={this.state.onMapMounted}
         onBoundsChanged={this.state.onBoundsChanged}
       >
@@ -48,6 +56,7 @@ class MapSearch extends Component {
             key={Number(marker.id)}
             position={{ lat: Number(marker.lat), lng: Number(marker.lng) }}
             onClick={() => updateActiveIndex(marker.id)}
+            icon={this.markerPin(marker.task_type, marker.done, marker.fulfilment_counter)}
           >
             {marker.id === activeIndex && (
               <InfoWindow>
@@ -55,14 +64,14 @@ class MapSearch extends Component {
                   <Card.Content>
                     <Card.Header>{marker.title}</Card.Header>
                     <Card.Meta>
-                      <span className="date">Joined in 2015</span>
+                      <span className="date">status: {marker.done ? 'done' : 'waiting'}</span>
                     </Card.Meta>
                     <Card.Description>{marker.description}</Card.Description>
                   </Card.Content>
                   <Card.Content extra>
                     <a>
                       <Icon name="user" />
-                      22 Friends
+                      {marker.fulfilment_counter} users replied
                     </a>
                   </Card.Content>
                 </Card>
@@ -77,6 +86,7 @@ class MapSearch extends Component {
 const mapStateToProps = state => ({
   markers: state.markers,
   activeIndex: state.activeIndex,
+  currentLocation: state.position.geolocation,
 })
 
 function mapDispatchToProps(dispatch) {

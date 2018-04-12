@@ -9,6 +9,8 @@ export const DELETE_MARKER = 'DELETE_MARKER'
 export const EDIT_MARKER = 'EDIT_MARKER'
 
 export const ACTIVE_INDEX = 'ACTIVE_INDEX'
+export const SETPOSITION = 'SETPOSITION'
+export const GET_LOCATION = 'GET_LOCATION'
 
 //User
 export const LOGIN = 'LOGIN'

@@ -4,6 +4,7 @@ import markers from './markers'
 import filters from './filters'
 import user from './user'
 import activeIndex from './activeIndex'
+import position from './position'
 
 const rootReducer = combineReducers({
   counter,
@@ -11,5 +12,6 @@ const rootReducer = combineReducers({
   filters,
   user,
   activeIndex,
+  position,
 })
 export default rootReducer

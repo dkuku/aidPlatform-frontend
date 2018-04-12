@@ -6,6 +6,7 @@ import { createStructuredSelector, createSelector } from 'reselect'
 import * as MarkersActions from 'actions/markers'
 import { Grid } from 'semantic-ui-react'
 import { Map, TaskList, MapNav } from 'components'
+import { GeoLocation } from 'react-redux-geolocation'
 
 class MapContainer extends React.Component {
   static propTypes = {
@@ -29,6 +30,7 @@ class MapContainer extends React.Component {
             <TaskList />
           </Grid.Column>
           <Grid.Column width={12}>
+            <GeoLocation />
             <MapNav />
             <Map />
           </Grid.Column>
