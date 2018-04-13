@@ -66,9 +66,11 @@ class SignUpForm extends Component {
         this.setState({ modalOpen: true })
       })
       .catch(error => {
+        console.log(error.response.data.messages)
         this.setState({ modalHeader: `Error` })
         this.setState({
-          modalData: error.response.data[0] || 'There was an error submitting the form, please try again in 5 minutes',
+          modalData:
+            error.response.data.messages || 'There was an error submitting the form, please try again in 5 minutes',
         })
         this.setState({
           modalButton: () => this.setState({ modalOpen: false }),

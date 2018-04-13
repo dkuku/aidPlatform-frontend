@@ -4,6 +4,7 @@ import { Button, Form, TextArea, Select, Grid, Header, Modal, Message, Segment }
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import axios from 'axios'
+import { GeoLocation } from 'react-redux-geolocation'
 import * as UserActions from 'actions/user'
 const inlineStyle = {
   modal: {
@@ -12,8 +13,8 @@ const inlineStyle = {
     marginRight: 'auto',
   },
 }
-const options = [{ key: 'm', text: 'Male', value: 'male' }, { key: 'f', text: 'Female', value: 'female' }]
-function addTaskBody(user_id, title, description, lat, lng) {
+const options = [{ key: 'material', text: 'material', value: 'material' }, { key: 'help', text: 'help', value: 'help' }]
+function addTaskBody(user_id, title, description, lat, lng, task_type) {
   return {
     task: {
       user_id: user_id,
@@ -21,6 +22,7 @@ function addTaskBody(user_id, title, description, lat, lng) {
       description: description,
       lat: lat,
       lng: lng,
+      task_type: task_type,
     },
   }
 }
@@ -31,6 +33,7 @@ class TaskForm extends Component {
     description: '',
     lat: 51.65,
     lng: 0.05,
+    task_type: 'material',
     modalOpen: false,
     modalData: '',
     modalHeader: '',
@@ -44,10 +47,10 @@ class TaskForm extends Component {
       [name]: value,
     })
   handleTaskSubmit = () => {
-    const { title, description, lat, lng, modalButton, modalHeader, modalOpen, modalData } = this.state
-    console.log(this.props)
+    const { title, description, lat, lng, task_type, modalButton, modalHeader, modalOpen, modalData } = this.state
+    const { latitude, longitude } = this.props.currentLocation
     axios
-      .post('/api/tasks', addTaskBody(this.props.user.id, title, description, lat, lng), {
+      .post('/api/tasks', addTaskBody(this.props.user.id, title, description, latitude, longitude, task_type), {
         headers: { 'AUTH-TOKEN': this.props.user.authentication_token },
       })
       .then(response => {
@@ -70,7 +73,8 @@ class TaskForm extends Component {
       .catch(error => {
         this.setState({ modalHeader: `Error` })
         this.setState({
-          modalData: error.response.data[0] || 'There was an error submitting the form, please try again in 5 minutes',
+          modalData:
+            error.response.data.messages || 'There was an error submitting the form, please try again in 5 minutes',
         })
         this.setState({
           modalButton: () => this.setState({ modalOpen: false }),
@@ -102,20 +106,26 @@ class TaskForm extends Component {
             </Header>
             <Form size="large" onSubmit={this.handleTaskSubmit}>
               <Segment stacked>
-                <Form.Input fluid label="Title" placeholder="Title" name="title" onChange={this.handleChange} />
+                <Form.Input
+                  fluid
+                  label="Title"
+                  placeholder="Title. Max 50 letters."
+                  name="title"
+                  onChange={this.handleChange}
+                />
                 <Form.Input
                   label="Description"
-                  placeholder="Description"
+                  placeholder="Description max 300 letters"
                   name="description"
                   control={TextArea}
                   onChange={this.handleChange}
                 />
-                <Form.Field control={Select} label="Gender" options={options} placeholder="Gender" />
+                <Form.Field control={Select} name="task_type" label="Type" options={options} placeholder="Type" />
 
                 <Form.Checkbox label="I agree to the Terms and Conditions" />
 
                 <Button color="teal" fluid size="large">
-                  Sign Up
+                  Add task
                 </Button>
               </Segment>
             </Form>
@@ -138,6 +148,7 @@ class TaskForm extends Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
+    currentLocation: state.position.geolocation,
   }
 }
 
