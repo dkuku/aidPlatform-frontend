@@ -6,6 +6,7 @@ import { createStructuredSelector, createSelector } from 'reselect'
 import GoogleMapsWrapper from './GoogleMapsWrapper.js'
 import { Marker, InfoWindow } from 'react-google-maps'
 import * as MarkersActions from 'actions/markers'
+import * as MapActions from 'actions/mapCoords'
 import * as Active from 'actions/activeIndex'
 import { updateActiveIndex } from '../actions/activeIndex'
 import MarkerDisplay from 'components/MarkerDisplay'
@@ -31,6 +32,8 @@ class MapSearch extends Component {
           bounds: refs.map.getBounds(),
           center: refs.map.getCenter(),
         })
+        this.props.updateBounds(this.state.bounds)
+        this.props.updateCenter(this.state.center)
       },
     })
   }
@@ -79,7 +82,7 @@ const mapStateToProps = state => ({
 })
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...MarkersActions, ...Active }, dispatch)
+  return bindActionCreators({ ...MarkersActions, ...Active, ...MapActions }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapSearch)

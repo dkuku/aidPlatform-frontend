@@ -16,3 +16,7 @@ export const GET_LOCATION = 'GET_LOCATION'
 export const LOGIN = 'LOGIN'
 export const LOGOUT = 'LOGOUT'
 export const SIGNUP = 'SIGNUP'
+
+//Map
+export const UPDATE_BOUNDS = 'UPDATE_BOUNDS'
+export const UPDATE_CENTER = 'UPDATE_CENTER'
