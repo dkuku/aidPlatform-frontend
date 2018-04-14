@@ -8,9 +8,11 @@ import { Marker, InfoWindow } from 'react-google-maps'
 import * as MarkersActions from 'actions/markers'
 import * as Active from 'actions/activeIndex'
 import { updateActiveIndex } from '../actions/activeIndex'
+import MarkerDisplay from 'components/MarkerDisplay'
 const help = 'http://localhost:3001/markers/green-pin.png'
 const material = 'http://localhost:3001/markers/blue-pin.png'
 const done = 'http://localhost:3001/markers/pink-pin.png'
+const GMAP_KEY = process.env.REACT_APP_GMAP_KEY
 
 class MapSearch extends Component {
   state = {
@@ -32,6 +34,7 @@ class MapSearch extends Component {
       },
     })
   }
+  //TODO: temporary
   markerPin = (type, status, fulfiled) => {
     return (fulfiled === 5) | status ? done : type == 'material' ? material : help
   }
@@ -42,7 +45,7 @@ class MapSearch extends Component {
 
     return (
       <GoogleMapsWrapper
-        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMh8-5D3mJSXspmJrhSTtt0ToGiA-JLBc&libraries=geometry,drawing,places" // libraries=geometry,drawing,places
+        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${GMAP_KEY}&libraries=geometry,drawing,places`} // libraries=geometry,drawing,places
         loadingElement={<div style={{ height: `100%` }} />}
         containerElement={<div style={{ height: `600px` }} />}
         mapElement={<div style={{ height: `100%` }} />}
@@ -60,21 +63,7 @@ class MapSearch extends Component {
           >
             {marker.id === activeIndex && (
               <InfoWindow>
-                <Card>
-                  <Card.Content>
-                    <Card.Header>{marker.title}</Card.Header>
-                    <Card.Meta>
-                      <span className="date">status: {marker.done ? 'done' : 'waiting'}</span>
-                    </Card.Meta>
-                    <Card.Description>{marker.description}</Card.Description>
-                  </Card.Content>
-                  <Card.Content extra>
-                    <a>
-                      <Icon name="user" />
-                      {marker.fulfilment_counter} users replied
-                    </a>
-                  </Card.Content>
-                </Card>
+                <MarkerDisplay marker={marker} />
               </InfoWindow>
             )}
           </Marker>
