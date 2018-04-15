@@ -37,7 +37,7 @@ class LoginForm extends Component {
           this.setState({ modalHeader: `User created` })
         }
         this.setState({
-          modalData: `You loggged in successfully`,
+          modalData: response.data.messages || `You loggged in successfully`,
         })
         this.setState({
           modalButton: () => {
