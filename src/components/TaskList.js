@@ -5,6 +5,7 @@ import { createStructuredSelector, createSelector } from 'reselect'
 import * as MarkersActions from 'actions/markers'
 import * as Active from 'actions/activeIndex'
 import { Accordion, Icon } from 'semantic-ui-react'
+import { MarkerDisplay } from 'components'
 
 class TaskList extends Component {
   state = {
@@ -33,7 +34,7 @@ class TaskList extends Component {
               {marker.title}
             </Accordion.Title>
             <Accordion.Content active={activeIndex === marker.id}>
-              <p>{marker.description}</p>
+              <MarkerDisplay marker={marker} />
             </Accordion.Content>
           </div>
         ))}
