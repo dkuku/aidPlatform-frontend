@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import { GeoLocation } from 'react-redux-geolocation'
+import { FormModal } from 'components'
 import * as UserActions from 'actions/user'
 const inlineStyle = {
   modal: {
@@ -131,15 +132,13 @@ class TaskForm extends Component {
             </Form>
           </Grid.Column>
         </Grid>
-        <Modal style={inlineStyle.modal} open={this.state.modalOpen} onClose={this.handleClose}>
-          <Modal.Header> {this.state.modalHeader} </Modal.Header>
-          <Modal.Content>{this.state.modalData}</Modal.Content>
-          <Modal.Actions>
-            <Button color="teal" onClick={this.state.modalButton}>
-              OK
-            </Button>{' '}
-          </Modal.Actions>
-        </Modal>
+        <FormModal
+          modalOpen={this.state.modalOpen}
+          handleClose={this.handleClose}
+          modalHeader={this.state.modalHeader}
+          modalContent={this.state.modalData}
+          modalButton={this.state.modalButton}
+        />
       </div>
     )
   }

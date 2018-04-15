@@ -5,15 +5,8 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import * as UserActions from 'actions/user'
-import { Upload } from 'components'
+import { Upload, FormModal } from 'components'
 
-const inlineStyle = {
-  modal: {
-    marginTop: '0px !important',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-}
 function getFormData(object) {
   const formData = new FormData()
   Object.keys(object).forEach(key => formData.append(`user[${key}]`, object[key]))
@@ -82,7 +75,6 @@ class SignUpForm extends Component {
           modalData: `Hi ${first_name} ${last_name}. Your account was created. 
             You can login to the website using your email address ${email}`,
         })
-        console.log(response)
         this.setState({
           modalButton: () => {
             this.props.history.push('/')
@@ -197,15 +189,13 @@ class SignUpForm extends Component {
             </Message>
           </Grid.Column>
         </Grid>
-        <Modal style={inlineStyle.modal} open={this.state.modalOpen} onClose={this.handleClose}>
-          <Modal.Header> {this.state.modalHeader} </Modal.Header>
-          <Modal.Content>{this.state.modalData}</Modal.Content>
-          <Modal.Actions>
-            <Button color="teal" onClick={this.state.modalButton}>
-              OK
-            </Button>{' '}
-          </Modal.Actions>
-        </Modal>
+        <FormModal
+          modalOpen={this.state.modalOpen}
+          handleClose={this.handleClose}
+          modalHeader={this.state.modalHeader}
+          modalContent={this.state.modalData}
+          modalButton={this.state.modalButton}
+        />
       </div>
     )
   }
