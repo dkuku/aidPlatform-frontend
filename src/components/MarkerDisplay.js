@@ -8,7 +8,9 @@ class MarkerDisplay extends PureComponent {
     return (
       <Card color={color}>
         <Card.Content>
-          <Card.Header>{title}</Card.Header>
+          <Card.Header>
+            {id}. {title}
+          </Card.Header>
           <Card.Meta>
             <span>status: {done ? 'done' : 'waiting'}</span>
           </Card.Meta>
