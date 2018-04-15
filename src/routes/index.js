@@ -1,7 +1,6 @@
 import React from 'react'
 import { CounterContainer } from 'containers'
-import { MapContainer } from 'containers'
-import { LoginContainer } from 'containers'
+import { MapContainer, LoginContainer, VolunteerContainer } from 'containers'
 import { TopMenu, Footer, TaskForm } from 'components'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
@@ -18,6 +17,7 @@ function Routes() {
         <Switch>
           <Route path="/login" component={LoginContainer} />
           <Route path="/add" component={TaskForm} />
+          <Route path="/task/:id" component={VolunteerContainer} />
           <Route path="/" component={MapContainer} />
         </Switch>
         <Footer />
