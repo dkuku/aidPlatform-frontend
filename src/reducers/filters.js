@@ -1,14 +1,27 @@
-import {} from 'constants/ActionTypes'
-
+import { SET_FILTER_TYPE, SET_FILTER_DATE } from 'constants/ActionTypes'
+const currentDate = new Date()
+const days = 24 * 60 * 60 * 1000
 const filtersReducerDefaultState = {
-  text: 'material',
+  type: 'material',
   sortBy: 'date',
-  startDate: undefined,
-  endDate: undefined,
+  endDate: new Date(),
+  startDate: new Date(Date.now() - 7 * days),
 }
 
-const filters = (state = filtersReducerDefaultState, action) => {
+function filters(state = filtersReducerDefaultState, action) {
   switch (action.type) {
+    case SET_FILTER_TYPE:
+      console.log(action.payload)
+      return {
+        ...state,
+        type: action.payload,
+      }
+    case SET_FILTER_DATE:
+      console.log(action.payload)
+      return {
+        ...state,
+        startDate: new Date(Date.now() - Number(action.payload) * days),
+      }
     default:
       return state
   }

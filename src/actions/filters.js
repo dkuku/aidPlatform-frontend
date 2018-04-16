@@ -1,18 +1,5 @@
-import { INCREMENT_COUNTER, DECREMENT_COUNTER } from 'constants/ActionTypes'
+import { SET_FILTER_TYPE, SET_FILTER_DATE } from 'constants/ActionTypes'
 import { createAction } from 'redux-actions'
 
-export const increment = createAction(INCREMENT_COUNTER)
-
-export const decrement = createAction(DECREMENT_COUNTER)
-
-export function incrementIfOdd() {
-  return (dispatch, getState) => {
-    const { counter } = getState()
-
-    if (counter % 2 === 0) {
-      return
-    }
-
-    dispatch(increment())
-  }
-}
+export const setFilterType = createAction(SET_FILTER_TYPE)
+export const setFilterDate = createAction(SET_FILTER_DATE)

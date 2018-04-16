@@ -7,13 +7,15 @@ import GoogleMapsWrapper from './GoogleMapsWrapper.js'
 import { Marker, InfoWindow } from 'react-google-maps'
 import * as MarkersActions from 'actions/markers'
 import * as MapActions from 'actions/mapCoords'
+import * as FilterActions from '../actions/filters'
 import * as Active from 'actions/activeIndex'
 import { updateActiveIndex } from '../actions/activeIndex'
 import MarkerDisplay from 'components/MarkerDisplay'
-const help = 'http://localhost:3001/markers/green-pin.png'
-const material = 'http://localhost:3001/markers/blue-pin.png'
-const done = 'http://localhost:3001/markers/pink-pin.png'
 const GMAP_KEY = process.env.REACT_APP_GMAP_KEY
+const url = process.env.REACT_APP_API_ADDRESS
+const help = `${url}/markers/green-pin.png`
+const material = `${url}/markers/blue-pin.png`
+const done = `${url}/markers/pink-pin.png`
 
 class MapSearch extends Component {
   state = {
@@ -27,7 +29,6 @@ class MapSearch extends Component {
         refs.map = map
       },
       onBoundsChanged: () => {
-        console.log(refs.map) // (not a Container, a Map) Map {props: {…}, context: {…}, refs: {…}, updater: {…}, _reactInternalFiber: FiberNode, …}
         this.setState({
           bounds: refs.map.getBounds(),
           center: refs.map.getCenter(),
@@ -42,8 +43,9 @@ class MapSearch extends Component {
     return (fulfiled === 5) | status ? done : type == 'material' ? material : help
   }
   render() {
-    const { activeIndex, updateActiveIndex, currentLocation } = this.props
-    console.log(currentLocation)
+    const { markers, activeIndex, updateActiveIndex, currentLocation } = this.props
+    const filters = this.props.filters || { type: 'all' }
+    const created_at = this.props.filters || { startDate: new Date() }
     const { latitude, longitude } = currentLocation
 
     return (
@@ -57,20 +59,24 @@ class MapSearch extends Component {
         onMapMounted={this.state.onMapMounted}
         onBoundsChanged={this.state.onBoundsChanged}
       >
-        {this.props.markers.map(marker => (
-          <Marker
-            key={Number(marker.id)}
-            position={{ lat: Number(marker.lat), lng: Number(marker.lng) }}
-            onClick={() => updateActiveIndex(marker.id)}
-            icon={this.markerPin(marker.task_type, marker.done, marker.fulfilment_counter)}
-          >
-            {marker.id === activeIndex && (
-              <InfoWindow>
-                <MarkerDisplay marker={marker} />
-              </InfoWindow>
-            )}
-          </Marker>
-        ))}
+        {markers
+          .filter(marker => ('all' == filters.type ? true : marker.task_type == filters.type))
+          .filter(marker => new Date(marker.created_at) > new Date(filters.startDate))
+
+          .map(marker => (
+            <Marker
+              key={Number(marker.id)}
+              position={{ lat: Number(marker.lat), lng: Number(marker.lng) }}
+              onClick={() => updateActiveIndex(marker.id)}
+              icon={this.markerPin(marker.task_type, marker.done, marker.fulfilment_counter)}
+            >
+              {marker.id === activeIndex && (
+                <InfoWindow>
+                  <MarkerDisplay marker={marker} />
+                </InfoWindow>
+              )}
+            </Marker>
+          ))}
       </GoogleMapsWrapper>
     )
   }
@@ -79,10 +85,11 @@ const mapStateToProps = state => ({
   markers: state.markers,
   activeIndex: state.activeIndex,
   currentLocation: state.position.geolocation,
+  filters: state.filters,
 })
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...MarkersActions, ...Active, ...MapActions }, dispatch)
+  return bindActionCreators({ ...FilterActions, ...MarkersActions, ...Active, ...MapActions }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapSearch)
