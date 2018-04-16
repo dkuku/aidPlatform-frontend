@@ -13,6 +13,7 @@ class MarkerDisplay extends PureComponent {
           </Card.Header>
           <Card.Meta>
             <span>status: {done ? 'done' : 'waiting'}</span>
+            <p>type: {task_type}</p>
           </Card.Meta>
           <Card.Description>{description}</Card.Description>
         </Card.Content>

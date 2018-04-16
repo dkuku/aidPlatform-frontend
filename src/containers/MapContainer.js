@@ -13,10 +13,9 @@ class MapContainer extends React.Component {
     addMarker: PropTypes.func.isRequired,
   }
 
+  url = process.env.REACT_APP_API
   componentDidMount() {
-    const url = '/api/tasks'
-
-    fetch(url)
+    fetch(`${this.url}tasks`)
       .then(res => res.json())
       .then(data => {
         this.props.updateMarkers({ markers: data.data.tasks })

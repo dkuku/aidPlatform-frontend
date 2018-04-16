@@ -34,13 +34,13 @@ class TaskForm extends Component {
     description: '',
     lat: 51.65,
     lng: 0.05,
-    task_type: 'material',
+    task_type: 'help',
     modalOpen: false,
     modalData: '',
     modalHeader: '',
     modalButton: () => {},
   }
-
+  url = process.env.REACT_APP_API
   handleOpen = () => this.setState({ modalOpen: true })
   handleClose = () => this.setState({ modalOpen: false })
   handleChange = (e, { name, value }) =>
@@ -51,7 +51,7 @@ class TaskForm extends Component {
     const { title, description, lat, lng, task_type, modalButton, modalHeader, modalOpen, modalData } = this.state
     const { latitude, longitude } = this.props.currentLocation
     axios
-      .post('/api/tasks', addTaskBody(this.props.user.id, title, description, latitude, longitude, task_type), {
+      .post(`${this.url}tasks`, addTaskBody(this.props.user.id, title, description, latitude, longitude, task_type), {
         headers: { 'AUTH-TOKEN': this.props.user.authentication_token },
       })
       .then(response => {
@@ -121,7 +121,14 @@ class TaskForm extends Component {
                   control={TextArea}
                   onChange={this.handleChange}
                 />
-                <Form.Field control={Select} name="task_type" label="Type" options={options} placeholder="Type" />
+                <Form.Field
+                  control={Select}
+                  name="task_type"
+                  label="Type"
+                  options={options}
+                  placeholder="Type"
+                  onChange={this.handleChange}
+                />
 
                 <Form.Checkbox label="I agree to the Terms and Conditions" />
 

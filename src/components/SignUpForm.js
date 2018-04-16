@@ -46,7 +46,7 @@ class SignUpForm extends Component {
       'Content-Type': 'multipart/form-data',
     },
   }
-  address = '/api/sign_up'
+  url = process.env.REACT_APP_API
   //  address = "http://httpbin.org/post"
   handleOpen = () => this.setState({ modalOpen: true })
   handleClose = () => this.setState({ modalOpen: false })
@@ -59,10 +59,9 @@ class SignUpForm extends Component {
   }
   handleSignUpSubmit = () => {
     const { first_name, last_name, email, password, password_confirmation, picture } = this.state
-    console.log(picture)
     axios
       .post(
-        this.address,
+        `${this.url}sign_up`,
         signupBody(email, password, password_confirmation, first_name, last_name, picture),
         this.config
       )

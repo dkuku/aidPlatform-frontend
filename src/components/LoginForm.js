@@ -24,14 +24,14 @@ class LoginForm extends Component {
     email: '',
     password: '',
   }
-
-  address = 'api/sign_in'
+  url = process.env.REACT_APP_API
   handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
   handleLoginSubmit = () => {
+    console.log(`${this.url}sign_in`)
     const { email, password } = this.state
     axios
-      .post(this.address, loginBody(email, password))
+      .post(`${this.url}sign_in`, loginBody(email, password))
       .then(response => {
         if (response.status === 200) {
           this.setState({ modalHeader: `User created` })
@@ -48,7 +48,6 @@ class LoginForm extends Component {
         this.setState({ modalOpen: true })
       })
       .catch(error => {
-        console.log(error.response.data.messages)
         this.setState({ modalHeader: `Error` })
         this.setState({
           modalData:
