@@ -1,30 +1,41 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import pure from 'recompose/pure'
-import styled from 'styled-components'
+import React, { Component, PropTypes } from 'react'
+import { ActionCable } from 'react-actioncable-provider'
 
-const Intro = styled.p`font-size: large;`
+export default class Counter extends Component {
+  constructor(props) {
+    super(props)
 
-function Counter({ increment, incrementIfOdd, decrement, counter }) {
-  return (
-    <section>
-      <Intro>
-        To get started, edit <code>src/routes/index.js </code>
-        and save to reload.
-      </Intro>
-      <p>
-        Clicked: {counter} times <button onClick={increment}>+</button> <button onClick={decrement}>-</button>{' '}
-        <button onClick={incrementIfOdd}>Increment if odd</button>
-      </p>
-    </section>
-  )
+    this.state = {
+      unfulfiled: 0,
+    }
+  }
+
+  onReceived = stats => {
+    console.log(stats)
+    console.log(this.state)
+    console.log('Action Cable received data')
+    this.setState({
+      unfulfiled: stats.stats.unfulfiled,
+    })
+    console.log(this.state)
+  }
+  onConnected = data => {
+    console.log(data)
+    console.log('Action cable connected')
+  }
+  render() {
+    return (
+      <div>
+        <ActionCable
+          channel={{ channel: 'StatsChannel' }}
+          onConnected={this.onConnected}
+          onReceived={this.onReceived}
+          onInitialized={this.onInitialized}
+          onDisconnected={this.onDisconnected}
+          onRejected={this.onRejected}
+        />
+        <h1>Tasks {this.state.unfulfiled}</h1>
+      </div>
+    )
+  }
 }
-
-Counter.propTypes = {
-  increment: PropTypes.func.isRequired,
-  incrementIfOdd: PropTypes.func.isRequired,
-  decrement: PropTypes.func.isRequired,
-  counter: PropTypes.number.isRequired,
-}
-
-export default pure(Counter)

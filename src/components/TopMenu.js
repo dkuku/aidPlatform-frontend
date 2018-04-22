@@ -6,6 +6,8 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
 import * as UserActions from 'actions/user'
+import { ActionCableProvider } from 'react-actioncable-provider'
+import { Counter } from 'components'
 
 class TopMenu extends Component {
   render() {
@@ -51,6 +53,9 @@ class TopMenu extends Component {
 
     return (
       <Menu>
+        <ActionCableProvider url={'ws://localhost:3000/stats'}>
+          <Counter />
+        </ActionCableProvider>
         <Menu.Item name="Browse" active={activeItem === 'browse'} onClick={this.handleBrowseClick}>
           Browse
         </Menu.Item>
