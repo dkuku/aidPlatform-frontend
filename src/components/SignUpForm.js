@@ -1,28 +1,30 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Form, Grid, Header, Message, Segment, Modal } from 'semantic-ui-react'
+import { Form, Button, Grid, Header, Message, Segment, Modal } from 'semantic-ui-react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import * as UserActions from 'actions/user'
+import { Upload, FormModal } from 'components'
 
-const inlineStyle = {
-  modal: {
-    marginTop: '0px !important',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
+function getFormData(object) {
+  const formData = new FormData()
+  Object.keys(object).forEach(key => formData.append(`user[${key}]`, object[key]))
+  console.log(formData)
+  return formData
 }
-function signupBody(email, password, password_confirmation, first_name, last_name) {
-  return {
-    user: {
-      first_name: first_name,
-      last_name: last_name,
-      password: password,
-      password_confirmation: password_confirmation,
-      email: email,
-    },
+function signupBody(email, password, password_confirmation, first_name, last_name, picture) {
+  let userData = {
+    first_name: first_name,
+    last_name: last_name,
+    password: password,
+    password_confirmation: password_confirmation,
+    email: email,
+    picture: picture,
   }
+  let data = getFormData(userData)
+  data.append('user.picture', picture)
+  return data
 }
 
 class SignUpForm extends Component {
@@ -33,22 +35,38 @@ class SignUpForm extends Component {
     password_confirmation: '',
     first_name: '',
     last_name: '',
+    picture: null,
     modalOpen: false,
     modalData: '',
     modalHeader: '',
     modalButton: () => {},
   }
+  config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  }
+  url = process.env.REACT_APP_API
+  //  address = "http://httpbin.org/post"
   handleOpen = () => this.setState({ modalOpen: true })
   handleClose = () => this.setState({ modalOpen: false })
   handleChange = (e, { name, value }) =>
     this.setState({
       [name]: value,
     })
+  handleChangePicture = file => {
+    this.setState({ picture: file.target.files[0] })
+  }
   handleSignUpSubmit = () => {
-    const { first_name, last_name, email, password, password_confirmation } = this.state
+    const { first_name, last_name, email, password, password_confirmation, picture } = this.state
     axios
-      .post('/api/sign_up', signupBody(email, password, password_confirmation, first_name, last_name))
+      .post(
+        `${this.url}sign_up`,
+        signupBody(email, password, password_confirmation, first_name, last_name, picture),
+        this.config
+      )
       .then(response => {
+        console.log(response)
         if (response.status === 200) {
           this.setState({ modalHeader: `User created` })
         }
@@ -56,7 +74,6 @@ class SignUpForm extends Component {
           modalData: `Hi ${first_name} ${last_name}. Your account was created. 
             You can login to the website using your email address ${email}`,
         })
-        console.log(response)
         this.setState({
           modalButton: () => {
             this.props.history.push('/')
@@ -66,9 +83,11 @@ class SignUpForm extends Component {
         this.setState({ modalOpen: true })
       })
       .catch(error => {
+        console.log(error.response.data.messages)
         this.setState({ modalHeader: `Error` })
         this.setState({
-          modalData: error.response.data[0] || 'There was an error submitting the form, please try again in 5 minutes',
+          modalData:
+            error.response.data.messages || 'There was an error submitting the form, please try again in 5 minutes',
         })
         this.setState({
           modalButton: () => this.setState({ modalOpen: false }),
@@ -147,6 +166,16 @@ class SignUpForm extends Component {
                   name="password_confirmation"
                   onChange={this.handleChange}
                 />
+                <Form.Input
+                  fluid
+                  icon="lock"
+                  iconPosition="left"
+                  placeholder="Id photo"
+                  type="file"
+                  label="Id Photo"
+                  name="picture"
+                  onChange={this.handleChangePicture}
+                />
                 <Form.Checkbox label="I agree to the Terms and Conditions" />
 
                 <Button color="teal" fluid size="large">
@@ -159,15 +188,13 @@ class SignUpForm extends Component {
             </Message>
           </Grid.Column>
         </Grid>
-        <Modal style={inlineStyle.modal} open={this.state.modalOpen} onClose={this.handleClose}>
-          <Modal.Header> {this.state.modalHeader} </Modal.Header>
-          <Modal.Content>{this.state.modalData}</Modal.Content>
-          <Modal.Actions>
-            <Button color="teal" onClick={this.state.modalButton}>
-              OK
-            </Button>{' '}
-          </Modal.Actions>
-        </Modal>
+        <FormModal
+          modalOpen={this.state.modalOpen}
+          handleClose={this.handleClose}
+          modalHeader={this.state.modalHeader}
+          modalContent={this.state.modalData}
+          modalButton={this.state.modalButton}
+        />
       </div>
     )
   }

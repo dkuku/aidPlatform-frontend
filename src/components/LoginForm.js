@@ -3,40 +3,62 @@ import { Link, withRouter } from 'react-router-dom'
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import axios from 'axios'
 import * as UserActions from 'actions/user'
+import { FormModal } from 'components'
 
 const headers = {
   Accept: 'application/json, text/plain, */*',
   'Content-Type': 'application/json',
 }
 function loginBody(email, password) {
-  return JSON.stringify({
+  return {
     sign_in: {
       email: email,
       password: password,
     },
-  })
+  }
 }
-
 class LoginForm extends Component {
   state = {
     email: '',
     password: '',
   }
-
+  url = process.env.REACT_APP_API
   handleChange = (e, { name, value }) => this.setState({ [name]: value })
-  handleLoginSubmit = () => {
-    fetch('api/sign_in', {
-      method: 'post',
-      headers: headers,
-      body: loginBody(this.state.email, this.state.password),
-    })
-      .then(res => res.json())
-      .then(data => {
-        this.props.login({ user: data.data.user })
-      })
 
-    this.props.history.push('/')
+  handleLoginSubmit = () => {
+    console.log(`${this.url}sign_in`)
+    const { email, password } = this.state
+    axios
+      .post(`${this.url}sign_in`, loginBody(email, password))
+      .then(response => {
+        if (response.status === 200) {
+          this.setState({ modalHeader: `User created` })
+        }
+        this.setState({
+          modalData: response.data.messages || `You loggged in successfully`,
+        })
+        this.setState({
+          modalButton: () => {
+            this.props.history.push('/')
+          },
+        })
+        this.props.login({ user: response.data.data.user })
+        this.setState({ modalOpen: true })
+      })
+      .catch(error => {
+        this.setState({ modalHeader: `Error` })
+        this.setState({
+          modalData:
+            error.response.data.messages || 'There was an error submitting the form, please try again in 5 minutes',
+        })
+        this.setState({
+          modalButton: () => this.setState({ modalOpen: false }),
+        })
+        this.setState({ modalOpen: true })
+        console.log(error.response.data)
+      })
   }
 
   render() {
@@ -91,6 +113,13 @@ class LoginForm extends Component {
             </Message>
           </Grid.Column>
         </Grid>
+        <FormModal
+          modalOpen={this.state.modalOpen}
+          handleClose={this.handleClose}
+          modalHeader={this.state.modalHeader}
+          modalContent={this.state.modalData}
+          modalButton={this.state.modalButton}
+        />
       </div>
     )
   }
