@@ -9,21 +9,31 @@ const Container = styled.div`
   text-align: center;
 `
 
-function Routes() {
-  return (
-    <Router>
-      <Container>
-        <TopMenu />
-        <Switch>
-          <Route path="/login" component={LoginContainer} />
-          <Route path="/add" component={TaskForm} />
-          <Route path="/task/:id" component={VolunteerContainer} />
-          <Route path="/" component={MapContainer} />
-        </Switch>
-        <Footer />
-      </Container>
-    </Router>
-  )
+class Routes extends React.Component {
+  componentDidMount() {
+    const ele = document.getElementById('ipl-progress-indicator')
+    if (ele) {
+      // fade out
+      ele.classList.add('available')
+      // remove from DOM
+      ele.outerHTML = ''
+    }
+  }
+  render() {
+    return (
+      <Router>
+        <Container>
+          <TopMenu />
+          <Switch>
+            <Route path="/login" component={LoginContainer} />
+            <Route path="/add" component={TaskForm} />
+            <Route path="/task/:id" component={VolunteerContainer} />
+            <Route path="/" component={MapContainer} />
+          </Switch>
+          <Footer />
+        </Container>
+      </Router>
+    )
+  }
 }
-
 export default Routes
