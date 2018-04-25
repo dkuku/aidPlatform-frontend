@@ -51,17 +51,16 @@ class TopMenu extends Component {
 
     return (
       <Menu>
-        <Menu.Item name="Browse" active={activeItem === 'browse'} onClick={this.handleBrowseClick}>
-          Browse
+        <Menu.Item
+          name="Settings"
+          active={activeItem === 'settings'}
+          onClick={() => {
+            this.props.history.push('/settings')
+          }}
+        >
+          Settings
         </Menu.Item>
 
-        <Menu.Item name="Search" active={activeItem === 'search'} onClick={this.handleSearchClick}>
-          Search
-        </Menu.Item>
-
-        <Menu.Item name="Newest" active={activeItem === 'newest'} onClick={this.handleNewestClick}>
-          Newest Requests
-        </Menu.Item>
         <Menu.Menu position="right">
           {}
           {LoginLinks}

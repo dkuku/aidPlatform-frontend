@@ -10,7 +10,7 @@ import * as Active from 'actions/activeIndex'
 import { MarkerDisplay } from 'components'
 import { MessagesContainer } from 'containers'
 
-class VolunteerContainer extends Component {
+class SettingsContainer extends Component {
   render() {
     const id = this.props.match.params.id || 0
     this.props.updateActiveIndex(id)
@@ -20,9 +20,10 @@ class VolunteerContainer extends Component {
     return (
       <Grid divided="vertically">
         <Grid.Row columns={2}>
-          <Grid.Column>
-            <MarkerDisplay marker={marker[0]} />
-          </Grid.Column>
+          <Grid.Column>{/*
+     <MarkerDisplay marker={marker[0]} />
+    
+    */}</Grid.Column>
           <Grid.Column>
             <MessagesContainer />
           </Grid.Column>
@@ -40,4 +41,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ ...TaskActions, ...UserActions, ...Active }, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(VolunteerContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsContainer)
