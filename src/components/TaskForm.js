@@ -6,7 +6,10 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import { GeoLocation } from 'react-redux-geolocation'
 import { FormModal } from 'components'
+import GoogleMapsWrapper from './GoogleMapsWrapper.js'
 import * as UserActions from 'actions/user'
+
+const GMAP_KEY = process.env.REACT_APP_GMAP_KEY
 const inlineStyle = {
   modal: {
     marginTop: '0px !important',

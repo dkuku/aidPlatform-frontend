@@ -33,11 +33,12 @@ class LoginForm extends Component {
     axios
       .post(`${this.url}sign_in`, loginBody(email, password))
       .then(response => {
+        console.log(response)
         if (response.status === 200) {
           this.setState({ modalHeader: `User created` })
         }
         this.setState({
-          modalData: response.data.messages || `You loggged in successfully`,
+          modalData: response.data.data.messages || `You logged in successfully`,
         })
         this.setState({
           modalButton: () => {
@@ -45,9 +46,11 @@ class LoginForm extends Component {
           },
         })
         this.props.login({ user: response.data.data.user })
+        localStorage.setItem('user', JSON.stringify(response.data.data.user))
         this.setState({ modalOpen: true })
       })
       .catch(error => {
+        console.log(error.response)
         this.setState({ modalHeader: `Error` })
         this.setState({
           modalData:
@@ -57,7 +60,6 @@ class LoginForm extends Component {
           modalButton: () => this.setState({ modalOpen: false }),
         })
         this.setState({ modalOpen: true })
-        console.log(error.response.data)
       })
   }
 
