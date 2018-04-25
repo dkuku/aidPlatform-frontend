@@ -1,14 +1,6 @@
 import { LOGIN, SIGNUP, LOGOUT } from 'constants/ActionTypes'
 
-const initialUserState = {
-  id: 1,
-  authentication_token: 'ut7AiccGMPTPdu2pGYza',
-  email: 'dan@wp.pl',
-  first_name: 'daniel',
-  last_name: 'kukula',
-  created_at: '2018-03-24T22:48:13.568Z',
-  updated_at: '2018-04-07T04:10:41.386Z',
-}
+const initialUserState = localStorage.getItem('user') === null ? {} : JSON.parse(localStorage.getItem('user'))
 
 export default function user(state = initialUserState, action) {
   switch (action.type) {
@@ -20,6 +12,7 @@ export default function user(state = initialUserState, action) {
       return action.payload.user
     case LOGOUT:
       console.log('logout')
+      localStorage.removeItem('user')
       return {}
     default:
       return state
