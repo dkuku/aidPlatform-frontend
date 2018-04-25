@@ -80,6 +80,7 @@ class SignUpForm extends Component {
           },
         })
         this.props.signup({ user: response.data.data.user })
+        localStorage.setItem('AUTH-TOKEN', response.data.data.user.authentication_token)
         this.setState({ modalOpen: true })
       })
       .catch(error => {
