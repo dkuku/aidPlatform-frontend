@@ -14,7 +14,7 @@ const markerDemo = [
 export default function markers(state = markerDemo, action) {
   switch (action.type) {
     case UPDATE_MARKERS:
-      return action.markers.markers
+      return action.payload.markers
     case ADD_MARKER:
       return [...state, action.marker]
     case EDIT_MARKER:

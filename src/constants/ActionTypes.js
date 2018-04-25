@@ -1,7 +1,3 @@
-// Counter
-export const INCREMENT_COUNTER = 'INCREMENT_COUNTER'
-export const DECREMENT_COUNTER = 'DECREMENT_COUNTER'
-
 //Markers
 export const UPDATE_MARKERS = 'UPDATE_MARKERS'
 export const ADD_MARKER = 'ADD_MARKER'
@@ -23,3 +19,6 @@ export const SIGNUP = 'SIGNUP'
 //Map
 export const UPDATE_BOUNDS = 'UPDATE_BOUNDS'
 export const UPDATE_CENTER = 'UPDATE_CENTER'
+
+//API
+export const GET_MARKERS = 'GET_MARKERS'

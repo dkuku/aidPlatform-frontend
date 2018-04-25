@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
 import * as MarkersActions from 'actions/markers'
+import * as ApiActions from 'actions/apiActions'
 import { Grid } from 'semantic-ui-react'
 import { Map, TaskList, MapNav } from 'components'
 import { GeoLocation } from 'react-redux-geolocation'
@@ -15,11 +16,7 @@ class MapContainer extends React.Component {
 
   url = process.env.REACT_APP_API
   componentDidMount() {
-    fetch(`${this.url}tasks`)
-      .then(res => res.json())
-      .then(data => {
-        this.props.updateMarkers({ markers: data.data.tasks })
-      })
+    this.props.getMarkers()
   }
   render() {
     return (
@@ -44,7 +41,7 @@ const mapStateToProps = state => ({
 })
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(MarkersActions, dispatch)
+  return bindActionCreators({ ...MarkersActions, ...ApiActions }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapContainer)
