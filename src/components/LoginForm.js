@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import * as UserActions from 'actions/user'
-import { FormModal } from 'components'
 
 const headers = {
   Accept: 'application/json, text/plain, */*',
@@ -115,13 +114,6 @@ class LoginForm extends Component {
             </Message>
           </Grid.Column>
         </Grid>
-        <FormModal
-          modalOpen={this.state.modalOpen}
-          handleClose={this.handleClose}
-          modalHeader={this.state.modalHeader}
-          modalContent={this.state.modalData}
-          modalButton={this.state.modalButton}
-        />
       </div>
     )
   }

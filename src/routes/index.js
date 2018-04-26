@@ -1,7 +1,6 @@
 import React from 'react'
-import { CounterContainer } from 'containers'
 import { MapContainer, LoginContainer, VolunteerContainer, SettingsContainer } from 'containers'
-import { TopMenu, Footer, TaskForm } from 'components'
+import { TopMenu, Footer, TaskForm, MainModal } from 'components'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -24,6 +23,7 @@ class Routes extends React.Component {
       <Router>
         <Container>
           <TopMenu />
+          <MainModal />
           <Switch>
             <Route path="/login" component={LoginContainer} />
             <Route path="/add" component={TaskForm} />

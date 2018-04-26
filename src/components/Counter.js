@@ -5,8 +5,9 @@ export default class Counter extends Component {
   constructor(props) {
     super(props)
 
+    console.log(this.props)
     this.state = {
-      unfulfiled: 0,
+      unfulfiled: this.props.initialState,
     }
   }
 

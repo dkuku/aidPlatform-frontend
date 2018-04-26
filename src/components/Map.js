@@ -1,18 +1,17 @@
 import React, { Component } from 'react'
-import { Card, Image, Icon } from 'semantic-ui-react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { createStructuredSelector, createSelector } from 'reselect'
-import GoogleMapsWrapper from './GoogleMapsWrapper.js'
 import { Marker, InfoWindow } from 'react-google-maps'
 import * as MarkersActions from 'actions/markers'
 import * as MapActions from 'actions/mapCoords'
-import * as FilterActions from '../actions/filters'
 import * as Active from 'actions/activeIndex'
-import { updateActiveIndex } from '../actions/activeIndex'
 import MarkerDisplay from 'components/MarkerDisplay'
+import * as FilterActions from '../actions/filters'
+import { updateActiveIndex } from '../actions/activeIndex'
+import GoogleMapsWrapper from './GoogleMapsWrapper.js'
+
 const GMAP_KEY = process.env.REACT_APP_GMAP_KEY
-const url = process.env.REACT_APP_API_ADDRESS
+const url = process.env.REACT_APP_ADDRESS
 const help = `${url}/markers/green-pin.png`
 const material = `${url}/markers/blue-pin.png`
 const done = `${url}/markers/pink-pin.png`

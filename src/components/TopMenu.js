@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
 import * as UserActions from 'actions/user'
+import * as MarkerActions from 'actions/markers'
 import { ActionCableProvider } from 'react-actioncable-provider'
 import { Counter } from 'components'
 
@@ -13,7 +14,6 @@ class TopMenu extends Component {
   render() {
     const isLoggedIn = Object.keys(this.props.user).length > 1 ? true : false
     const activeItem = 'login'
-
     const LoginLinks = isLoggedIn ? (
       <React.Fragment>
         <Menu.Item
@@ -50,11 +50,10 @@ class TopMenu extends Component {
         />
       </React.Fragment>
     )
-
     return (
       <Menu>
         <ActionCableProvider url={'ws://localhost:3000/stats'}>
-          <Counter />
+          <Counter initialState={this.props.markers.length} />
         </ActionCableProvider>
 
         <Menu.Item
@@ -79,11 +78,12 @@ class TopMenu extends Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
+    markers: state.markers,
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(UserActions, dispatch)
+  return bindActionCreators({ ...UserActions, ...MarkerActions }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TopMenu))

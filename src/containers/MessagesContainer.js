@@ -2,8 +2,9 @@ import React from 'react'
 import { Button, Comment, Form } from 'semantic-ui-react'
 import Message from '../components/Message'
 
-const MessagesContainer = () => (
+const MessagesContainer = conversation => (
   <React.Fragment>
+    {JSON.stringify(conversation)}
     <Message />
     <Form reply>
       <Form.TextArea />
