@@ -6,6 +6,8 @@ import activeIndex from './activeIndex'
 import position from './position'
 import mapCoords from './mapCoords'
 import apiReducers from './apiReducers'
+import modalReducers from './modalReducers'
+import conversationsReducers from './conversationsReducers'
 
 const rootReducer = combineReducers({
   markers,
@@ -15,5 +17,7 @@ const rootReducer = combineReducers({
   position,
   mapCoords,
   apiReducers,
+  modalReducers,
+  conversationsReducers,
 })
 export default rootReducer

@@ -1,4 +1,4 @@
-import { UPDATE_MARKERS, ADD_MARKER, DELETE_MARKER, EDIT_MARKER } from 'constants/ActionTypes'
+import { UPDATE_MARKERS, DELETE_MARKER, EDIT_MARKER } from 'constants/ActionTypes'
 
 const initialMarkersState = []
 const markerDemo = [
@@ -15,8 +15,8 @@ export default function markers(state = markerDemo, action) {
   switch (action.type) {
     case UPDATE_MARKERS:
       return action.payload.markers
-    case ADD_MARKER:
-      return [...state, action.marker]
+    //    case ADD_MARKER:
+    //      return [...state, action.marker]
     case EDIT_MARKER:
       return state.map(marker => {
         if (marker.id === action.id) {
