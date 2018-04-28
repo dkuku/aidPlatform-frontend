@@ -52,13 +52,19 @@ class VolunteerContainer extends Component {
             <Menu attached="top" tabular>
               {this.props.conversationsReducers.map(conversation => (
                 <Menu.Item
-                  name={conversation.first_name + ' ' + conversation.last_name}
-                  active={activeItem === conversation.first_name + ' ' + conversation.last_name}
+                  key={conversation.id}
+                  name={conversation.first_name}
+                  active={activeItem === conversation.first_name}
                   onClick={this.handleItemClick}
                 />
               ))}
             </Menu>
-            {this.props.conversationsReducers.map(conversation => <MessagesContainer conversation={conversation} />)}
+            {this.props.conversationsReducers.map(
+              conversation =>
+                conversation.first_name === activeItem && (
+                  <MessagesContainer key={conversation.id} user={this.props.user} conversation={conversation} />
+                )
+            )}
           </Grid.Column>
         </Grid.Row>
       </Grid>
