@@ -4,14 +4,13 @@ import { Comment } from 'semantic-ui-react'
 class Message extends PureComponent {
   render() {
     return (
-      <Comment.Group>
-        <Comment>
-          <Comment.Content>
-            <Comment.Author>{this.props.author}</Comment.Author>
-            <Comment.Text>{this.props.message.body}</Comment.Text>
-          </Comment.Content>
-        </Comment>
-      </Comment.Group>
+      <Comment>
+        <Comment.Avatar src={`https://robohash.org/${this.props.author}.png?size=50x50`} />
+        <Comment.Content>
+          <Comment.Author>{this.props.author}</Comment.Author>
+          <Comment.Text>{this.props.message.body}</Comment.Text>
+        </Comment.Content>
+      </Comment>
     )
   }
 }

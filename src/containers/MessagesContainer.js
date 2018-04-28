@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
-import { Form } from 'semantic-ui-react'
+import { Form, Comment, Header } from 'semantic-ui-react'
 import { Message } from 'components'
 
 export default class MessagesContainer extends Component {
@@ -54,9 +54,12 @@ export default class MessagesContainer extends Component {
     const { userName, volunteerName, body } = this.state
     return (
       <React.Fragment>
-        {this.state.messages.map(message => (
-          <Message key={message.id} message={message} author={message.owner ? userName : volunteerName} />
-        ))}
+        <Comment.Group>
+          <Header as="h3" dividing>{`Conversation with ${volunteerName}`}</Header>
+          {this.state.messages.map(message => (
+            <Message key={message.id} message={message} author={message.owner ? userName : volunteerName} />
+          ))}
+        </Comment.Group>
         <Form reply onSubmit={this.sendMessage}>
           <Form.Group>
             <Form.Input placeholder="Message" name="body" value={body} onChange={this.handleChange} />
