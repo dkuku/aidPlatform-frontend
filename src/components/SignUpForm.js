@@ -107,8 +107,7 @@ class SignUpForm extends Component {
     */}
         <style>{`
       body > div,
-      body > div > div,
-      body > div > div > div.login-form {
+      body > div > div.login-form {
         height: 100%;
       }
     `}</style>

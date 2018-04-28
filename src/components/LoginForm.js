@@ -71,9 +71,8 @@ class LoginForm extends Component {
       below must have a height of 100%.
     */}
         <style>{`
-      body > div,
-      body > div > div,
-      body > div > div > div.login-form {
+      body > div ,
+      body > div  > div.login-form {
         height: 100%;
       }
     `}</style>
