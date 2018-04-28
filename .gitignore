@@ -21,3 +21,4 @@ yarn-error.log*
 #vs code setup
 frontend.code-workspace
 ~/
+.vscode
