@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Grid } from 'semantic-ui-react'
+import { Grid, Menu } from 'semantic-ui-react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import axios from 'axios'
@@ -16,16 +16,25 @@ class VolunteerContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      id: Number(this.props.match.params.id),
+      headers: { headers: { 'AUTH-TOKEN': this.props.user.authentication_token } },
+      activeConv: null,
+      id: this.props.match.params.id,
       marker: this.props.markers.filter(obj => {
         obj.id == this.props.match.params.id
       })[0],
     }
   }
+
+  handleItemClick = (e, { name }) => this.setState({ activeConv: name })
+
+  componentWillMount() {
+    console.log(this.props.markers.length)
+    if (this.props.markers.length === 1) {
+      this.props.getMarkers()
+    }
+  }
   componentDidMount() {
-    console.log(this.state)
-    const headers = { headers: { 'AUTH-TOKEN': this.props.user.authentication_token } }
-    console.log(headers)
+    const { headers, getConversations } = this.state
     this.props.getConversations(this.state.id, headers)
   }
   render() {
@@ -36,11 +45,28 @@ class VolunteerContainer extends Component {
     return (
       <Grid divided="vertically">
         <Grid.Row columns={2}>
-          <Grid.Column>{/*
-           <MarkerDisplay marker={this.marker} />
-          */}</Grid.Column>
           <Grid.Column>
-            {this.props.conversationsReducers.map(conversation => <MessagesContainer conversation={conversation} />)}
+            {!(this.props.markers.length === 1) && (
+              <MarkerDisplay marker={this.props.markers.filter(obj => obj.id == this.state.id)[0]} />
+            )}
+          </Grid.Column>
+          <Grid.Column>
+            <Menu attached="top" tabular>
+              {this.props.conversations.map(conversation => (
+                <Menu.Item
+                  key={conversation.id}
+                  name={conversation.volunteer_name}
+                  active={this.state.activeConv === conversation.volunteer_name}
+                  onClick={this.handleItemClick}
+                />
+              ))}
+            </Menu>
+            {this.props.conversations.map(
+              conversation =>
+                conversation.volunteer_name === this.state.activeConv && (
+                  <MessagesContainer key={conversation.id} headers={this.state.headers} conversation={conversation} />
+                )
+            )}
           </Grid.Column>
         </Grid.Row>
       </Grid>
@@ -49,7 +75,11 @@ class VolunteerContainer extends Component {
 }
 
 const mapStateToProps = state => {
-  return state
+  return {
+    user: state.user,
+    conversations: state.conversations,
+    markers: state.markers,
+  }
 }
 
 function mapDispatchToProps(dispatch) {
