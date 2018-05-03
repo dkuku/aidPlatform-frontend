@@ -55,7 +55,15 @@ class TopMenu extends Component {
         <ActionCableProvider url={'ws://localhost:3000/stats'}>
           <Counter initialState={this.props.markers.length} />
         </ActionCableProvider>
-
+        <Menu.Item
+          name="Home"
+          active={activeItem === 'home'}
+          onClick={() => {
+            this.props.history.push('/')
+          }}
+        >
+          Home
+        </Menu.Item>
         <Menu.Item
           name="Settings"
           active={activeItem === 'settings'}

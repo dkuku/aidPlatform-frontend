@@ -47,7 +47,6 @@ class MarkerDisplay extends PureComponent {
           <Card.Description>{description}</Card.Description>
         </Card.Content>
         <Card.Content extra>
-          {console.log(this.state)}
           <Link to={`/task/${id}`}>
             <Button basic floated="right" color={color}>
               Volunteer
