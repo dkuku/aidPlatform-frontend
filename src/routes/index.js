@@ -21,7 +21,7 @@ class Routes extends React.Component {
   render() {
     return (
       <Router>
-        <Container>
+        <React.Fragment>
           <TopMenu />
           <MainModal />
           <Switch>
@@ -32,7 +32,7 @@ class Routes extends React.Component {
             <Route path="/" component={MapContainer} />
           </Switch>
           <Footer />
-        </Container>
+        </React.Fragment>
       </Router>
     )
   }

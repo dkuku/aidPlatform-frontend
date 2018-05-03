@@ -30,7 +30,6 @@ export function addMarker(form, headers) {
     axios
       .post(url + path, form, headers)
       .then(response => {
-        console.log(response)
         dispatch({
           type: 'ADD_MARKER',
           payload: { markers: response.data.data },
