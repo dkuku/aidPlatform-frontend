@@ -5,11 +5,8 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import * as UserActions from 'actions/user'
+import * as ModalActions from 'actions/modal'
 
-const headers = {
-  Accept: 'application/json, text/plain, */*',
-  'Content-Type': 'application/json',
-}
 function loginBody(email, password) {
   return {
     sign_in: {
@@ -19,47 +16,20 @@ function loginBody(email, password) {
   }
 }
 class LoginForm extends Component {
-  state = {
-    email: '',
-    password: '',
+  constructor(props) {
+    super(props)
+    this.state = {
+      email: '',
+      password: '',
+    }
+    console.log(this.props)
   }
-  url = process.env.REACT_APP_API
+
   handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
   handleLoginSubmit = () => {
-    console.log(`${this.url}sign_in`)
     const { email, password } = this.state
-    axios
-      .post(`${this.url}sign_in`, loginBody(email, password))
-      .then(response => {
-        console.log(response)
-        if (response.status === 200) {
-          this.setState({ modalHeader: `User created` })
-        }
-        this.setState({
-          modalData: response.data.data.messages || `You logged in successfully`,
-        })
-        this.setState({
-          modalButton: () => {
-            this.props.history.push('/')
-          },
-        })
-        this.props.login({ user: response.data.data.user })
-        localStorage.setItem('user', JSON.stringify(response.data.data.user))
-        this.setState({ modalOpen: true })
-      })
-      .catch(error => {
-        console.log(error.response)
-        this.setState({ modalHeader: `Error` })
-        this.setState({
-          modalData:
-            error.response.data.messages || 'There was an error submitting the form, please try again in 5 minutes',
-        })
-        this.setState({
-          modalButton: () => this.setState({ modalOpen: false }),
-        })
-        this.setState({ modalOpen: true })
-      })
+    this.props.login(loginBody(email, password))
   }
 
   render() {
@@ -72,8 +42,7 @@ class LoginForm extends Component {
     */}
         <style>{`
       body > div,
-      body > div > div,
-      body > div > div > div.login-form {
+      body > div > div.login-form {
         height: 100%;
       }
     `}</style>
@@ -122,11 +91,12 @@ class LoginForm extends Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
+    modal: state.modal,
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(UserActions, dispatch)
+  return bindActionCreators({ ...UserActions, ...ModalActions }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LoginForm))

@@ -14,6 +14,8 @@ export const GET_LOCATION = 'GET_LOCATION'
 export const LOGIN = 'LOGIN'
 export const LOGOUT = 'LOGOUT'
 export const SIGNUP = 'SIGNUP'
+export const LOGIN_ERROR = 'LOGIN_ERROR'
+export const SIGNUP_ERROR = 'SIGNUP_ERROR'
 
 //Map
 export const UPDATE_BOUNDS = 'UPDATE_BOUNDS'
@@ -28,3 +30,7 @@ export const GET_CONVERSATIONS = 'GET_CONVERSATIONS'
 export const MODAL_OPEN = 'MODAL_OPEN'
 export const MODAL_CLOSE = 'MODAL_CLOSE'
 export const SET_MODAL_DATA = 'SET_MODAL_DATA'
+
+//LOCALSTOAGE
+export const SAVE_TO_LOCALSTORAGE = 'SAVE_TO_LOCALSTORAGE'
+export const LOAD_FROM_LOCALSTORAGE = 'LOAD_FROM_LOCALSTORAGE'

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Form, Button, Grid, Header, Message, Segment, Modal } from 'semantic-ui-react'
-import * as ModalActions from 'actions/ModalActions'
+import * as ModalActions from 'actions/modal'
 
 const inlineStyle = {
   modal: {

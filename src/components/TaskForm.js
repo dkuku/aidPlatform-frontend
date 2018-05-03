@@ -8,7 +8,7 @@ import { GeoLocation } from 'react-redux-geolocation'
 import GoogleMapsWrapper from './GoogleMapsWrapper.js'
 import * as UserActions from 'actions/user'
 import * as ApiActions from 'actions/apiActions'
-import * as ModalActions from 'actions/ModalActions'
+import * as ModalActions from 'actions/modal'
 
 const GMAP_KEY = process.env.REACT_APP_GMAP_KEY
 const inlineStyle = {
@@ -51,7 +51,7 @@ class TaskForm extends Component {
       [name]: value,
     })
   handleTaskSubmit = () => {
-    const { title, description, lat, lng, task_type, modalButton, modalHeader, modalOpen, modalData } = this.state
+    const { title, description, lat, lng, task_type } = this.state
     const { latitude, longitude } = this.props.currentLocation
     const body = addTaskBody(title, description, latitude, longitude, task_type)
     const headers = { headers: { 'AUTH-TOKEN': this.props.user.authentication_token } }
