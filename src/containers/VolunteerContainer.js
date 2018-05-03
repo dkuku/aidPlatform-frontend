@@ -38,9 +38,8 @@ class VolunteerContainer extends Component {
     this.props.getConversations(this.state.id, headers)
   }
   render() {
-    const marker = this.props.markers.filter(obj => {
-      obj.id == this.state.id
-    })[0]
+    const { activeItem } = this.state
+    var name
     this.props.updateActiveIndex(this.state.id)
     return (
       <Grid divided="vertically">
