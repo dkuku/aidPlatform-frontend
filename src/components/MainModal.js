@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Form, Button, Grid, Header, Message, Segment, Modal } from 'semantic-ui-react'
-import * as ModalActions from 'actions/ModalActions'
+import * as ModalActions from 'actions/modal'
 
 const inlineStyle = {
   modal: {
@@ -11,7 +11,7 @@ const inlineStyle = {
     marginRight: 'auto',
   },
 }
-class FormModal extends Component {
+class MainModal extends Component {
   render() {
     const { open, header, body, redirect } = this.props.modal
     function buttonClick() {
@@ -40,7 +40,7 @@ class FormModal extends Component {
 
 const mapStateToProps = state => {
   return {
-    modal: state.modalReducers,
+    modal: state.modal,
   }
 }
 
@@ -48,4 +48,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(ModalActions, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FormModal)
+export default connect(mapStateToProps, mapDispatchToProps)(MainModal)

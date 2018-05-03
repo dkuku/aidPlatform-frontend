@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import { Comment } from 'semantic-ui-react'
-
 class Message extends PureComponent {
   render() {
     return (

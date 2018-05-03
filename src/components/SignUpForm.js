@@ -36,20 +36,7 @@ class SignUpForm extends Component {
     first_name: '',
     last_name: '',
     picture: null,
-    modalOpen: false,
-    modalData: '',
-    modalHeader: '',
-    modalButton: () => {},
   }
-  config = {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  }
-  url = process.env.REACT_APP_API
-  //  address = "http://httpbin.org/post"
-  handleOpen = () => this.setState({ modalOpen: true })
-  handleClose = () => this.setState({ modalOpen: false })
   handleChange = (e, { name, value }) =>
     this.setState({
       [name]: value,
@@ -59,43 +46,7 @@ class SignUpForm extends Component {
   }
   handleSignUpSubmit = () => {
     const { first_name, last_name, email, password, password_confirmation, picture } = this.state
-    axios
-      .post(
-        `${this.url}sign_up`,
-        signupBody(email, password, password_confirmation, first_name, last_name, picture),
-        this.config
-      )
-      .then(response => {
-        console.log(response)
-        if (response.status === 200) {
-          this.setState({ modalHeader: `User created` })
-        }
-        this.setState({
-          modalData: `Hi ${first_name} ${last_name}. Your account was created. 
-            You can login to the website using your email address ${email}`,
-        })
-        this.setState({
-          modalButton: () => {
-            this.props.history.push('/')
-          },
-        })
-        this.props.signup({ user: response.data.data.user })
-        localStorage.setItem('AUTH-TOKEN', response.data.data.user.authentication_token)
-        this.setState({ modalOpen: true })
-      })
-      .catch(error => {
-        console.log(error.response.data.messages)
-        this.setState({ modalHeader: `Error` })
-        this.setState({
-          modalData:
-            error.response.data.messages || 'There was an error submitting the form, please try again in 5 minutes',
-        })
-        this.setState({
-          modalButton: () => this.setState({ modalOpen: false }),
-        })
-        this.setState({ modalOpen: true })
-        console.log(error.response.data)
-      })
+    this.props.signup(signupBody(email, password, password_confirmation, first_name, last_name, picture))
   }
   render() {
     return (

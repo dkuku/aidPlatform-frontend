@@ -5,6 +5,7 @@ import { Marker, InfoWindow } from 'react-google-maps'
 import * as MarkersActions from 'actions/markers'
 import * as MapActions from 'actions/mapCoords'
 import * as Active from 'actions/activeIndex'
+import * as UserActions from 'actions/user'
 import MarkerDisplay from 'components/MarkerDisplay'
 import * as FilterActions from '../actions/filters'
 import { updateActiveIndex } from '../actions/activeIndex'
@@ -42,11 +43,10 @@ class MapSearch extends Component {
     return (fulfiled === 5) | status ? done : type == 'material' ? material : help
   }
   render() {
-    const { markers, activeIndex, updateActiveIndex, currentLocation } = this.props
+    const { markers, activeIndex, updateActiveIndex, currentLocation, user } = this.props
     const filters = this.props.filters || { type: 'all' }
     const created_at = this.props.filters || { startDate: new Date() }
     const { latitude, longitude } = currentLocation
-
     return (
       <GoogleMapsWrapper
         googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${GMAP_KEY}&libraries=geometry,drawing,places`} // libraries=geometry,drawing,places
@@ -71,7 +71,7 @@ class MapSearch extends Component {
             >
               {marker.id === activeIndex && (
                 <InfoWindow>
-                  <MarkerDisplay marker={marker} />
+                  <MarkerDisplay marker={marker} user={user} />
                 </InfoWindow>
               )}
             </Marker>
@@ -85,6 +85,7 @@ const mapStateToProps = state => ({
   activeIndex: state.activeIndex,
   currentLocation: state.position.geolocation,
   filters: state.filters,
+  user: state.user,
 })
 
 function mapDispatchToProps(dispatch) {

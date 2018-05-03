@@ -9,8 +9,9 @@ export default class MessagesContainer extends Component {
     super(props)
     this.state = {
       messages: [],
-      volunteerName: this.props.conversation.first_name + ' ' + this.props.conversation.last_name,
-      userName: this.props.user.first_name + ' ' + this.props.user.last_name,
+      headers: this.props.headers,
+      volunteerName: this.props.conversation.volunteer_name,
+      taskOwnerName: this.props.conversation.task_owner_name,
       body: '',
     }
   }
@@ -20,14 +21,13 @@ export default class MessagesContainer extends Component {
     const { id, task_id } = this.props.conversation
     console.log(this.props)
     const url = process.env.REACT_APP_API
-    const path = `tasks/${task_id}/conversations/${id}/message`
-    const headers = { headers: { 'AUTH-TOKEN': this.props.user.authentication_token } }
+    const path = `conversations/${id}`
     const body = { message: { body: this.state.body } }
+    const headers = this.state.headers
     axios
       .post(url + path, body, headers)
       .then(response => {
-        console.log(response)
-        this.setState({ messages: [...this.state.messages, response.data.data.message] })
+        this.setState({ messages: response.data.data.messages })
       })
       .catch(err => {
         console.log(err)
@@ -38,12 +38,11 @@ export default class MessagesContainer extends Component {
     const { id, task_id } = this.props.conversation
     console.log(this.props)
     const url = process.env.REACT_APP_API
-    const path = `tasks/${task_id}/conversations/${id}`
-    const headers = { headers: { 'AUTH-TOKEN': this.props.user.authentication_token } }
+    const path = `conversations/${id}`
+    const headers = this.state.headers
     axios
       .get(url + path, headers)
       .then(response => {
-        console.log(response)
         this.setState({ messages: response.data.data.messages })
       })
       .catch(err => {
@@ -51,13 +50,13 @@ export default class MessagesContainer extends Component {
       })
   }
   render() {
-    const { userName, volunteerName, body } = this.state
+    const { taskOwnerName, volunteerName, body } = this.state
     return (
       <React.Fragment>
         <Comment.Group>
           <Header as="h3" dividing>{`Conversation with ${volunteerName}`}</Header>
           {this.state.messages.map(message => (
-            <Message key={message.id} message={message} author={message.owner ? userName : volunteerName} />
+            <Message key={message.id} message={message} author={message.owner ? taskOwnerName : volunteerName} />
           ))}
         </Comment.Group>
         <Form reply onSubmit={this.sendMessage}>

@@ -5,7 +5,7 @@ export default function conversations(state = InitialConversations, action) {
   console.log(action)
   switch (action.type) {
     case GET_CONVERSATIONS:
-      return action.payload.conversations
+      return action.payload
     default:
       return state
   }
