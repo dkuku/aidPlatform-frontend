@@ -1,27 +1,22 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { ActionCable } from 'react-actioncable-provider'
 
 export default class Counter extends Component {
   constructor(props) {
     super(props)
 
-    console.log(this.props)
     this.state = {
-      unfulfiled: this.props.initialState,
+      unfulfiled: this.props.markers.length,
     }
   }
 
   onReceived = stats => {
-    console.log(stats)
-    console.log(this.state)
     console.log('Action Cable received data')
     this.setState({
       unfulfiled: stats.stats.unfulfiled,
     })
-    console.log(this.state)
   }
   onConnected = data => {
-    console.log(data)
     console.log('Action cable connected')
   }
   render() {

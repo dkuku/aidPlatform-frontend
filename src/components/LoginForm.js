@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import * as UserActions from 'actions/user'
 import * as ModalActions from 'actions/modal'
+import * as StorageActions from 'actions/localStorage'
 
 function loginBody(email, password) {
   return {
@@ -96,7 +97,7 @@ const mapStateToProps = state => {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...UserActions, ...ModalActions }, dispatch)
+  return bindActionCreators({ ...UserActions, ...ModalActions, ...StorageActions }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LoginForm))

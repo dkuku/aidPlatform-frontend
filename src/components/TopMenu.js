@@ -53,7 +53,7 @@ class TopMenu extends Component {
     return (
       <Menu>
         <ActionCableProvider url={'ws://localhost:3000/stats'}>
-          <Counter initialState={this.props.markers.length} />
+          <Counter markers={this.props.markers} />
         </ActionCableProvider>
         <Menu.Item
           name="Home"
