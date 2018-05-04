@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { Form, Button, Grid, Header, Message, Segment, Modal } from 'semantic-ui-react'
+import { withRouter } from 'react-router-dom'
+import { Button, Modal } from 'semantic-ui-react'
 import * as ModalActions from 'actions/modal'
 
 const inlineStyle = {
@@ -11,12 +12,14 @@ const inlineStyle = {
     marginRight: 'auto',
   },
 }
-class MainModal extends Component {
+class MainModal extends PureComponent {
+  buttonClick = () => {
+    this.props.closeModal()
+    this.props.history.push('/')
+  }
+
   render() {
     const { open, header, body, redirect } = this.props.modal
-    function buttonClick() {
-      this.props.history.push(redirect)
-    }
 
     return (
       <Modal
@@ -29,7 +32,7 @@ class MainModal extends Component {
         <Modal.Header> {header} </Modal.Header>
         <Modal.Content>{body}</Modal.Content>
         <Modal.Actions>
-          <Button color="teal" onClick={this.props.closeModal}>
+          <Button color="teal" onClick={this.buttonClick}>
             OK
           </Button>{' '}
         </Modal.Actions>
@@ -38,7 +41,7 @@ class MainModal extends Component {
   }
 }
 
-const mapStateToProps = state => {
+function mapStateToProps(state) {
   return {
     modal: state.modal,
   }
@@ -48,4 +51,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(ModalActions, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainModal)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MainModal))

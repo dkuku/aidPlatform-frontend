@@ -6,7 +6,7 @@ export const openModal = () => ({
 export const closeModal = () => ({
   type: MODAL_CLOSE,
 })
-export const setModal = data => ({
+export const setModal = modal => ({
   type: SET_MODAL_DATA,
-  modal: data,
+  modal,
 })

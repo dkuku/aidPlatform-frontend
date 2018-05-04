@@ -6,7 +6,7 @@ const initialState = {
   body: 'initial state',
   redirect: '/',
 }
-export default function modalData(state = initialState, action) {
+export default function modal(state = initialState, action) {
   switch (action.type) {
     case MODAL_OPEN:
       return {
@@ -19,9 +19,10 @@ export default function modalData(state = initialState, action) {
         open: false,
       }
     case SET_MODAL_DATA:
+      console.log(action)
       return {
         ...state,
-        ...action.modal.data,
+        ...action.modal,
       }
     default:
       return state
