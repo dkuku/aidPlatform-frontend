@@ -12,6 +12,8 @@ export function login(body) {
         console.log(response)
         if (response.status === 200) {
           console.log(response.data.data.user)
+          localStorage.setItem('user', JSON.stringify(response.data.data.user))
+
           dispatch({
             type: LOGIN,
             payload: response.data.data,
@@ -35,6 +37,7 @@ export function signup(body) {
       .then(response => {
         console.log(response)
         if (response.status === 200) {
+          localStorage.setItem('user', JSON.stringify(response.data.data.user))
           dispatch({
             type: SIGNUP,
             payload: response.data.data,
