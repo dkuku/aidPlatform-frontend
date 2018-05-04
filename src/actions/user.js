@@ -1,4 +1,4 @@
-import { LOGIN, SIGNUP, LOGOUT, LOGIN_ERROR, SIGNUP_ERROR } from 'constants/ActionTypes'
+import { LOGIN, SIGNUP, LOGOUT, LOGIN_ERROR, SIGNUP_ERROR, SET_MODAL_DATA } from 'constants/ActionTypes'
 import { createAction, dispatch } from 'redux-actions'
 import axios from 'axios/index'
 
@@ -17,6 +17,15 @@ export function login(body) {
           dispatch({
             type: LOGIN,
             payload: response.data.data,
+          })
+          dispatch({
+            type: SET_MODAL_DATA,
+            modal: {
+              open: true,
+              header: `Welcome ${response.data.data.user.first_name}`,
+              body: 'You heve been logged in',
+              redirect: '/',
+            },
           })
         }
       })
@@ -40,7 +49,16 @@ export function signup(body) {
           localStorage.setItem('user', JSON.stringify(response.data.data.user))
           dispatch({
             type: SIGNUP,
-            payload: response.data.data,
+            payload: response.data.data.user,
+          })
+          dispatch({
+            type: SET_MODAL_DATA,
+            modal: {
+              open: true,
+              header: `Welcome ${response.data.data.user.first_name}`,
+              body: 'Your account has been created.',
+              redirect: '/',
+            },
           })
         }
       })
