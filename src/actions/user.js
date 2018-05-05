@@ -4,10 +4,11 @@ import axios from 'axios/index'
 
 const url = process.env.REACT_APP_API
 
-export function login(body) {
+export function login(form) {
   return function(dispatch) {
+    console.log(form)
     axios
-      .post(`${url}sign_in`, body)
+      .post(`${url}sign_in`, form)
       .then(response => {
         console.log(response)
         if (response.status === 200) {
@@ -59,7 +60,7 @@ export function signup(body) {
           localStorage.setItem('user', JSON.stringify(response.data.data.user))
           dispatch({
             type: SIGNUP,
-            payload: response.data.data.user,
+            payload: response.data.data,
           })
           dispatch({
             type: SET_MODAL_DATA,
@@ -73,9 +74,56 @@ export function signup(body) {
         }
       })
       .catch(err => {
-        console.log(err.response)
+        console.log(err)
         dispatch({
           type: SIGNUP_ERROR,
+          payload: err.response.messages,
+        })
+        dispatch({
+          type: SET_MODAL_DATA,
+          modal: {
+            open: true,
+            header: `Error`,
+            body: err.response.data.messages || err.response.messages,
+            redirect: false,
+            error: true,
+          },
+        })
+      })
+  }
+}
+export function updatePicture(file, headers) {
+  const form = new FormData()
+  form.append('user[picture]', file)
+  console.log(headers)
+  return function(dispatch) {
+    axios
+      .put(`${url}user`, form, headers)
+      .then(response => {
+        console.log(response)
+        if (response.status === 200) {
+          console.log(response)
+          localStorage.setItem('user', JSON.stringify(response.data.data.user))
+
+          dispatch({
+            type: LOGIN,
+            payload: response.data.data,
+          })
+          dispatch({
+            type: SET_MODAL_DATA,
+            modal: {
+              open: true,
+              header: `Welcome ${response.data.data.user.first_name}`,
+              body: 'Your ID was added to the database',
+              redirect: '',
+            },
+          })
+        }
+      })
+      .catch(err => {
+        console.log(err.response)
+        dispatch({
+          type: LOGIN_ERROR,
           payload: err.response.data.messages,
         })
         dispatch({
@@ -91,5 +139,4 @@ export function signup(body) {
       })
   }
 }
-
 export const logout = createAction(LOGOUT)

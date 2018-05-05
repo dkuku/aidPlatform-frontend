@@ -7,46 +7,30 @@ import axios from 'axios'
 import * as UserActions from 'actions/user'
 import { Upload } from 'components'
 
-function getFormData(object) {
-  const formData = new FormData()
-  Object.keys(object).forEach(key => formData.append(`user[${key}]`, object[key]))
-  console.log(formData)
-  return formData
-}
-function signupBody(email, password, password_confirmation, first_name, last_name, picture) {
-  let userData = {
-    first_name: first_name,
-    last_name: last_name,
-    password: password,
-    password_confirmation: password_confirmation,
-    email: email,
-    picture: picture,
-  }
-  let data = getFormData(userData)
-  data.append('user.picture', picture)
-  return data
-}
-
 class SignUpForm extends Component {
-  state = {
-    user: {},
-    email: '',
-    password: '',
-    password_confirmation: '',
-    first_name: '',
-    last_name: '',
-    picture: null,
+  constructor() {
+    super()
+    this.state = {
+      user: {
+        email: '',
+        password: '',
+        password_confirmation: '',
+        first_name: '',
+        last_name: '',
+      },
+    }
   }
   handleChange = (e, { name, value }) =>
     this.setState({
-      [name]: value,
+      user: {
+        ...this.state.user,
+        [name]: value,
+      },
     })
-  handleChangePicture = file => {
-    this.setState({ picture: file.target.files[0] })
-  }
+
   handleSignUpSubmit = () => {
-    const { first_name, last_name, email, password, password_confirmation, picture } = this.state
-    this.props.signup(signupBody(email, password, password_confirmation, first_name, last_name, picture))
+    const { user } = this.state
+    this.props.signup({ user: user })
   }
   render() {
     return (
@@ -117,18 +101,6 @@ class SignUpForm extends Component {
                   name="password_confirmation"
                   onChange={this.handleChange}
                 />
-                <Form.Input
-                  fluid
-                  icon="lock"
-                  iconPosition="left"
-                  placeholder="Id photo"
-                  type="file"
-                  label="Id Photo"
-                  name="picture"
-                  onChange={this.handleChangePicture}
-                />
-                <Form.Checkbox label="I agree to the Terms and Conditions" />
-
                 <Button color="teal" fluid size="large">
                   Sign Up
                 </Button>

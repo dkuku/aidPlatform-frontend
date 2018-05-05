@@ -11,6 +11,7 @@
     "react": "^16.2.0",
     "react-actioncable-provider": "^1.0.3",
     "react-dom": "^16.2.0",
+    "react-dropzone": "^4.2.9",
     "react-fuzzy": "^0.5.2",
     "react-google-maps": "^9.4.5",
     "react-places-autocomplete": "^7.1.1",

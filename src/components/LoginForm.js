@@ -8,29 +8,23 @@ import * as UserActions from 'actions/user'
 import * as ModalActions from 'actions/modal'
 import * as StorageActions from 'actions/localStorage'
 
-function loginBody(email, password) {
-  return {
-    sign_in: {
-      email: email,
-      password: password,
-    },
-  }
-}
 class LoginForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: '',
-      password: '',
+      sign_in: {
+        email: '',
+        password: '',
+      },
     }
-    console.log(this.props)
   }
 
-  handleChange = (e, { name, value }) => this.setState({ [name]: value })
+  handleChange = (e, { name, value }) => this.setState({ sign_in: { ...this.state.sign_in, [name]: value } })
 
   handleLoginSubmit = () => {
-    const { email, password } = this.state
-    this.props.login(loginBody(email, password))
+    const { sign_in } = this.state
+    console.log(this.state)
+    this.props.login({ sign_in: sign_in })
   }
 
   render() {
