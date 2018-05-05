@@ -23,17 +23,27 @@ export function login(body) {
             modal: {
               open: true,
               header: `Welcome ${response.data.data.user.first_name}`,
-              body: 'You heve been logged in',
+              body: 'You are now logged in',
               redirect: '/',
             },
           })
         }
       })
-      .catch(error => {
-        console.log(error.response)
+      .catch(err => {
+        console.log(err.response)
         dispatch({
           type: LOGIN_ERROR,
-          payload: error.response.data.messages,
+          payload: err.response.data.messages,
+        })
+        dispatch({
+          type: SET_MODAL_DATA,
+          modal: {
+            open: true,
+            header: `Error`,
+            body: err.response.data.messages || err.response.messages,
+            redirect: false,
+            error: true,
+          },
         })
       })
   }
@@ -62,11 +72,21 @@ export function signup(body) {
           })
         }
       })
-      .catch(error => {
-        console.log(error.response)
+      .catch(err => {
+        console.log(err.response)
         dispatch({
           type: SIGNUP_ERROR,
-          payload: error.response.data.messages,
+          payload: err.response.data.messages,
+        })
+        dispatch({
+          type: SET_MODAL_DATA,
+          modal: {
+            open: true,
+            header: `Error`,
+            body: err.response.data.messages || err.response.messages,
+            redirect: false,
+            error: true,
+          },
         })
       })
   }

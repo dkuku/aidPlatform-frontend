@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { GET_MARKERS, ADD_MARKER, GET_CONVERSATION } from '../constants/ActionTypes'
+import { GET_MARKERS, ADD_MARKER, GET_CONVERSATION, SET_MODAL_DATA } from '../constants/ActionTypes'
 
 export function getMarkers() {
   return function(dispatch) {
@@ -23,23 +23,39 @@ export function getMarkers() {
   }
 }
 
-export function addMarker(form, headers) {
+export function addTask(task, headers) {
   return function(dispatch) {
     const url = process.env.REACT_APP_API
     const path = 'tasks'
     axios
-      .post(url + path, form, headers)
+      .post(url + path, task, headers)
       .then(response => {
+        console.log(response)
         dispatch({
           type: 'ADD_MARKER',
           payload: { markers: response.data.data },
+        })
+        dispatch({
+          type: SET_MODAL_DATA,
+          modal: {
+            open: true,
+            header: `All OK`,
+            body: response.data.messages,
+            redirect: '/',
+          },
         })
       })
       .catch(err => {
         console.log(err)
         dispatch({
-          type: 'ADD_MARKER_ERROR',
-          payload: err,
+          type: SET_MODAL_DATA,
+          modal: {
+            open: true,
+            header: `Error`,
+            body: err.response.data.messages || err.response.messages,
+            redirect: false,
+            error: true,
+          },
         })
       })
   }

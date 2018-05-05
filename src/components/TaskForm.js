@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import { Button, Form, TextArea, Select, Grid, Header, Modal, Message, Segment } from 'semantic-ui-react'
+import { Button, Form, TextArea, Select, Grid, Header, Segment } from 'semantic-ui-react'
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import axios from 'axios'
@@ -19,45 +19,51 @@ const inlineStyle = {
   },
 }
 const options = [{ key: 'material', text: 'material', value: 'material' }, { key: 'help', text: 'help', value: 'help' }]
-function addTaskBody(title, description, lat, lng, task_type) {
-  return {
-    task: {
-      title: title,
-      description: description,
-      lat: lat,
-      lng: lng,
-      task_type: task_type,
-    },
-  }
-}
 
 class TaskForm extends Component {
-  state = {
-    title: '',
-    description: '',
-    lat: 51.65,
-    lng: 0.05,
-    task_type: 'help',
-    modalOpen: false,
-    modalData: '',
-    modalHeader: '',
-    modalButton: () => {},
+  constructor(props) {
+    super(props)
+    this.state = {
+      headers: { headers: { 'AUTH-TOKEN': this.props.user.authentication_token } },
+      address: '',
+      task: {
+        title: '',
+        description: '',
+        lat: 51.65,
+        lng: 0.05,
+        task_type: 'help',
+      },
+    }
   }
   url = process.env.REACT_APP_API
-  handleOpen = () => this.setState({ modalOpen: true })
-  handleClose = () => this.setState({ modalOpen: false })
   handleChange = (e, { name, value }) =>
     this.setState({
-      [name]: value,
+      task: {
+        ...this.state.task,
+        [name]: value,
+      },
     })
+
+  handleAddressChange = address => {
+    this.setState({ address })
+  }
+
+  handleSelect = address => {
+    geocodeByAddress(address)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => {
+        this.setState({ task: { ...this.state.task, ...latLng } })
+        console.log(this.state.task)
+      })
+      .catch(error => console.error('Error', error))
+  }
+
   handleTaskSubmit = () => {
-    const { title, description, lat, lng, task_type } = this.state
-    const { latitude, longitude } = this.props.currentLocation
-    const body = addTaskBody(title, description, latitude, longitude, task_type)
-    const headers = { headers: { 'AUTH-TOKEN': this.props.user.authentication_token } }
-    this.props.addMarker(body, headers)
+    const { task, headers } = this.state
+    this.props.addTask(task, headers)
   }
   render() {
+    const { task, address } = this.state
     return (
       <div className="login-form">
         {/*
@@ -101,9 +107,35 @@ class TaskForm extends Component {
                   placeholder="Type"
                   onChange={this.handleChange}
                 />
-
-                <Form.Checkbox label="I agree to the Terms and Conditions" />
-
+                <div className="field">
+                  <label>Location</label>
+                  <PlacesAutocomplete value={address} onChange={this.handleAddressChange} onSelect={this.handleSelect}>
+                    {({ getInputProps, suggestions, getSuggestionItemProps }) => (
+                      <div>
+                        <input
+                          {...getInputProps({
+                            placeholder: 'Search Places ...',
+                            className: 'location-search-input',
+                          })}
+                        />
+                        <div className="autocomplete-dropdown-container">
+                          {suggestions.map(suggestion => {
+                            const className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item'
+                            // inline style for demonstration purpose
+                            const style = suggestion.active
+                              ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                              : { backgroundColor: '#ffffff', cursor: 'pointer' }
+                            return (
+                              <div {...getSuggestionItemProps(suggestion, { className, style })}>
+                                <span>{suggestion.description}</span>
+                              </div>
+                            )
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </PlacesAutocomplete>
+                </div>
                 <Button color="teal" fluid size="large">
                   Add task
                 </Button>

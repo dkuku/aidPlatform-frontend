@@ -14,12 +14,16 @@ const inlineStyle = {
 }
 class MainModal extends PureComponent {
   buttonClick = () => {
-    this.props.closeModal()
-    this.props.history.push('/')
+    const { closeModal, history, modal } = this.props
+    closeModal()
+    if (!!modal.redirect) {
+      this.props.history.push(modal.redirect)
+    }
   }
 
   render() {
-    const { open, header, body, redirect } = this.props.modal
+    console.log(this.state, this.props)
+    const { open, header, body, redirect, error } = this.props.modal
 
     return (
       <Modal
@@ -29,7 +33,7 @@ class MainModal extends PureComponent {
           this.props.closeModal
         }}
       >
-        <Modal.Header> {header} </Modal.Header>
+        {error ? <Modal.Header> {header} </Modal.Header> : <Modal.Header> {header} </Modal.Header>}
         <Modal.Content>{body}</Modal.Content>
         <Modal.Actions>
           <Button color="teal" onClick={this.buttonClick}>
