@@ -17,6 +17,18 @@ export default class MessagesContainer extends Component {
   }
   handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
+  scrollToBottom = () => {
+    this.messagesEnd.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  componentDidMount() {
+    this.scrollToBottom()
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom()
+  }
+
   sendMessage = () => {
     const { id, task_id } = this.props.conversation
     console.log(this.props)
@@ -34,6 +46,7 @@ export default class MessagesContainer extends Component {
       })
     this.setState({ body: '' })
   }
+
   componentWillMount() {
     const { id, task_id } = this.props.conversation
     console.log(this.props)
@@ -49,15 +62,27 @@ export default class MessagesContainer extends Component {
         console.log(err)
       })
   }
+
   render() {
     const { taskOwnerName, volunteerName, body } = this.state
     return (
       <React.Fragment>
-        <Comment.Group>
+        <Comment.Group style={{ height: '700px', overflow: 'hidden', overflowY: 'scroll' }}>
           <Header as="h3" dividing>{`Conversation with ${volunteerName}`}</Header>
           {this.state.messages.map(message => (
-            <Message key={message.id} message={message} author={message.owner ? taskOwnerName : volunteerName} />
+            <Message
+              ref={message.id}
+              key={message.id}
+              message={message}
+              author={message.owner ? taskOwnerName : volunteerName}
+            />
           ))}
+          <div
+            style={{ float: 'left', clear: 'both' }}
+            ref={el => {
+              this.messagesEnd = el
+            }}
+          />
         </Comment.Group>
         <Form reply onSubmit={this.sendMessage}>
           <Form.Group>

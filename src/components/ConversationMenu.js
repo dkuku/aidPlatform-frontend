@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { Menu, Header } from 'semantic-ui-react'
+import { Menu, Header, Button } from 'semantic-ui-react'
 
 export default class ConversationMenu extends PureComponent {
   render() {
@@ -16,7 +16,10 @@ export default class ConversationMenu extends PureComponent {
         ))}
       </Menu>
     ) : (
-      <Header>No conversation for this task</Header>
+      <Header>
+        No conversation for this task
+        <Button>Volunteer</Button>
+      </Header>
     )
 
     return <React.Fragment>{menuPlaceholder}</React.Fragment>

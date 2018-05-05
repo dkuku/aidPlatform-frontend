@@ -49,7 +49,7 @@ class MarkerDisplay extends PureComponent {
         <Card.Content extra>
           <Link to={`/task/${id}`}>
             <Button basic floated="right" color={color}>
-              Volunteer
+              View task
             </Button>
           </Link>
         </Card.Content>

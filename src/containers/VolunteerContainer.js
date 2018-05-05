@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Grid, Menu, Header } from 'semantic-ui-react'
+import { Grid, Menu, Header, Button } from 'semantic-ui-react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import axios from 'axios'
@@ -9,7 +9,7 @@ import * as TaskActions from 'actions/markers'
 import * as ApiActions from 'actions/apiActions'
 import * as ConversationsActions from 'actions/conversationsActions'
 import * as Active from 'actions/activeIndex'
-import { MarkerDisplay, ConversationMenu } from 'components'
+import { MarkerDisplay } from 'components'
 import { MessagesContainer } from 'containers'
 
 class VolunteerContainer extends Component {
@@ -25,6 +25,10 @@ class VolunteerContainer extends Component {
         obj.id == this.props.match.params.id
       })[0],
     }
+  }
+
+  volunteerRequest() {
+    console.log('ewqrqewhjgkuj cewghrewgkhqwj')
   }
 
   handleItemClick(e, { name }) {
@@ -56,7 +60,12 @@ class VolunteerContainer extends Component {
           ))}
         </Menu>
       ) : (
-        <Header>No conversation for this task. CREATE Volunteer button</Header>
+        <Header>
+          No conversation for this task.
+          <Button positive onClick={this.volunteerRequest}>
+            Volunteer
+          </Button>
+        </Header>
       )
     const { activeConv } = this.state
     const { conversations } = this.props.conversations
