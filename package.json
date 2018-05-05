@@ -13,6 +13,7 @@
     "react-dom": "^16.2.0",
     "react-fuzzy": "^0.5.2",
     "react-google-maps": "^9.4.5",
+    "react-places-autocomplete": "^7.1.1",
     "react-redux": "^5.0.6",
     "react-redux-geolocation": "^1.0.14",
     "react-router-dom": "^4.2.2",
@@ -23,6 +24,7 @@
     "redux-devtools-extension": "^2.13.2",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
+    "save": "^2.3.2",
     "semantic-ui-css": "^2.3.1",
     "semantic-ui-react": "^0.79.0",
     "styled-components": "^2.3.0"
