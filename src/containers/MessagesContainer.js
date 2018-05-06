@@ -15,10 +15,21 @@ export default class MessagesContainer extends Component {
       body: '',
     }
   }
-  handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
-  scrollToBottom = () => {
-    this.messagesEnd.scrollIntoView({ behavior: 'smooth' })
+  componentWillMount() {
+    const { id, task_id } = this.props.conversation
+    console.log(this.props)
+    const url = process.env.REACT_APP_API
+    const path = `conversations/${id}`
+    const headers = this.state.headers
+    axios
+      .get(url + path, headers)
+      .then(response => {
+        this.setState({ messages: response.data.data.messages })
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   componentDidMount() {
@@ -28,6 +39,8 @@ export default class MessagesContainer extends Component {
   componentDidUpdate() {
     this.scrollToBottom()
   }
+
+  handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
   sendMessage = () => {
     const { id, task_id } = this.props.conversation
@@ -46,40 +59,30 @@ export default class MessagesContainer extends Component {
       })
     this.setState({ body: '' })
   }
+
   handleDoneClick = () => console.log('done clicked')
 
-  componentWillMount() {
-    const { id, task_id } = this.props.conversation
-    console.log(this.props)
-    const url = process.env.REACT_APP_API
-    const path = `conversations/${id}`
-    const headers = this.state.headers
-    axios
-      .get(url + path, headers)
-      .then(response => {
-        this.setState({ messages: response.data.data.messages })
-      })
-      .catch(err => {
-        console.log(err)
-      })
+  scrollToBottom = () => {
+    this.messagesEnd.scrollIntoView({ behavior: 'smooth' })
   }
 
   render() {
     const { taskOwnerName, volunteerName, body } = this.state
     return (
       <React.Fragment>
+        <Header as="h3" dividing>
+          {`Conversation with ${volunteerName} `}
+          <Button negative onClick={this.handleDoneClick}>
+            Mark task done
+          </Button>
+        </Header>
         <Comment.Group style={{ height: '700px', overflow: 'hidden', overflowY: 'scroll' }}>
-          <Header as="h3" dividing>
-            {`Conversation with ${volunteerName} `}
-            <Button negative onClick={this.handleDoneClick}>
-              Mark task done
-            </Button>
-          </Header>
           {this.state.messages.map(message => (
             <Message
               ref={message.id}
               key={message.id}
               message={message}
+              owner={message.owner}
               author={message.owner ? taskOwnerName : volunteerName}
             />
           ))}
