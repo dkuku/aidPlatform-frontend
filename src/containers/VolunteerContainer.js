@@ -16,86 +16,79 @@ class VolunteerContainer extends Component {
   constructor(props) {
     super(props)
     this.handleItemClick = this.handleItemClick.bind(this)
-
+    this.volunteerRequest = this.volunteerRequest.bind(this)
     this.state = {
       headers: { headers: { 'AUTH-TOKEN': this.props.user.authentication_token } },
       activeConv: null,
-      id: this.props.match.params.id,
-      marker: this.props.markers.filter(obj => {
-        obj.id == this.props.match.params.id
-      })[0],
+      activeIndex: this.props.match.params.id,
     }
   }
 
-  volunteerRequest() {
-    console.log('ewqrqewhjgkuj cewghrewgkhqwj')
-  }
-
-  handleItemClick(e, { name }) {
-    e.preventDefault()
-    this.setState({ activeConv: name })
-  }
   componentWillMount() {
-    console.log(this.props.markers.length)
     if (this.props.markers.length === 1) {
       this.props.getMarkers()
     }
   }
   componentDidMount() {
+    console.log(this.props)
+    console.log(this.state)
     const { headers, getConversations } = this.state
-    this.props.getConversations(this.state.id, headers)
+    this.props.getConversations(this.state.activeIndex, headers)
+    this.setState({
+      marker: this.props.markers.filter(obj => {
+        obj.id == this.activeIndex
+      })[0],
+    })
   }
+  componentDidUpdate() {}
+  handleItemClick(e, { name }) {
+    e.preventDefault()
+    this.setState({ activeConv: name })
+  }
+  volunteerRequest = () => this.props.createConversation(this.state.activeIndex, this.state.headers)
+
   render() {
     console.log(this.props.conversations)
-    const menuPlaceholder =
-      !!this.props.conversations && this.props.conversations.length > 0 ? (
-        <Menu attached="top" tabular>
-          {this.props.conversations.map(conversation => (
-            <Menu.Item
-              key={conversation.id}
-              name={conversation.volunteer_name}
-              active={this.state.activeConv === conversation.volunteer_name}
-              onClick={this.handleItemClick}
-            />
-          ))}
-        </Menu>
-      ) : (
-        <Header>
-          No conversation for this task.
-          <Button positive onClick={this.volunteerRequest}>
-            Volunteer
-          </Button>
-        </Header>
-      )
-    const { activeConv } = this.state
-    const { conversations } = this.props.conversations
+    const { activeConv, activeIndex } = this.state
+    const { conversations, createConversation } = this.props.conversations
+    const marker = this.props.markers.filter(obj => obj.id == activeIndex)[0]
+    console.log(marker)
     var name
-    this.props.updateActiveIndex(this.state.id)
     console.log(this.props)
     return (
       <Grid divided="vertically">
         <Grid.Row columns={2}>
           <Grid.Column>
             {!(this.props.markers.length === 1) && (
-              <MarkerDisplay marker={this.props.markers.filter(obj => obj.id == this.state.id)[0]} />
+              <MarkerDisplay marker={this.props.markers.filter(obj => obj.id == activeIndex)[0]} />
             )}
           </Grid.Column>
           <Grid.Column>
-            {/*<ConversationMenu 
-            conversations={this.props.conversations} 
-            activeConv={this.state.activeConv} 
-            onClick={this.handleItemClick}/>
-            <Menu attached="top" tabular>
-              {this.props.conversations.map(conversation => (
-                <Menu.Item
-                  key={conversation.id}
-                  name={conversation.volunteer_name}
-                  active={this.state.activeConv === conversation.volunteer_name}
-                  onClick={this.handleItemClick}
-                />
-              ))}
-            </Menu>*/}
-            {menuPlaceholder}
+            {this.props.conversations && this.props.conversations.length > 0 ? (
+              <Menu attached="top" tabular>
+                {this.props.conversations.map(conversation => (
+                  <Menu.Item
+                    key={conversation.id}
+                    name={conversation.volunteer_name}
+                    active={this.state.activeConv === conversation.volunteer_name}
+                    onClick={this.handleItemClick}
+                  />
+                ))}
+              </Menu>
+            ) : (
+              <Header>
+                No conversation for this task.
+                {!!marker && (
+                  <Button
+                    positive
+                    onClick={this.volunteerRequest}
+                    disabled={marker.done || marker.fulfiled_counter > 4}
+                  >
+                    Volunteer
+                  </Button>
+                )}
+              </Header>
+            )}
             {this.props.conversations.map(
               conversation =>
                 conversation.volunteer_name === this.state.activeConv && (
@@ -113,6 +106,7 @@ const mapStateToProps = state => {
   return {
     user: state.user,
     conversations: state.conversations,
+    activeIndex: state.activeIndex,
     markers: state.markers,
   }
 }
