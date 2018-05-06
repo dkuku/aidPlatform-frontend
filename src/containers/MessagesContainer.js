@@ -70,9 +70,9 @@ export default class MessagesContainer extends Component {
     const { taskOwnerName, volunteerName, body } = this.state
     return (
       <React.Fragment>
-        <Header as="h3" dividing>
+        <Header as="h3">
           {`Conversation with ${volunteerName} `}
-          <Button negative onClick={this.handleDoneClick}>
+          <Button negative onClick={this.handleDoneClick} floated="right">
             Mark task done
           </Button>
         </Header>
