@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
-import { Form, Comment, Header } from 'semantic-ui-react'
+import { Form, Comment, Header, Button } from 'semantic-ui-react'
 import { Message } from 'components'
 
 export default class MessagesContainer extends Component {
@@ -46,6 +46,7 @@ export default class MessagesContainer extends Component {
       })
     this.setState({ body: '' })
   }
+  handleDoneClick = () => console.log('done clicked')
 
   componentWillMount() {
     const { id, task_id } = this.props.conversation
@@ -68,7 +69,12 @@ export default class MessagesContainer extends Component {
     return (
       <React.Fragment>
         <Comment.Group style={{ height: '700px', overflow: 'hidden', overflowY: 'scroll' }}>
-          <Header as="h3" dividing>{`Conversation with ${volunteerName}`}</Header>
+          <Header as="h3" dividing>
+            {`Conversation with ${volunteerName} `}
+            <Button negative onClick={this.handleDoneClick}>
+              Mark task done
+            </Button>
+          </Header>
           {this.state.messages.map(message => (
             <Message
               ref={message.id}
