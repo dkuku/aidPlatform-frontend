@@ -9,7 +9,7 @@ import * as TaskActions from 'actions/markers'
 import * as ApiActions from 'actions/apiActions'
 import * as ConversationsActions from 'actions/conversationsActions'
 import * as Active from 'actions/activeIndex'
-import { MarkerDisplay } from 'components'
+import { TaskDetails } from 'components'
 import { MessagesContainer } from 'containers'
 
 class VolunteerContainer extends Component {
@@ -60,7 +60,7 @@ class VolunteerContainer extends Component {
         <Grid.Row columns={2}>
           <Grid.Column>
             {!(this.props.markers.length === 1) && (
-              <MarkerDisplay marker={this.props.markers.filter(obj => obj.id == activeIndex)[0]} />
+              <TaskDetails marker={this.props.markers.filter(obj => obj.id == activeIndex)[0]} />
             )}
           </Grid.Column>
           <Grid.Column>
