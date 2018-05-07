@@ -1,5 +1,5 @@
 import React from 'react'
-import { MapContainer, LoginContainer, VolunteerContainer, SettingsContainer } from 'containers'
+import { MapContainer, LoginContainer, VolunteerContainer, SettingsContainer, HomeContainer } from 'containers'
 import { TopMenu, Footer, TaskForm, MainModal } from 'components'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
@@ -29,6 +29,7 @@ class Routes extends React.Component {
             <Route path="/add" component={TaskForm} />
             <Route path="/settings" component={SettingsContainer} />
             <Route path="/task/:id" component={VolunteerContainer} />
+            <Route path="/home" component={HomeContainer} />
             <Route path="/" component={MapContainer} />
           </Switch>
           <Footer />

@@ -1,5 +1,8 @@
 export { default as MessagesContainer } from './MessagesContainer'
 export { default as MapContainer } from './MapContainer'
+export { default as MobileContainer } from './MobileContainer'
+export { default as DesktopContainer } from './DesktopContainer'
+export { default as HomeContainer } from './HomeContainer'
 export { default as LoginContainer } from './LoginContainer'
 export { default as VolunteerContainer } from './VolunteerContainer'
 export { default as SettingsContainer } from './SettingsContainer'
