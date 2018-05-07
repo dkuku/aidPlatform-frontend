@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import Proptypes from 'prop-types'
 import { Menu } from 'semantic-ui-react'
@@ -8,9 +8,8 @@ import { createStructuredSelector, createSelector } from 'reselect'
 import * as UserActions from 'actions/user'
 import * as MarkerActions from 'actions/markers'
 import { ActionCableProvider } from 'react-actioncable-provider'
-import { Counter } from 'components'
 
-class TopMenu extends Component {
+class TopMenu extends PureComponent {
   render() {
     const isLoggedIn = Object.keys(this.props.user).length > 1 ? true : false
     const activeItem = 'login'
@@ -52,9 +51,6 @@ class TopMenu extends Component {
     )
     return (
       <Menu>
-        <ActionCableProvider url={'ws://localhost:3000/stats'}>
-          <Counter markers={this.props.markers} />
-        </ActionCableProvider>
         <Menu.Item
           name="Home"
           active={activeItem === 'home'}

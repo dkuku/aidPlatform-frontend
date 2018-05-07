@@ -1,4 +1,7 @@
-export { default as Counter } from './Counter'
+export { default as Stats } from './Stats'
+export { default as HomeHeading } from './HomeHeading'
+export { default as SuccessStories } from './SuccessStories'
+export { default as Story } from './Story'
 export { default as LoginPopup } from './LoginPopup'
 export { default as TopMenu } from './TopMenu'
 export { default as Footer } from './Footer'
