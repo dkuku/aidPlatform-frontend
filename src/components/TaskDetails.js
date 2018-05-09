@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { Item, Image, Icon, Button } from 'semantic-ui-react'
+import { FlickrPhoto } from 'components'
 import { Link } from 'react-router-dom'
 
 class TaskDetails extends PureComponent {
@@ -10,7 +11,7 @@ class TaskDetails extends PureComponent {
     return (
       <Item.Group>
         <Item>
-          <Item.Image size="medium" src="/images/bbq.jpeg" />
+          <FlickrPhoto tags={title} />
           <Item.Content>
             <Item.Header>{title}</Item.Header>
             <Item.Meta>
