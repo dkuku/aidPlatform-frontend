@@ -60,26 +60,3 @@ export function addTask(task, headers) {
       })
   }
 }
-
-export function getConversations(task) {
-  return function(dispatch) {
-    const url = process.env.REACT_APP_API
-    const path = `tasks/$(task)/conversations`
-    axios
-      .get(url + path)
-      .then(response => {
-        console.log(response)
-        dispatch({
-          type: 'GET_CONVERSATION',
-          payload: { conversations: response.data.data },
-        })
-      })
-      .catch(err => {
-        console.log(err)
-        dispatch({
-          type: 'GET_CONVERSATION_ERROR',
-          payload: err,
-        })
-      })
-  }
-}
