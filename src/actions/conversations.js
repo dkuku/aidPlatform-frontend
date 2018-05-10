@@ -78,3 +78,17 @@ export function createConversation(taskId, headers) {
       })
   }
 }
+export function sendMessage(id, body, headers) {
+  const url = process.env.REACT_APP_API
+  const path = `conversations/${id}`
+  const bodyForm = { message: { body: body } }
+  axios
+    .post(url + path, bodyForm, headers)
+    .then(response => {
+      this.setState({ messages: response.data.data.messages })
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  this.setState({ body: '' })
+}

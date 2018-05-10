@@ -9,12 +9,13 @@ const inlineStyle = {
 }
 class Message extends PureComponent {
   render() {
+    const { owner, author, message } = this.props
     return (
-      <Comment style={this.props.owner ? inlineStyle.owner : {}}>
-        <Comment.Avatar src={`https://robohash.org/${this.props.author}.png?size=50x50`} />
+      <Comment style={owner ? inlineStyle.owner : {}}>
+        <Comment.Avatar src={`https://robohash.org/${author}.png?size=50x50`} />
         <Comment.Content>
-          <Comment.Author>{this.props.author}</Comment.Author>
-          <Comment.Text>{this.props.message.body}</Comment.Text>
+          <Comment.Author>{author}</Comment.Author>
+          <Comment.Text>{message.body}</Comment.Text>
         </Comment.Content>
       </Comment>
     )

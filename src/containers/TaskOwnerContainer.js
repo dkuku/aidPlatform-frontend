@@ -64,40 +64,7 @@ class VolunteerContainer extends Component {
             )}
           </Grid.Column>
           <Grid.Column>
-            <Segment>
-              {this.props.conversations && this.props.conversations.length > 0 ? (
-                <Menu attached="top" tabular>
-                  {this.props.conversations.map(conversation => (
-                    <Menu.Item
-                      key={conversation.id}
-                      name={conversation.volunteer_name}
-                      active={this.state.activeConv === conversation.volunteer_name}
-                      onClick={this.handleItemClick}
-                    />
-                  ))}
-                </Menu>
-              ) : (
-                <Header>
-                  No conversation for this task.
-                  {!!marker && (
-                    <Button
-                      positive
-                      onClick={this.volunteerRequest}
-                      disabled={marker.done || marker.fulfiled_counter > 4}
-                      floated="right"
-                    >
-                      Volunteer
-                    </Button>
-                  )}
-                </Header>
-              )}
-              {this.props.conversations.map(
-                conversation =>
-                  conversation.volunteer_name === this.state.activeConv && (
-                    <MessagesContainer key={conversation.id} headers={this.state.headers} conversation={conversation} />
-                  )
-              )}
-            </Segment>
+            <MessagesContainer />
           </Grid.Column>
         </Grid.Row>
       </Grid>
