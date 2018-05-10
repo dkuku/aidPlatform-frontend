@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { GET_CONVERSATIONS, SET_MODAL_DATA } from '../constants/ActionTypes'
+import { GET_CONVERSATIONS, GET_MESSAGES, SET_MODAL_DATA } from '../constants/ActionTypes'
 
 const url = process.env.REACT_APP_API
 
@@ -20,6 +20,22 @@ export function getConversations(task, headers) {
           type: 'GET_CONVERSATIONS_ERROR',
           payload: err,
         })
+      })
+  }
+}
+export function getMessages(headers) {
+  return function(dispatch) {
+    const path = `messages`
+    axios
+      .get(url + path, headers)
+      .then(response => {
+        dispatch({
+          type: GET_MESSAGES,
+          payload: response.data.data.conversations,
+        })
+      })
+      .catch(err => {
+        console.log(err)
       })
   }
 }

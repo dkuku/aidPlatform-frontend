@@ -1,14 +1,8 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import { Grid, Menu, Header, Button, Segment } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import axios from 'axios'
-import * as UserActions from 'actions/user'
-import * as TaskActions from 'actions/markers'
-import * as ApiActions from 'actions/apiActions'
-import * as ConversationsActions from 'actions/conversationsActions'
-import * as Active from 'actions/activeIndex'
+import { updateActiveIndex, getConversations, getMarkers } from 'actions'
 import { TaskDetails } from 'components'
 import { MessagesContainer } from 'containers'
 
@@ -118,10 +112,7 @@ const mapStateToProps = state => {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    { ...TaskActions, ...UserActions, ...ApiActions, ...ConversationsActions, ...Active },
-    dispatch
-  )
+  return bindActionCreators({ updateActiveIndex, getMarkers, getConversations }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsContainer)

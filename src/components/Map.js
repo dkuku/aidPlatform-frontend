@@ -2,13 +2,8 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Marker, InfoWindow } from 'react-google-maps'
-import * as MarkersActions from 'actions/markers'
-import * as MapActions from 'actions/mapCoords'
-import * as Active from 'actions/activeIndex'
-import * as UserActions from 'actions/user'
-import MarkerDisplay from 'components/MarkerDisplay'
-import * as FilterActions from '../actions/filters'
-import { updateActiveIndex } from '../actions/activeIndex'
+import { MarkerDisplay } from 'components'
+import { updateActiveIndex, updateBounds, updateCenter } from 'actions'
 import GoogleMapsWrapper from './GoogleMapsWrapper.js'
 
 const GMAP_KEY = process.env.REACT_APP_GMAP_KEY
@@ -89,7 +84,7 @@ const mapStateToProps = state => ({
 })
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...FilterActions, ...MarkersActions, ...Active, ...MapActions }, dispatch)
+  return bindActionCreators({ updateBounds, updateCenter, updateActiveIndex }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapSearch)

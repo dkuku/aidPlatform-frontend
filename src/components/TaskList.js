@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
-import * as MarkersActions from 'actions/markers'
-import * as FilterActions from '../actions/filters'
-import * as Active from 'actions/activeIndex'
+import { getMarkers, updateActiveIndex } from 'actions'
 import { Accordion, Icon } from 'semantic-ui-react'
 import { MarkerDisplay } from 'components'
 
@@ -57,7 +55,7 @@ const mapStateToProps = state => ({
 })
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...FilterActions, ...MarkersActions, ...Active }, dispatch)
+  return bindActionCreators({ getMarkers, updateActiveIndex }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskList)

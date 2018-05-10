@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
-import * as MarkersActions from 'actions/markers'
-import * as ApiActions from 'actions/apiActions'
+import { getMarkers, addMarker } from 'actions'
 import { Grid } from 'semantic-ui-react'
 import { Map, TaskList, MapNav } from 'components'
 import { GeoLocation } from 'react-redux-geolocation'
@@ -41,7 +40,7 @@ const mapStateToProps = state => ({
 })
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...MarkersActions, ...ApiActions }, dispatch)
+  return bindActionCreators({ getMarkers, addMarker }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapContainer)

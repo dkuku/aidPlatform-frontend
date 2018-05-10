@@ -3,11 +3,12 @@ import PropTypes from 'prop-types'
 import { ActionCableProvider, ActionCable } from 'react-actioncable-provider'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import * as StatsActions from 'actions/stats.actions'
+import { getStats, updateStats } from 'actions'
 import { Stats } from 'components'
 
 class Footer extends Component {
   componentDidMount() {
+    console.log(this.props)
     this.props.getStats()
   }
 
@@ -44,7 +45,7 @@ const mapStateToProps = state => {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(StatsActions, dispatch)
+  return bindActionCreators({ getStats, updateStats }, dispatch)
 }
 Footer.propTypes = {
   stats: PropTypes.object.isRequired,

@@ -25,6 +25,7 @@ export const UPDATE_CENTER = 'UPDATE_CENTER'
 export const GET_MARKERS = 'GET_MARKERS'
 export const ADD_MARKER = 'ADD_MARKER'
 export const GET_CONVERSATIONS = 'GET_CONVERSATIONS'
+export const GET_MESSAGES = 'GET_MESSAGES'
 
 //Modal
 export const MODAL_OPEN = 'MODAL_OPEN'

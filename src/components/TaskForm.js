@@ -4,12 +4,7 @@ import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-au
 import Dropzone from 'react-dropzone'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import axios from 'axios'
-import { GeoLocation } from 'react-redux-geolocation'
-import GoogleMapsWrapper from './GoogleMapsWrapper.js'
-import * as UserActions from 'actions/user'
-import * as ApiActions from 'actions/apiActions'
-import * as ModalActions from 'actions/modal'
+import { addTask, updatePicture } from 'actions'
 
 const GMAP_KEY = process.env.REACT_APP_GMAP_KEY
 const inlineStyle = {
@@ -206,7 +201,7 @@ const mapStateToProps = state => {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...UserActions, ...ApiActions }, dispatch)
+  return bindActionCreators({ addTask, updatePicture }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskForm)
