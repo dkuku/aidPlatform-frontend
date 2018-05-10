@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
-import { Item, Image, Icon, Button } from 'semantic-ui-react'
-import { FlickrPhoto } from 'components'
+import { Item, Grid, Button } from 'semantic-ui-react'
+import { FlickrPhoto, TaskButtonsOwner } from 'components'
 import { Link } from 'react-router-dom'
 
 class TaskDetails extends PureComponent {
@@ -19,12 +19,10 @@ class TaskDetails extends PureComponent {
               <span>type: {task_type}</span>
             </Item.Meta>
             <Item.Description>{description}</Item.Description>
+            <Item.Extra>
+              <TaskButtonsOwner />
+            </Item.Extra>
           </Item.Content>
-          <Item.Extra>
-            <Button basic color={color}>
-              Mark Fulfiled
-            </Button>
-          </Item.Extra>
         </Item>
       </Item.Group>
     )

@@ -34,7 +34,9 @@ export default class FlickrPhoto extends Component {
 
   imageURL(item) {
     console.log(JSON.stringify(item))
-    return 'http://farm' + item.farm + '.staticflickr.com/' + item.server + '/' + item.id + '_' + item.secret + '.jpg'
+    return item
+      ? 'http://farm' + item.farm + '.staticflickr.com/' + item.server + '/' + item.id + '_' + item.secret + '.jpg'
+      : null
   }
 
   componentWillMount() {

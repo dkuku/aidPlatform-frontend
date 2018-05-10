@@ -1,9 +1,15 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { Grid, Menu, Header, Button, Segment } from 'semantic-ui-react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { updateActiveIndex, getConversations, getMarkers, createConversation } from 'actions'
-import { TaskDetails } from 'components'
+import axios from 'axios'
+import * as UserActions from 'actions/user'
+import * as TaskActions from 'actions/markers'
+import * as ApiActions from 'actions/apiActions'
+import * as ConversationsActions from 'actions/conversationsActions'
+import * as Active from 'actions/activeIndex'
+import { MarkerDisplay } from 'components'
 import { MessagesContainer } from 'containers'
 
 class VolunteerContainer extends Component {
@@ -54,7 +60,7 @@ class VolunteerContainer extends Component {
         <Grid.Row columns={2}>
           <Grid.Column>
             {!(this.props.markers.length === 1) && (
-              <TaskDetails marker={this.props.markers.filter(obj => obj.id == activeIndex)[0]} />
+              <MarkerDisplay marker={this.props.markers.filter(obj => obj.id == activeIndex)[0]} />
             )}
           </Grid.Column>
           <Grid.Column>
@@ -109,7 +115,10 @@ const mapStateToProps = state => {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateActiveIndex, getMarkers, getConversations, createConversation }, dispatch)
+  return bindActionCreators(
+    { ...TaskActions, ...UserActions, ...ApiActions, ...ConversationsActions, ...Active },
+    dispatch
+  )
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(VolunteerContainer)

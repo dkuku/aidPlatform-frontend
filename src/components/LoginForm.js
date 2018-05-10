@@ -3,10 +3,7 @@ import { Link, withRouter } from 'react-router-dom'
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import axios from 'axios'
-import * as UserActions from 'actions/user'
-import * as ModalActions from 'actions/modal'
-import * as StorageActions from 'actions/localStorage'
+import { login } from 'actions'
 
 class LoginForm extends Component {
   constructor(props) {
@@ -91,7 +88,7 @@ const mapStateToProps = state => {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...UserActions, ...ModalActions, ...StorageActions }, dispatch)
+  return bindActionCreators({ login }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LoginForm))
