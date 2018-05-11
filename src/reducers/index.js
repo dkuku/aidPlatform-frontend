@@ -9,6 +9,9 @@ import apiReducers from './apiReducers'
 import modal from './modal'
 import conversations from './conversations'
 import stats from './stats'
+import headers from './headers'
+import messages from './messages'
+import currentTask from './currentTask'
 
 const rootReducer = combineReducers({
   markers,
@@ -21,5 +24,9 @@ const rootReducer = combineReducers({
   modal,
   conversations,
   stats,
+  headers,
+  messages,
+  currentTask,
 })
+
 export default rootReducer

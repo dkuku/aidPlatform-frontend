@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { updateActiveIndex, getConversations, getMarkers } from 'actions'
 import { TaskDetails } from 'components'
-import { MessagesContainer } from 'containers'
+import { ConversationsContainer } from 'containers'
 
 class SettingsContainer extends Component {
   constructor(props) {
@@ -33,15 +33,13 @@ class SettingsContainer extends Component {
 
   render() {
     return (
-      <Grid divided="vertically">
-        <Grid.Row columns={2}>
-          <Grid.Column>
-            {this.state.userMarkers.map(marker => <TaskDetails key={marker.id} marker={marker} />)}
-          </Grid.Column>
-          <Grid.Column>
-            <MessagesContainer />
-          </Grid.Column>
-        </Grid.Row>
+      <Grid stackable columns={2}>
+        <Grid.Column>
+          {this.state.userMarkers.map(marker => <TaskDetails key={marker.id} marker={marker} />)}
+        </Grid.Column>
+        <Grid.Column>
+          <ConversationsContainer />
+        </Grid.Column>
       </Grid>
     )
   }

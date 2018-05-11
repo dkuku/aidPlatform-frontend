@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { updateActiveIndex, getConversations, getMarkers, createConversation } from 'actions'
 import { TaskDetails } from 'components'
-import { MessagesContainer } from 'containers'
+import { ConversationsContainer } from 'containers'
 
 class VolunteerContainer extends Component {
   constructor(props) {
@@ -30,17 +30,15 @@ class VolunteerContainer extends Component {
     const marker = this.props.markers.filter(obj => obj.id == activeIndex)[0]
     var name
     return (
-      <Grid divided="vertically">
-        <Grid.Row columns={2}>
-          <Grid.Column>
-            {!(this.props.markers.length === 1) && (
-              <TaskDetails marker={this.props.markers.filter(obj => obj.id == activeIndex)[0]} />
-            )}
-          </Grid.Column>
-          <Grid.Column>
-            <MessagesContainer />
-          </Grid.Column>
-        </Grid.Row>
+      <Grid stackable columns={2}>
+        <Grid.Column>
+          {!(this.props.markers.length === 1) && (
+            <TaskDetails marker={this.props.markers.filter(obj => obj.id == activeIndex)[0]} />
+          )}
+        </Grid.Column>
+        <Grid.Column>
+          <ConversationsContainer />
+        </Grid.Column>
       </Grid>
     )
   }

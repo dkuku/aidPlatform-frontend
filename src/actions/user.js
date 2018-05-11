@@ -1,5 +1,13 @@
-import { LOGIN, SIGNUP, LOGOUT, LOGIN_ERROR, SIGNUP_ERROR, SET_MODAL_DATA } from 'constants/ActionTypes'
-import { createAction, dispatch } from 'redux-actions'
+import {
+  LOGIN,
+  SIGNUP,
+  LOGOUT,
+  LOGIN_ERROR,
+  GENERATE_HEADER,
+  SIGNUP_ERROR,
+  SET_MODAL_DATA,
+} from 'constants/ActionTypes'
+import { createAction } from 'redux-actions'
 import axios from 'axios/index'
 
 const url = process.env.REACT_APP_API
@@ -14,7 +22,6 @@ export function login(form) {
         if (response.status === 200) {
           console.log(response.data.data.user)
           localStorage.setItem('user', JSON.stringify(response.data.data.user))
-
           dispatch({
             type: LOGIN,
             payload: response.data.data,

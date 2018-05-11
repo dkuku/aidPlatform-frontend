@@ -5,13 +5,16 @@ const url = process.env.REACT_APP_API
 
 export function getConversations(task, headers) {
   return function(dispatch) {
+    console.log('task:', task)
     const path = `tasks/${task}`
     axios
       .get(url + path, headers)
       .then(response => {
+        console.log(response)
+        const path = `tasks/${task}`
         dispatch({
           type: GET_CONVERSATIONS,
-          payload: response.data.data.conversations,
+          payload: response.data.data,
         })
       })
       .catch(err => {
@@ -31,7 +34,7 @@ export function getMessages(headers) {
       .then(response => {
         dispatch({
           type: GET_MESSAGES,
-          payload: response.data.data.conversations,
+          payload: response.data.data.messages,
         })
       })
       .catch(err => {
@@ -51,7 +54,7 @@ export function createConversation(taskId, headers) {
           console.log(response.data.data)
           dispatch({
             type: GET_CONVERSATIONS,
-            payload: response.data.data.conversations,
+            payload: response.data.data,
           })
           dispatch({
             type: SET_MODAL_DATA,
@@ -90,5 +93,4 @@ export function sendMessage(id, body, headers) {
     .catch(err => {
       console.log(err)
     })
-  this.setState({ body: '' })
 }

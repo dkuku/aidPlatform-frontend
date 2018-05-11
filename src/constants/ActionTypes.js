@@ -16,6 +16,7 @@ export const LOGOUT = 'LOGOUT'
 export const SIGNUP = 'SIGNUP'
 export const LOGIN_ERROR = 'LOGIN_ERROR'
 export const SIGNUP_ERROR = 'SIGNUP_ERROR'
+export const GENERATE_HEADER = 'GENERATE_HEADER'
 
 //Map
 export const UPDATE_BOUNDS = 'UPDATE_BOUNDS'

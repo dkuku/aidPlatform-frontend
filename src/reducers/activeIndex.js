@@ -1,6 +1,6 @@
 import { ACTIVE_INDEX } from 'constants/ActionTypes'
 
-const initialActive = 3
+const initialActive = 1
 
 export default function activeIndex(state = initialActive, action) {
   switch (action.type) {

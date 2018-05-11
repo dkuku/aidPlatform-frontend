@@ -33,7 +33,6 @@ export default class FlickrPhoto extends Component {
   }
 
   imageURL(item) {
-    console.log(JSON.stringify(item))
     return item
       ? 'http://farm' + item.farm + '.staticflickr.com/' + item.server + '/' + item.id + '_' + item.secret + '.jpg'
       : 'images/no-photo-grey.png'
