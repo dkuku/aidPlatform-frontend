@@ -12,20 +12,20 @@ class ConversationsContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      activeIndex: this.props.match.params.id,
+      activeIndex: Number(this.props.match.params.id),
       body: '',
       message: this.props.messages.filter(message => message.conversation_id === this.props.activeIndex),
       conversation: this.props.conversations.filter(conv => conv.task_id == this.props.activeIndex)[0]
         ? this.props.conversations.filter(conv => conv.id == this.props.activeIndex)[0]
-        : null,
+        : [],
       owner: this.props.markers.filter(task => task.id === this.props.activeIndex)[0].user_id === this.props.user.id,
     }
   }
 
   componentWillReceiveProps() {
     this.setState({
-      conversation: this.props.conversations.filter(conv => conv.task_id == this.state.activeIndex)[0]
-        ? this.props.conversations.filter(conv => conv.id == this.props.activeIndex)[0]
+      conversation: this.props.conversations.filter(conv => conv.task_id == this.props.activeIndex)[0]
+        ? this.props.conversations.filter(conv => conv.task_id == this.props.activeIndex)[0]
         : null,
     })
     this.setState({
@@ -34,7 +34,10 @@ class ConversationsContainer extends Component {
   }
 
   componentDidMount() {
-    console.log(this.state)
+    /*!(this.props.activeIndex === this.state.activeIndex)? this.props.updateActiveIndex(this.state.activeIndex):null
+    */ console.log(
+      this.state
+    )
     this.props.getConversations(this.state.activeIndex, this.props.headers)
     this.props.getMessages(this.props.headers)
   }
@@ -43,24 +46,24 @@ class ConversationsContainer extends Component {
 
   handleSendMessage = () => {
     const id = this.props.activeIndex
-    sendMessage(id, this.state.body, this.props.headers)
+    this.props.sendMessage(id, this.state.body, this.props.headers)
   }
 
   handleDoneClick = () => console.log('done clicked')
 
   renderContent() {
-    const { owner, body, message, conversations } = this.state
-    if (!this.state.conversations) {
+    const { owner, body, message, conversation } = this.state
+    if (!this.state.conversation) {
       return <h1>Loading ...</h1>
     }
     return (
       <React.Fragment>
-        {owner ? <TaskOwnerConvHeader /> : <VolunteerConvHeader name={conversations.task_owner_name} />}
+        {owner ? <TaskOwnerConvHeader /> : <VolunteerConvHeader name={conversation.task_owner_name} />}
 
         <MessagesContainer
           messages={message}
-          taskOwnerName={conversations.task_owner_name}
-          volunteerName={conversations.volunteer_name}
+          taskOwnerName={conversation.task_owner_name}
+          volunteerName={conversation.volunteer_name}
         />
         <Form reply onSubmit={this.handleSendMessage}>
           <Form.Group>

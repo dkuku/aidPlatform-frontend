@@ -25,6 +25,10 @@ class VolunteerContainer extends Component {
   componentDidMount() {}
   volunteerRequest = () => this.props.createConversation(this.state.activeIndex, this.state.headers)
 
+  onTaskSelect = selectedTask => {
+    this.setState({ activeIndex: selectedTask })
+    this.props.updateActiveIndex(selectedTask)
+  }
   render() {
     const { activeIndex } = this.state
     const marker = this.props.markers.filter(obj => obj.id == activeIndex)[0]
@@ -33,7 +37,10 @@ class VolunteerContainer extends Component {
       <Grid stackable columns={2}>
         <Grid.Column>
           {!(this.props.markers.length === 1) && (
-            <TaskDetails marker={this.props.markers.filter(obj => obj.id == activeIndex)[0]} />
+            <TaskDetails
+              marker={this.props.markers.filter(obj => obj.id == activeIndex)[0]}
+              onTaskSelect={this.onTaskSelect}
+            />
           )}
         </Grid.Column>
         <Grid.Column>

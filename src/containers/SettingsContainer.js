@@ -12,8 +12,8 @@ class SettingsContainer extends Component {
     this.handleItemClick = this.handleItemClick.bind(this)
     this.state = {
       headers: { headers: { 'AUTH-TOKEN': this.props.user.authentication_token } },
+      activeIndex: this.props.activeIndex,
       activeConv: null,
-      activeIndex: this.props.match.params.id,
       userMarkers: this.props.markers.filter(marker => marker.user_id == this.props.user.id),
     }
   }
@@ -30,12 +30,23 @@ class SettingsContainer extends Component {
     e.preventDefault()
     this.setState({ activeConv: name })
   }
+  onTaskSelect = selectedTask => {
+    this.setState({ activeIndex: selectedTask })
+    this.props.updateActiveIndex(selectedTask)
+  }
 
   render() {
     return (
       <Grid stackable columns={2}>
         <Grid.Column>
-          {this.state.userMarkers.map(marker => <TaskDetails key={marker.id} marker={marker} />)}
+          {this.state.userMarkers.map(marker => (
+            <TaskDetails
+              key={marker.id}
+              marker={marker}
+              onTaskSelect={this.onTaskSelect}
+              activeIndex={this.state.activeIndex}
+            />
+          ))}
         </Grid.Column>
         <Grid.Column>
           <ConversationsContainer />

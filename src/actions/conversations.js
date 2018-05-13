@@ -85,12 +85,17 @@ export function sendMessage(id, body, headers) {
   const url = process.env.REACT_APP_API
   const path = `conversations/${id}`
   const bodyForm = { message: { body: body } }
-  axios
-    .post(url + path, bodyForm, headers)
-    .then(response => {
-      this.setState({ messages: response.data.data.messages })
-    })
-    .catch(err => {
-      console.log(err)
-    })
+  return function(dispatch) {
+    axios
+      .post(url + path, bodyForm, headers)
+      .then(response => {
+        dispatch({
+          type: GET_MESSAGES,
+          payload: response.data.data.messages,
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 }
