@@ -3,7 +3,7 @@ import { Grid } from 'semantic-ui-react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { updateActiveIndex, getConversations, getMarkers } from 'actions'
-import { TaskDetails } from 'components'
+import { TaskDetails, TaskButtonsOwner } from 'components'
 import { ConversationsContainer } from 'containers'
 
 class SettingsContainer extends Component {
@@ -18,6 +18,11 @@ class SettingsContainer extends Component {
     }
   }
 
+  componentWillReceiveProps() {
+    this.setState({
+      userMarkers: this.props.markers.filter(marker => marker.user_id == this.props.user.id),
+    })
+  }
   componentWillMount() {
     if (this.props.markers.length === 1) {
       this.props.getMarkers()
@@ -40,12 +45,15 @@ class SettingsContainer extends Component {
       <Grid stackable columns={2}>
         <Grid.Column>
           {this.state.userMarkers.map(marker => (
-            <TaskDetails
-              key={marker.id}
-              marker={marker}
-              onTaskSelect={this.onTaskSelect}
-              activeIndex={this.state.activeIndex}
-            />
+            <React.Fragment>
+              <TaskDetails
+                key={marker.id}
+                marker={marker}
+                onTaskSelect={this.onTaskSelect}
+                activeIndex={this.state.activeIndex}
+              />
+              <TaskButtonsOwner />
+            </React.Fragment>
           ))}
         </Grid.Column>
         <Grid.Column>

@@ -5,13 +5,20 @@ import { FlickrPhoto, TaskButtonsOwner } from 'components'
 class TaskDetails extends PureComponent {
   render() {
     const { title, id, task_type, description, done, fulfilment_counter, user_id } = this.props.marker
-    console.log(this.props)
-    const active = id === this.props.activeIndex ? { border: '1px solid black' } : null
+
+    const active = id === this.props.activeIndex
+    const activeItem = active
+      ? {
+          padding: '1rem',
+          borderRadius: '0.3rem',
+          boxShadow: '0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5',
+        }
+      : { padding: '1rem' }
     const color = task_type === 'material' ? 'blue' : 'green'
 
     return (
       <Item.Group onClick={this.props.onTaskSelect.bind(null, id)}>
-        <Item style={active}>
+        <Item style={activeItem}>
           <FlickrPhoto tags={title} />
           <Item.Content>
             <Item.Header>{title}</Item.Header>
@@ -20,9 +27,6 @@ class TaskDetails extends PureComponent {
               <span>type: {task_type}</span>
             </Item.Meta>
             <Item.Description>{description}</Item.Description>
-            <Item.Extra>
-              <TaskButtonsOwner />
-            </Item.Extra>
           </Item.Content>
         </Item>
       </Item.Group>

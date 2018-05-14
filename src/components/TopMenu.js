@@ -19,7 +19,7 @@ class TopMenu extends PureComponent {
           name="Add Task"
           active={activeItem === 'task'}
           onClick={() => {
-            this.props.history.push('/add')
+            this.props.history.push('/task')
           }}
         />
         <Menu.Item

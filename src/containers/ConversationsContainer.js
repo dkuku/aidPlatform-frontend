@@ -34,10 +34,8 @@ class ConversationsContainer extends Component {
   }
 
   componentDidMount() {
-    /*!(this.props.activeIndex === this.state.activeIndex)? this.props.updateActiveIndex(this.state.activeIndex):null
-    */ console.log(
-      this.state
-    )
+    !(this.props.activeIndex === this.state.activeIndex) ? this.props.updateActiveIndex(this.state.activeIndex) : null
+    console.log(this.state)
     this.props.getConversations(this.state.activeIndex, this.props.headers)
     this.props.getMessages(this.props.headers)
   }
