@@ -11,7 +11,6 @@ class VolunteerContainer extends Component {
     super(props)
     this.volunteerRequest = this.volunteerRequest.bind(this)
     this.state = {
-      headers: { headers: { 'AUTH-TOKEN': this.props.user.authentication_token } },
       activeConv: null,
       activeIndex: this.props.match.params.id,
     }
@@ -23,7 +22,7 @@ class VolunteerContainer extends Component {
     }
   }
   componentDidMount() {}
-  volunteerRequest = () => this.props.createConversation(this.state.activeIndex, this.state.headers)
+  volunteerRequest = () => this.props.createConversation(this.state.activeIndex, this.props.headers)
 
   onTaskSelect = selectedTask => {
     this.setState({ activeIndex: selectedTask })
@@ -54,6 +53,7 @@ class VolunteerContainer extends Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
+    headers: state.headers,
     conversations: state.conversations,
     activeIndex: state.activeIndex,
     markers: state.markers,

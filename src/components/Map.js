@@ -54,6 +54,7 @@ class MapSearch extends Component {
         onBoundsChanged={this.state.onBoundsChanged}
       >
         {markers
+          .filter(marker => (!user.id ? true : marker.user_id !== user.id))
           .filter(marker => ('all' == filters.type ? true : marker.task_type == filters.type))
           .filter(marker => new Date(marker.created_at) > new Date(filters.startDate))
 

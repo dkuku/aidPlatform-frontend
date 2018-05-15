@@ -4,6 +4,7 @@ import { GET_CONVERSATIONS, GET_MESSAGES, SET_MODAL_DATA } from '../constants/Ac
 const url = process.env.REACT_APP_API
 
 export function getConversations(task, headers) {
+  console.log(headers)
   return function(dispatch) {
     console.log('task:', task)
     const path = `tasks/${task}`
@@ -11,7 +12,6 @@ export function getConversations(task, headers) {
       .get(url + path, headers)
       .then(response => {
         console.log(response)
-        const path = `tasks/${task}`
         dispatch({
           type: GET_CONVERSATIONS,
           payload: response.data.data,
@@ -35,7 +35,7 @@ export function getMessages(headers) {
         console.log(response)
         dispatch({
           type: GET_MESSAGES,
-          payload: response.data.data.messages,
+          payload: response.data.data,
         })
       })
       .catch(err => {

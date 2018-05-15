@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
-import { Form } from 'semantic-ui-react'
-import axios from 'axios'
-import { ConversationHeaderContainer, MessagesContainer } from 'containers'
+import { Form, Comment, Header, Button } from 'semantic-ui-react'
+import { Message, VolunteerConvHeader, TaskOwnerConvHeader } from 'components'
+import { MessagesContainer } from 'containers'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { updateActiveIndex, getConversations, getMessages, sendMessage } from 'actions'
@@ -15,18 +15,30 @@ class ConversationsContainer extends Component {
       activeIndex: Number(this.props.match.params.id),
       activeConv: null,
       body: '',
-      task: {},
-      conversations: [],
-      messages: [],
+      conversationMessages: this.props.messages.filter(message => message.task_id == this.props.activeIndex),
+      taskConversation: this.props.conversations.filter(conv => conv.task_id == this.props.activeIndex)
+        ? this.props.conversations.filter(conv => conv.task_id == this.props.activeIndex)
+        : [],
+      owner: this.props.markers.filter(task => task.id == this.props.activeIndex)[0].user_id === this.props.user.id,
     }
   }
 
-  componentWillMount() {
-    this.props.getConversations(this.state.activeIndex, this.props.headers)
+  componentWillReceiveProps() {
+    console.log(this.props)
+    this.setState({
+      taskConversation: this.props.conversations.filter(conv => conv.task_id == this.props.activeIndex),
+      conversationMessages: this.props.messages.filter(message => message.task_id == this.props.activeIndex),
+    })
+    console.log(this.state)
   }
+
   componentDidMount() {
-    this.props.activeIndex !== this.state.activeIndex ? this.props.updateActiveIndex(this.state.activeIndex) : null
+    !(this.props.activeIndex === this.state.activeIndex) ? this.props.updateActiveIndex(this.state.activeIndex) : null
+    this.props.getConversations(this.state.activeIndex, this.props.headers)
+    this.props.getMessages(this.props.headers)
   }
+
+  handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
   handleSendMessage = () => {
     const id = this.props.activeIndex
@@ -41,19 +53,26 @@ class ConversationsContainer extends Component {
   }
 
   renderContent() {
-    console.log(this.state)
     const { owner, body, conversationMessages, taskConversation } = this.state
-    if ((this.props.conversations.length = 0)) {
+    if (!this.state.taskConversation) {
       return <h1>Loading ...</h1>
     }
     return (
       <React.Fragment>
-        <ConversationHeaderContainer handleDoneClick={this.handleDoneClick} conversations={this.props.conversations} />
+        {owner ? (
+          <TaskOwnerConvHeader
+            handleItemClick={this.handleItemClick}
+            activeConv={this.state.activeConv}
+            conversations={taskConversation}
+          />
+        ) : (
+          <VolunteerConvHeader handleDoneClick={this.handleDoneClick} name={taskConversation.task_owner_name} />
+        )}
 
         <MessagesContainer
-          messages={this.props.messages}
-          taskOwnerName={this.props.conversations.task_owner_name}
-          volunteerName={this.props.conversations.volunteer_name}
+          messages={conversationMessages}
+          taskOwnerName={taskConversation.task_owner_name}
+          volunteerName={taskConversation.volunteer_name}
         />
         <Form reply onSubmit={this.handleSendMessage}>
           <Form.Group>

@@ -25,13 +25,15 @@ class TaskList extends Component {
 
   render() {
     //const {markers} = this.props
-    const { activeIndex, markers } = this.props
+    const { activeIndex, markers, user } = this.props
     const filters = this.props.filters || { type: 'all' }
     const created_at = this.props.filters || { startDate: new Date() }
+    console.log(this.props)
     return (
       <Accordion styled style={{ height: '700px', overflow: 'hidden', overflowY: 'scroll' }}>
         {markers
-          .filter(marker => ('all' == filters.type ? true : marker.task_type == filters.type))
+          .filter(marker => (!user.id ? true : marker.user_id !== user.id))
+          .filter(marker => ('all' === filters.type ? true : marker.task_type === filters.type))
           .filter(marker => new Date(marker.created_at) > new Date(filters.startDate))
           .map(marker => (
             <div ref={marker.id} key={marker.id}>
@@ -52,6 +54,7 @@ const mapStateToProps = state => ({
   markers: state.markers,
   activeIndex: state.activeIndex,
   filters: state.filters,
+  user: state.user,
 })
 
 function mapDispatchToProps(dispatch) {
