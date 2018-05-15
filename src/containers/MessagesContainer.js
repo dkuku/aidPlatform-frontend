@@ -3,7 +3,7 @@ import { Button, Header, Comment, Form } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { Message } from 'components'
 
-class VolunteerConvHeader extends Component {
+class MessagesContainer extends Component {
   componentDidMount() {
     console.log(this.props)
     this.scrollToBottom()
@@ -43,4 +43,4 @@ class VolunteerConvHeader extends Component {
   }
 }
 
-export default VolunteerConvHeader
+export default MessagesContainer

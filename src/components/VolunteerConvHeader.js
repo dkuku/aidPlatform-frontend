@@ -7,7 +7,7 @@ class VolunteerConvHeader extends PureComponent {
     return (
       <Header as="h3">
         {`Conversation with ${this.props.name} `}
-        <Button negative onClick={this.handleDoneClick} floated="right">
+        <Button negative onClick={this.props.handleDoneClick.bind(this)} floated="right">
           Mark task done
         </Button>
       </Header>

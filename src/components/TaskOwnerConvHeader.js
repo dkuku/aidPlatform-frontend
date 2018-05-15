@@ -1,17 +1,27 @@
-import React, { PureComponent } from 'react'
-import { Button } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
+import React, { Component } from 'react'
+import { Menu, Header, Button } from 'semantic-ui-react'
 
-class TaskOwnerConvHeader extends PureComponent {
+export default class TaskOwnerConvHeader extends Component {
   render() {
-    return (
-      <Button.Group>
-        <Button>One</Button>
-        <Button>Two</Button>
-        <Button>Three</Button>
-      </Button.Group>
+    console.log(this.props)
+    const menuPlaceholder = !!this.props.conversations ? (
+      <Menu attached="top" tabular>
+        {this.props.conversations.map(conversation => (
+          <Menu.Item
+            key={conversation.id}
+            name={conversation.volunteer_name}
+            active={this.props.activeConv === conversation.volunteer_name}
+            onClick={this.props.handleItemClick.bind(this)}
+          />
+        ))}
+      </Menu>
+    ) : (
+      <Header>
+        No conversation for this task
+        <Button>Volunteer</Button>
+      </Header>
     )
+
+    return <React.Fragment>{menuPlaceholder}</React.Fragment>
   }
 }
-
-export default TaskOwnerConvHeader

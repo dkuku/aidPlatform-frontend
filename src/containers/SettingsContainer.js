@@ -31,10 +31,6 @@ class SettingsContainer extends Component {
 
   componentDidMount() {}
 
-  handleItemClick(e, { name }) {
-    e.preventDefault()
-    this.setState({ activeConv: name })
-  }
   onTaskSelect = selectedTask => {
     this.setState({ activeIndex: selectedTask })
     this.props.updateActiveIndex(selectedTask)

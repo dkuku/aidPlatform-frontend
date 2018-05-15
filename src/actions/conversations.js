@@ -32,6 +32,7 @@ export function getMessages(headers) {
     axios
       .get(url + path, headers)
       .then(response => {
+        console.log(response)
         dispatch({
           type: GET_MESSAGES,
           payload: response.data.data.messages,

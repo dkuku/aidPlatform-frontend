@@ -26,7 +26,6 @@ class Routes extends React.Component {
           <MainModal />
           <Switch>
             <Route path="/login" component={LoginContainer} />
-            <Route path="/settings/:id" component={SettingsContainer} />
             <Route path="/settings" component={SettingsContainer} />
             <Route path="/task/:id" component={VolunteerContainer} />
             <Route path="/task" component={TaskForm} />

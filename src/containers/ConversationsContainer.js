@@ -13,29 +13,27 @@ class ConversationsContainer extends Component {
     super(props)
     this.state = {
       activeIndex: Number(this.props.match.params.id),
+      activeConv: null,
       body: '',
-      message: this.props.messages.filter(message => message.conversation_id === this.props.activeIndex),
-      conversation: this.props.conversations.filter(conv => conv.task_id == this.props.activeIndex)[0]
-        ? this.props.conversations.filter(conv => conv.id == this.props.activeIndex)[0]
+      conversationMessages: this.props.messages.filter(message => message.task_id == this.props.activeIndex),
+      taskConversation: this.props.conversations.filter(conv => conv.task_id == this.props.activeIndex)
+        ? this.props.conversations.filter(conv => conv.task_id == this.props.activeIndex)
         : [],
-      owner: this.props.markers.filter(task => task.id === this.props.activeIndex)[0].user_id === this.props.user.id,
+      owner: this.props.markers.filter(task => task.id == this.props.activeIndex)[0].user_id === this.props.user.id,
     }
   }
 
   componentWillReceiveProps() {
+    console.log(this.props)
     this.setState({
-      conversation: this.props.conversations.filter(conv => conv.task_id == this.props.activeIndex)[0]
-        ? this.props.conversations.filter(conv => conv.task_id == this.props.activeIndex)[0]
-        : null,
+      taskConversation: this.props.conversations.filter(conv => conv.task_id == this.props.activeIndex),
+      conversationMessages: this.props.messages.filter(message => message.task_id == this.props.activeIndex),
     })
-    this.setState({
-      message: this.props.messages.filter(message => message.conversation_id === this.props.activeIndex),
-    })
+    console.log(this.state)
   }
 
   componentDidMount() {
     !(this.props.activeIndex === this.state.activeIndex) ? this.props.updateActiveIndex(this.state.activeIndex) : null
-    console.log(this.state)
     this.props.getConversations(this.state.activeIndex, this.props.headers)
     this.props.getMessages(this.props.headers)
   }
@@ -49,19 +47,32 @@ class ConversationsContainer extends Component {
 
   handleDoneClick = () => console.log('done clicked')
 
+  handleItemClick = (e, { name }) => {
+    this.setState({ activeConv: name })
+    console.log(name)
+  }
+
   renderContent() {
-    const { owner, body, message, conversation } = this.state
-    if (!this.state.conversation) {
+    const { owner, body, conversationMessages, taskConversation } = this.state
+    if (!this.state.taskConversation) {
       return <h1>Loading ...</h1>
     }
     return (
       <React.Fragment>
-        {owner ? <TaskOwnerConvHeader /> : <VolunteerConvHeader name={conversation.task_owner_name} />}
+        {owner ? (
+          <TaskOwnerConvHeader
+            handleItemClick={this.handleItemClick}
+            activeConv={this.state.activeConv}
+            conversations={taskConversation}
+          />
+        ) : (
+          <VolunteerConvHeader handleDoneClick={this.handleDoneClick} name={taskConversation.task_owner_name} />
+        )}
 
         <MessagesContainer
-          messages={message}
-          taskOwnerName={conversation.task_owner_name}
-          volunteerName={conversation.volunteer_name}
+          messages={conversationMessages}
+          taskOwnerName={taskConversation.task_owner_name}
+          volunteerName={taskConversation.volunteer_name}
         />
         <Form reply onSubmit={this.handleSendMessage}>
           <Form.Group>
@@ -76,16 +87,14 @@ class ConversationsContainer extends Component {
     return <React.Fragment>{this.renderContent()}</React.Fragment>
   }
 }
-const mapStateToProps = state => {
-  return {
-    user: state.user,
-    activeIndex: state.activeIndex,
-    conversations: state.conversations,
-    messages: state.messages,
-    headers: state.headers,
-    markers: state.markers,
-  }
-}
+const mapStateToProps = state => ({
+  messages: state.messages,
+  user: state.user,
+  activeIndex: state.activeIndex,
+  conversations: state.conversations,
+  headers: state.headers,
+  markers: state.markers,
+})
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ updateActiveIndex, sendMessage, getConversations, getMessages }, dispatch)
