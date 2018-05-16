@@ -11,7 +11,7 @@ const markerDemo = [
   },
 ]
 
-export default function markers(state = markerDemo, action) {
+const markers = (state = markerDemo, action) => {
   switch (action.type) {
     case UPDATE_MARKERS:
       return action.payload.markers
@@ -34,3 +34,4 @@ export default function markers(state = markerDemo, action) {
       return state
   }
 }
+export default markers

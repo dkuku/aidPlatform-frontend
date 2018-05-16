@@ -14,7 +14,7 @@ class ConversationsContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      activeIndex: Number(this.props.match.params.id),
+      activeIndex: Number(this.props.id),
       activeConv: null,
       body: '',
       task: {},
@@ -25,7 +25,10 @@ class ConversationsContainer extends Component {
 
   componentWillMount() {
     /*this.props.getConversations(this.state.activeIndex, this.props.headers)*/
-    axios.get(`${url}tasks/${this.state.activeIndex}`, this.props.headers).then(response => {
+  }
+  componentDidMount() {
+    this.props.activeIndex !== this.state.activeIndex ? this.props.updateActiveIndex(this.state.activeIndex) : null
+    axios.get(`${url}tasks/${this.props.id}`, this.props.headers).then(response => {
       console.log(response)
       this.setState({
         conversations: response.data.data.conversations,
@@ -33,9 +36,6 @@ class ConversationsContainer extends Component {
         task: response.data.data.task,
       })
     })
-  }
-  componentDidMount() {
-    this.props.activeIndex !== this.state.activeIndex ? this.props.updateActiveIndex(this.state.activeIndex) : null
   }
 
   handleSendMessage = () => {
@@ -54,6 +54,7 @@ class ConversationsContainer extends Component {
     }
     return (
       <React.Fragment>
+        {JSON.stringify(this.props.id)}
         <ConversationHeaderContainer
           handleVolunteer={this.handleVolunteer}
           handleDoneClick={this.handleDoneClick}

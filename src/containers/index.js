@@ -1,4 +1,5 @@
 export { default as ConversationsContainer } from './ConversationsContainer'
+export { default as UserConversationsContainer } from './UserConversationsContainer'
 export { default as MapContainer } from './MapContainer'
 export { default as MobileContainer } from './MobileContainer'
 export { default as DesktopContainer } from './DesktopContainer'

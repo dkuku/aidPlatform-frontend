@@ -52,7 +52,6 @@ export function createConversation(taskId, headers) {
       .then(response => {
         console.log(response)
         if (response.status === 200) {
-          console.log(response.data.data)
           dispatch({
             type: GET_CONVERSATIONS,
             payload: response.data.data,
@@ -90,9 +89,10 @@ export function sendMessage(id, body, headers) {
     axios
       .post(url + path, bodyForm, headers)
       .then(response => {
+        console.log(response.data.data)
         dispatch({
           type: GET_MESSAGES,
-          payload: response.data.data.messages,
+          payload: response.data.data,
         })
       })
       .catch(err => {

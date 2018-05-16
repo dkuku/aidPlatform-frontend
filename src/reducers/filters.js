@@ -12,16 +12,15 @@ function filters(state = filtersReducerDefaultState, action) {
   switch (action.type) {
     case SET_FILTER_TYPE:
       console.log(action.payload)
-      return {
-        ...state,
-        type: action.payload,
-      }
+      return action.payload
+
     case SET_FILTER_DATE:
       console.log(action.payload)
       return {
         ...state,
         startDate: new Date(Date.now() - Number(action.payload) * days),
       }
+
     default:
       return state
   }

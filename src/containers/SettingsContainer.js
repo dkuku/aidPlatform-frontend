@@ -4,12 +4,13 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { updateActiveIndex, getConversations, getMarkers } from 'actions'
 import { TaskDetails, TaskButtonsOwner } from 'components'
-import { ConversationsContainer } from 'containers'
+import { UserConversationsContainer } from 'containers'
+
+const url = process.env.REACT_APP_API
 
 class SettingsContainer extends Component {
   constructor(props) {
     super(props)
-    this.handleItemClick = this.handleItemClick.bind(this)
     this.state = {
       headers: { headers: { 'AUTH-TOKEN': this.props.user.authentication_token } },
       activeIndex: this.props.activeIndex,
@@ -41,19 +42,14 @@ class SettingsContainer extends Component {
       <Grid stackable columns={2}>
         <Grid.Column>
           {this.state.userMarkers.map(marker => (
-            <React.Fragment>
-              <TaskDetails
-                key={marker.id}
-                marker={marker}
-                onTaskSelect={this.onTaskSelect}
-                activeIndex={this.state.activeIndex}
-              />
+            <React.Fragment key={marker.id}>
+              <TaskDetails marker={marker} onTaskSelect={this.onTaskSelect} activeIndex={this.state.activeIndex} />
               <TaskButtonsOwner />
             </React.Fragment>
           ))}
         </Grid.Column>
         <Grid.Column>
-          <ConversationsContainer />
+          <UserConversationsContainer id={String(this.state.activeIndex)} />
         </Grid.Column>
       </Grid>
     )
@@ -62,6 +58,7 @@ class SettingsContainer extends Component {
 
 const mapStateToProps = state => {
   return {
+    headers: state.headers,
     user: state.user,
     activeIndex: state.activeIndex,
     markers: state.markers,

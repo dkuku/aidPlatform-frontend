@@ -5,7 +5,7 @@ const initialHeader =
     ? {}
     : { headers: { 'AUTH-TOKEN': JSON.parse(localStorage.getItem('user')).authentication_token } }
 
-export default function headers(state = initialHeader, action) {
+const headers = (state = initialHeader, action) => {
   switch (action.type) {
     case SIGNUP:
       console.log(action)
@@ -13,11 +13,9 @@ export default function headers(state = initialHeader, action) {
     case LOGIN:
       console.log('login')
       return { headers: { 'AUTH-TOKEN': action.payload.user.authentication_token } }
-      return action.payload.user
-    case LOGOUT:
-      console.log('logout')
-      return {}
     default:
       return state
   }
 }
+
+export default headers
