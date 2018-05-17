@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { GET_CONVERSATIONS, GET_MESSAGES, SET_MODAL_DATA } from '../constants/ActionTypes'
+import { GET_CONVERSATIONS, ADD_CONVERSATION, GET_MESSAGES, SET_MODAL_DATA } from '../constants/ActionTypes'
 
 const url = process.env.REACT_APP_API
 
@@ -53,7 +53,7 @@ export function createConversation(taskId, headers) {
         console.log(response)
         if (response.status === 200) {
           dispatch({
-            type: GET_CONVERSATIONS,
+            type: ADD_CONVERSATION,
             payload: response.data.data,
           })
           dispatch({

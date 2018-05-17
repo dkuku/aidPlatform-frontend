@@ -5,7 +5,6 @@ import user from './user'
 import activeIndex from './activeIndex'
 import position from './position'
 import mapCoords from './mapCoords'
-import apiReducers from './apiReducers'
 import modal from './modal'
 import conversations from './conversations'
 import stats from './stats'
@@ -20,7 +19,6 @@ const rootReducer = combineReducers({
   activeIndex,
   position,
   mapCoords,
-  apiReducers,
   modal,
   conversations,
   stats,

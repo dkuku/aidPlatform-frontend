@@ -1,5 +1,6 @@
 //Markers
 export const UPDATE_MARKERS = 'UPDATE_MARKERS'
+export const UPDATE_MARKER = 'UPDATE_MARKER'
 export const DELETE_MARKER = 'DELETE_MARKER'
 export const EDIT_MARKER = 'EDIT_MARKER'
 //Filter
@@ -26,6 +27,7 @@ export const UPDATE_CENTER = 'UPDATE_CENTER'
 export const GET_MARKERS = 'GET_MARKERS'
 export const ADD_MARKER = 'ADD_MARKER'
 export const GET_CONVERSATIONS = 'GET_CONVERSATIONS'
+export const ADD_CONVERSATION = 'ADD_CONVERSATION'
 export const GET_MESSAGES = 'GET_MESSAGES'
 
 //Modal

@@ -1,4 +1,4 @@
-import { UPDATE_MARKERS, DELETE_MARKER, EDIT_MARKER } from 'constants/ActionTypes'
+import { GET_MARKERS, DELETE_MARKER, UPDATE_MARKER } from 'constants/ActionTypes'
 
 const initialMarkersState = []
 const markerDemo = [
@@ -12,21 +12,21 @@ const markerDemo = [
 ]
 
 const markers = (state = markerDemo, action) => {
+  console.log(action)
   switch (action.type) {
-    case UPDATE_MARKERS:
-      return action.payload.markers
+    case GET_MARKERS:
+      return action.payload
     //    case ADD_MARKER:
     //      return [...state, action.marker]
-    case EDIT_MARKER:
+    case UPDATE_MARKER:
       return state.map(marker => {
-        if (marker.id === action.id) {
+        if (marker.id == action.index) {
           return {
             ...marker,
-            ...action.updates,
+            ...action.payload,
           }
-        } else {
-          return marker
         }
+        return marker
       })
     case DELETE_MARKER:
       return state.filter(({ id }) => id !== action.id)

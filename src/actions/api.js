@@ -1,16 +1,17 @@
 import axios from 'axios'
-import { GET_MARKERS, ADD_MARKER, GET_CONVERSATION, SET_MODAL_DATA } from '../constants/ActionTypes'
+import { GET_MARKERS, ADD_MARKER, UPDATE_MARKER, UPDATE_MARKERS, SET_MODAL_DATA } from '../constants/ActionTypes'
+
+const url = process.env.REACT_APP_API
 
 export function getMarkers() {
   return function(dispatch) {
-    const url = process.env.REACT_APP_API
     const path = 'tasks'
     axios
       .get(url + path)
       .then(response => {
         dispatch({
-          type: 'UPDATE_MARKERS',
-          payload: { markers: response.data.data.tasks },
+          type: GET_MARKERS,
+          payload: response.data.data.tasks,
         })
       })
       .catch(err => {
@@ -22,18 +23,38 @@ export function getMarkers() {
       })
   }
 }
+export function doneTask(id, headers) {
+  return function(dispatch) {
+    const path = 'conversations/' + id
+    axios
+      .delete(url + path, headers)
+      .then(response => {
+        dispatch({
+          type: UPDATE_MARKER,
+          payload: response.data.data.task,
+          index: response.data.data.task.id,
+        })
+      })
+      .catch(err => {
+        console.log(err)
+        dispatch({
+          type: 'GET_MARKER_ERROR',
+          payload: err,
+        })
+      })
+  }
+}
 
 export function addTask(task, headers) {
   return function(dispatch) {
-    const url = process.env.REACT_APP_API
     const path = 'tasks'
     axios
-      .post(url + path, task, headers)
+      .post(url + path, headers)
       .then(response => {
         console.log(response)
         dispatch({
-          type: 'ADD_MARKER',
-          payload: { markers: response.data.data },
+          type: ADD_MARKER,
+          payload: response.data.data,
         })
         dispatch({
           type: SET_MODAL_DATA,
