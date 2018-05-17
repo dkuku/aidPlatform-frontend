@@ -4,6 +4,7 @@ import { withRouter } from 'react-router'
 import { Form } from 'semantic-ui-react'
 import axios from 'axios'
 import { ConversationHeaderContainer, MessagesContainer } from 'containers'
+import { TaskOwnerConvHeader } from 'components'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { updateActiveIndex, getConversations, getMessages, sendMessage } from 'actions'
@@ -24,44 +25,37 @@ class ConversationsContainer extends Component {
   }
 
   componentWillMount() {
-    /*this.props.getConversations(this.state.activeIndex, this.props.headers)*/
-  }
-  componentDidMount() {
-    this.props.activeIndex !== this.state.activeIndex ? this.props.updateActiveIndex(this.state.activeIndex) : null
-    axios.get(`${url}tasks/${this.props.id}`, this.props.headers).then(response => {
-      console.log(response)
-      this.setState({
-        conversations: response.data.data.conversations,
-        messages: response.data.data.messages,
-        task: response.data.data.task,
-      })
-    })
+    this.props.getConversations(this.props.id, this.props.headers)
   }
 
   handleSendMessage = () => {
     const id = this.props.activeIndex
-    this.props.sendMessage(this.state.conversations[0].id, this.state.body, this.props.headers)
+    this.props.sendMessage(this.props.conversations[0].id, this.state.body, this.props.headers)
   }
 
-  handleDoneClick = () => console.log('done clicked')
-  handleVolunteer = () => console.log('Volunteer clicked')
+  handleDoneClick = () => this.props.doneTask(this.props.conversations[0].id, this.props.headers)
   handleChange = (e, { name, value }) => this.setState({ [name]: value })
+  handleItemClick = (e, { id }) => {
+    this.setState({ activeConv: id })
+    console.log(id)
+  }
 
   renderContent() {
-    const { task, conversations, messages, body } = this.state
+    const { task, conversations, messages } = this.props
+    const { body } = this.state
     if (task === {}) {
       return <h1>Loading ...</h1>
     }
     return (
       <React.Fragment>
         {JSON.stringify(this.props.id)}
-        <ConversationHeaderContainer
-          handleVolunteer={this.handleVolunteer}
-          handleDoneClick={this.handleDoneClick}
+        <TaskOwnerConvHeader
+          handleItemClick={this.handleItemClick}
           conversations={conversations}
+          activeConv={this.state.activeConv}
         />
 
-        {this.state.conversations[0] && (
+        {this.props.conversations[0] && (
           <React.Fragment>
             <MessagesContainer
               messages={messages}
@@ -90,6 +84,7 @@ const mapStateToProps = state => ({
   conversations: state.conversations,
   headers: state.headers,
   markers: state.markers,
+  task: state.currentTask,
 })
 
 function mapDispatchToProps(dispatch) {

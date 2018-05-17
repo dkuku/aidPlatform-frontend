@@ -10,7 +10,8 @@ export default class TaskOwnerConvHeader extends Component {
           <Menu.Item
             key={conversation.id}
             name={conversation.volunteer_name}
-            active={this.props.activeConv === conversation.volunteer_name}
+            id={conversation.id}
+            active={this.props.activeConv == conversation.id}
             onClick={this.props.handleItemClick.bind(this)}
           />
         ))}
