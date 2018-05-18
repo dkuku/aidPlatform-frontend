@@ -1,5 +1,11 @@
 import axios from 'axios'
-import { GET_CONVERSATIONS, ADD_CONVERSATION, GET_MESSAGES, SET_MODAL_DATA } from '../constants/ActionTypes'
+import {
+  GET_CONVERSATIONS,
+  GET_MESSAGE,
+  ADD_CONVERSATION,
+  GET_MESSAGES,
+  SET_MODAL_DATA,
+} from '../constants/ActionTypes'
 
 const url = process.env.REACT_APP_API
 
@@ -91,7 +97,7 @@ export function sendMessage(id, body, headers) {
       .then(response => {
         console.log(response.data.data)
         dispatch({
-          type: GET_MESSAGES,
+          type: GET_MESSAGE,
           payload: response.data.data,
         })
       })

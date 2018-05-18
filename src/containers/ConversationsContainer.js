@@ -67,11 +67,7 @@ class ConversationsContainer extends Component {
 
         {this.props.conversations[0] && (
           <React.Fragment>
-            <MessagesContainer
-              messages={messages}
-              taskOwnerName={conversations[0].task_owner_name}
-              volunteerName={conversations[0].volunteer_name}
-            />
+            <MessagesContainer messages={messages} conversation={conversations[0]} />
             <Form reply onSubmit={this.handleSendMessage}>
               <Form.Group>
                 <Form.Input placeholder="Message" name="body" value={body} onChange={this.handleChange} />

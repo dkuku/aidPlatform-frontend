@@ -35,6 +35,7 @@ class SettingsContainer extends Component {
   onTaskSelect = selectedTask => {
     this.setState({ activeIndex: selectedTask })
     this.props.updateActiveIndex(selectedTask)
+    this.props.getConversations(selectedTask, this.props.headers)
   }
 
   render() {

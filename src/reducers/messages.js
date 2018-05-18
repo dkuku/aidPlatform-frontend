@@ -1,12 +1,14 @@
-import { GET_MESSAGES, GET_CONVERSATIONS } from 'constants/ActionTypes.js'
+import { GET_MESSAGES, GET_MESSAGE, GET_CONVERSATIONS } from 'constants/ActionTypes.js'
 const InitialConversations = []
 
 export default function messages(state = InitialConversations, action) {
   switch (action.type) {
     case GET_CONVERSATIONS:
-      return [...state, ...action.payload.messages]
+      return action.payload.messages
     case GET_MESSAGES:
-      return [...state, ...action.payload.messages]
+      return action.payload.messages
+    case GET_MESSAGE:
+      return [...state, action.payload.message]
     default:
       return state
   }

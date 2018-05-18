@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
-import { Form } from 'semantic-ui-react'
+import { Form, Header } from 'semantic-ui-react'
 import axios from 'axios'
 import { ConversationHeaderContainer, MessagesContainer } from 'containers'
 import { TaskOwnerConvHeader } from 'components'
@@ -17,6 +17,7 @@ class ConversationsContainer extends Component {
     this.state = {
       activeIndex: Number(this.props.id),
       activeConv: null,
+      currentConv: null,
       body: '',
       task: {},
       conversations: [],
@@ -25,22 +26,27 @@ class ConversationsContainer extends Component {
   }
 
   componentWillMount() {
+    console.log('111111111112222222222wqwqwq')
     this.props.getConversations(this.props.id, this.props.headers)
   }
 
   handleSendMessage = () => {
     const id = this.props.activeIndex
-    this.props.sendMessage(this.props.conversations[0].id, this.state.body, this.props.headers)
+    this.props.sendMessage(this.state.activeConv, this.state.body, this.props.headers)
   }
 
   handleDoneClick = () => this.props.doneTask(this.props.conversations[0].id, this.props.headers)
   handleChange = (e, { name, value }) => this.setState({ [name]: value })
   handleItemClick = (e, { id }) => {
     this.setState({ activeConv: id })
-    console.log(id)
+    this.setState({
+      currentConv: this.props.conversations.filter(conv => conv.id == id)[0]
+        ? this.props.conversations.filter(conv => conv.id == id)[0]
+        : null,
+    })
   }
 
-  renderContent() {
+  renderContent(conv) {
     const { task, conversations, messages } = this.props
     const { body } = this.state
     if (task === {}) {
@@ -48,19 +54,17 @@ class ConversationsContainer extends Component {
     }
     return (
       <React.Fragment>
-        {JSON.stringify(this.props.id)}
         <TaskOwnerConvHeader
           handleItemClick={this.handleItemClick}
           conversations={conversations}
           activeConv={this.state.activeConv}
         />
 
-        {this.props.conversations[0] && (
+        {this.state.currentConv && (
           <React.Fragment>
             <MessagesContainer
-              messages={messages}
-              taskOwnerName={conversations[0].task_owner_name}
-              volunteerName={conversations[0].volunteer_name}
+              messages={messages.filter(message => message.conversation_id == this.state.activeConv)}
+              conversation={this.state.currentConv}
             />
             <Form reply onSubmit={this.handleSendMessage}>
               <Form.Group>
@@ -74,7 +78,12 @@ class ConversationsContainer extends Component {
     )
   }
   render() {
-    return <React.Fragment>{this.renderContent()}</React.Fragment>
+    return (
+      <React.Fragment>
+        <Header>Conversations for {this.props.task.title}</Header>
+        {this.renderContent(this.state.currentConv)}
+      </React.Fragment>
+    )
   }
 }
 const mapStateToProps = state => ({

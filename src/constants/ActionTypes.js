@@ -29,6 +29,7 @@ export const ADD_MARKER = 'ADD_MARKER'
 export const GET_CONVERSATIONS = 'GET_CONVERSATIONS'
 export const ADD_CONVERSATION = 'ADD_CONVERSATION'
 export const GET_MESSAGES = 'GET_MESSAGES'
+export const GET_MESSAGE = 'GET_MESSAGE'
 
 //Modal
 export const MODAL_OPEN = 'MODAL_OPEN'

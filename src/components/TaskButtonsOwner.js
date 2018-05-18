@@ -6,7 +6,7 @@ class TaskButtonsOwner extends PureComponent {
   render() {
     return (
       <Button.Group>
-        <Button>One</Button>
+        <Button>Mark Done</Button>
         <Button>Two</Button>
         <Button>Three</Button>
       </Button.Group>
