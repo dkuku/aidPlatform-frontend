@@ -23,6 +23,27 @@ export function getMarkers() {
       })
   }
 }
+export function getMarkersBounds(bounds) {
+  return function(dispatch) {
+    const path = 'tasks/within'
+    axios
+      .post(url + path, { task: bounds })
+      .then(response => {
+        console.log(response)
+        dispatch({
+          type: GET_MARKERS,
+          payload: response.data.data.tasks,
+        })
+      })
+      .catch(err => {
+        console.log(err)
+        dispatch({
+          type: 'GET_MARKERS_ERROR',
+          payload: err,
+        })
+      })
+  }
+}
 export function doneTask(id, headers) {
   return function(dispatch) {
     const path = 'conversations/' + id

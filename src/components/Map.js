@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Marker, InfoWindow } from 'react-google-maps'
 import { MarkerDisplay } from 'components'
-import { updateActiveIndex, updateBounds, updateCenter } from 'actions'
+import { updateActiveIndex, updateBounds, updateCenter, getMarkersBounds } from 'actions'
 import GoogleMapsWrapper from './GoogleMapsWrapper.js'
 
 const GMAP_KEY = process.env.REACT_APP_GMAP_KEY
@@ -30,9 +30,11 @@ class MapSearch extends Component {
         })
         this.props.updateBounds(this.state.bounds)
         this.props.updateCenter(this.state.center)
+        this.props.getMarkersBounds(this.state.bounds)
       },
     })
   }
+
   //TODO: temporary
   markerPin = (type, status, fulfiled) => {
     return (fulfiled === 5) | status ? done : type == 'material' ? material : help
@@ -53,25 +55,20 @@ class MapSearch extends Component {
         onMapMounted={this.state.onMapMounted}
         onBoundsChanged={this.state.onBoundsChanged}
       >
-        {markers
-          .filter(marker => (!user.id ? true : marker.user_id !== user.id))
-          .filter(marker => ('all' == filters.type ? true : marker.task_type == filters.type))
-          .filter(marker => new Date(marker.created_at) > new Date(filters.startDate))
-
-          .map(marker => (
-            <Marker
-              key={Number(marker.id)}
-              position={{ lat: Number(marker.lat), lng: Number(marker.lng) }}
-              onClick={() => updateActiveIndex(marker.id)}
-              icon={this.markerPin(marker.task_type, marker.done, marker.fulfilment_counter)}
-            >
-              {marker.id === activeIndex && (
-                <InfoWindow>
-                  <MarkerDisplay marker={marker} user={user} />
-                </InfoWindow>
-              )}
-            </Marker>
-          ))}
+        {markers.map(marker => (
+          <Marker
+            key={Number(marker.id)}
+            position={{ lat: Number(marker.lat), lng: Number(marker.lng) }}
+            onClick={() => updateActiveIndex(marker.id)}
+            icon={this.markerPin(marker.task_type, marker.done, marker.fulfilment_counter)}
+          >
+            {marker.id === activeIndex && (
+              <InfoWindow>
+                <MarkerDisplay marker={marker} user={user} />
+              </InfoWindow>
+            )}
+          </Marker>
+        ))}
       </GoogleMapsWrapper>
     )
   }
@@ -85,7 +82,7 @@ const mapStateToProps = state => ({
 })
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateBounds, updateCenter, updateActiveIndex }, dispatch)
+  return bindActionCreators({ updateBounds, updateCenter, updateActiveIndex, getMarkersBounds }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapSearch)
