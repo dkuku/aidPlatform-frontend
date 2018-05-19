@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, Container, Segment, Statistic } from 'semantic-ui-react'
+import { Grid, Container, Segment, Statistic, Header } from 'semantic-ui-react'
 
 const Stats = props => (
   <Segment inverted>
@@ -10,6 +10,7 @@ const Stats = props => (
         marginTop: '3em',
       }}
     >
+      <Header inverted>Site statistics</Header>
       <Grid
         columns={3}
         divided

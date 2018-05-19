@@ -8,10 +8,10 @@ const Story = props => (
       {props.story.title}
     </Header>
     <Image rounded size="large" verticalAlign="middle" src={props.story.image} />
-    <Container text style={{ fontSize: '1.33em' }}>
-      {' '}
-      {props.story.body}
-    </Container>
+    <div text style={{ fontSize: '1.33em' }}>
+      <p> </p>
+      <p>{props.story.body}</p>
+    </div>
   </React.Fragment>
 )
 export default Story

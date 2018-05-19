@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { Button, Container, Icon, Menu, Responsive, Segment, Sidebar } from 'semantic-ui-react'
 import { HomeHeading } from 'components'
 
@@ -11,55 +12,32 @@ import { HomeHeading } from 'components'
 class MobileContainer extends Component {
   state = {}
 
-  handlePusherClick = () => {
-    const { sidebarOpened } = this.state
-
-    if (sidebarOpened) this.setState({ sidebarOpened: false })
-  }
-
-  handleToggle = () => this.setState({ sidebarOpened: !this.state.sidebarOpened })
-
   render() {
     const { children } = this.props
-    const { sidebarOpened } = this.state
 
     return (
-      <Responsive {...Responsive.onlyMobile}>
-        <Sidebar.Pushable>
-          <Sidebar as={Menu} animation="uncover" inverted vertical visible={sidebarOpened}>
-            <Menu.Item as="a" active>
-              Home
-            </Menu.Item>
-            <Menu.Item as="a">Work</Menu.Item>
-            <Menu.Item as="a">Company</Menu.Item>
-            <Menu.Item as="a">Careers</Menu.Item>
-            <Menu.Item as="a">Log in</Menu.Item>
-            <Menu.Item as="a">Sign Up</Menu.Item>
-          </Sidebar>
+      <Responsive maxWidth={639}>
+        <Segment inverted textAlign="center" style={{ minHeight: 350, padding: '1em 0em' }} vertical>
+          <Container>
+            <Menu inverted pointing secondary size="large">
+              <Menu.Item position="right">
+                <Link to={'/login'}>
+                  <Button as="a" inverted>
+                    Log in
+                  </Button>
+                </Link>
+                <Link to={'/login/signup'}>
+                  <Button as="a" inverted style={{ marginLeft: '0.5em' }}>
+                    Sign Up
+                  </Button>
+                </Link>
+              </Menu.Item>
+            </Menu>
+          </Container>
+          <HomeHeading mobile />
+        </Segment>
 
-          <Sidebar.Pusher dimmed={sidebarOpened} onClick={this.handlePusherClick} style={{ minHeight: '100vh' }}>
-            <Segment inverted textAlign="center" style={{ minHeight: 350, padding: '1em 0em' }} vertical>
-              <Container>
-                <Menu inverted pointing secondary size="large">
-                  <Menu.Item onClick={this.handleToggle}>
-                    <Icon name="sidebar" />
-                  </Menu.Item>
-                  <Menu.Item position="right">
-                    <Button as="a" inverted>
-                      Log in
-                    </Button>
-                    <Button as="a" inverted style={{ marginLeft: '0.5em' }}>
-                      Sign Up
-                    </Button>
-                  </Menu.Item>
-                </Menu>
-              </Container>
-              <HomeHeading mobile />
-            </Segment>
-
-            {children}
-          </Sidebar.Pusher>
-        </Sidebar.Pushable>
+        {children}
       </Responsive>
     )
   }

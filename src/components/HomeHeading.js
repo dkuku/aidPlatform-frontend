@@ -1,12 +1,14 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import { Container, Header, Button, Icon } from 'semantic-ui-react'
 
 const HomeHeading = ({ mobile }) => (
   <Container text>
     <Header
       as="h1"
-      content="Neighborhelp"
+      inverted
+      content="Neighborhood"
       style={{
         fontSize: mobile ? '2em' : '4em',
         fontWeight: 'normal',
@@ -16,6 +18,7 @@ const HomeHeading = ({ mobile }) => (
     />
     <Header
       as="h2"
+      inverted
       content="Not all heros wear capes"
       style={{
         fontSize: mobile ? '1.5em' : '1.7em',
@@ -23,10 +26,12 @@ const HomeHeading = ({ mobile }) => (
         marginTop: mobile ? '0.5em' : '1.5em',
       }}
     />
-    <Button primary size="huge">
-      Get Started
-      <Icon name="right arrow" />
-    </Button>
+    <Link to={'/login/signup'}>
+      <Button primary size="huge">
+        Get Started
+        <Icon name="right arrow" />
+      </Button>
+    </Link>
   </Container>
 )
 HomeHeading.propTypes = {

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { Button, Container, Menu, Responsive, Segment, Visibility } from 'semantic-ui-react'
 import { HomeHeading } from 'components'
 
@@ -18,11 +19,16 @@ class DesktopContainer extends Component {
     const { fixed } = this.state
 
     return (
-      <Responsive {...Responsive.onlyComputer}>
+      <Responsive minWidth={640}>
         <style>
           {`
       #backgroundImage {
-    background-image: url('images/hands.jpeg') !important;
+    background-image:
+      linear-gradient(
+      rgba(0, 0, 0, 0.6),
+      rgba(0, 0, 0, 0.6)
+    ),
+    url('images/hands.jpeg') !important;
     background-size: cover !important
      `}
           }
@@ -32,19 +38,17 @@ class DesktopContainer extends Component {
           <Segment id="backgroundImage" textAlign="center" style={{ minHeight: 700, padding: '1em 0em' }} vertical>
             <Menu fixed={fixed ? 'top' : null} inverted={!fixed} pointing={!fixed} secondary={!fixed} size="large">
               <Container>
-                <Menu.Item as="a" active>
-                  Home
-                </Menu.Item>
-                <Menu.Item as="a">Work</Menu.Item>
-                <Menu.Item as="a">Company</Menu.Item>
-                <Menu.Item as="a">Careers</Menu.Item>
                 <Menu.Item position="right">
-                  <Button as="a" inverted={!fixed}>
-                    Log in
-                  </Button>
-                  <Button as="a" inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>
-                    Sign Up
-                  </Button>
+                  <Link to={'/login'}>
+                    <Button as="Link" inverted={!fixed}>
+                      Log in
+                    </Button>
+                  </Link>
+                  <Link to={'/login/signup'}>
+                    <Button as="Link" inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>
+                      Sign Up
+                    </Button>
+                  </Link>
                 </Menu.Item>
               </Container>
             </Menu>

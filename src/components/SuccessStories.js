@@ -34,7 +34,6 @@ class SuccessStories extends Component {
     }
   }
   render() {
-    console.log(this.asd)
     const { mobile } = this.props
 
     return (
