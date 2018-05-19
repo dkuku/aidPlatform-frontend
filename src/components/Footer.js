@@ -6,9 +6,10 @@ import { connect } from 'react-redux'
 import { getStats, updateStats } from 'actions'
 import { Stats } from 'components'
 
+const ws = process.env.REACT_APP_WS + 'stats'
+
 class Footer extends Component {
   componentDidMount() {
-    console.log(this.props)
     this.props.getStats()
   }
 
@@ -21,11 +22,8 @@ class Footer extends Component {
   }
 
   render() {
-    {
-      console.log('Footer: ', this.props)
-    }
     return (
-      <ActionCableProvider url={'ws://localhost:3000/stats'}>
+      <ActionCableProvider url={ws}>
         <ActionCable
           channel={{ channel: 'StatsChannel' }}
           onConnected={this.onConnected}

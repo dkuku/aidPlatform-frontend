@@ -52,6 +52,6 @@ export default class FlickrPhoto extends Component {
   }
 
   render() {
-    return <Item.Image src={this.imageURL(this.state.image)} />
+    return <Image size={'medium'} src={this.imageURL(this.state.image)} />
   }
 }

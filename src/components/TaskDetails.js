@@ -17,19 +17,21 @@ class TaskDetails extends PureComponent {
     const color = task_type === 'material' ? 'blue' : 'green'
 
     return (
-      <Item.Group onClick={this.props.onTaskSelect.bind(null, id)}>
-        <Item style={activeItem}>
-          <FlickrPhoto tags={title} />
-          <Item.Content>
-            <Item.Header>{title}</Item.Header>
-            <Item.Meta>
-              <span>status: {done ? 'done' : 'waiting'}</span>
-              <span>type: {task_type}</span>
-            </Item.Meta>
-            <Item.Description>{description}</Item.Description>
-          </Item.Content>
-        </Item>
-      </Item.Group>
+      <div onClick={this.props.onTaskSelect.bind(null, id)}>
+        <FlickrPhoto tags={title} />
+        <Item.Group>
+          <Item style={activeItem}>
+            <Item.Content>
+              <Item.Header>{title}</Item.Header>
+              <Item.Meta>
+                <span>status: {done ? 'done' : 'waiting'}</span>
+                <span>type: {task_type}</span>
+              </Item.Meta>
+              <Item.Description>{description}</Item.Description>
+            </Item.Content>
+          </Item>
+        </Item.Group>
+      </div>
     )
   }
 }

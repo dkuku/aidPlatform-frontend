@@ -15,6 +15,8 @@ export const GET_LOCATION = 'GET_LOCATION'
 export const LOGIN = 'LOGIN'
 export const LOGOUT = 'LOGOUT'
 export const SIGNUP = 'SIGNUP'
+export const USER_MARKERS = 'USER_MARKERS'
+
 export const LOGIN_ERROR = 'LOGIN_ERROR'
 export const SIGNUP_ERROR = 'SIGNUP_ERROR'
 export const GENERATE_HEADER = 'GENERATE_HEADER'

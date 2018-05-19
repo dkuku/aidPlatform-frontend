@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import { Grid } from 'semantic-ui-react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { updateActiveIndex, getConversations, getMarkers } from 'actions'
-import { TaskDetails, TaskButtonsOwner } from 'components'
+import axios from 'axios'
+import { updateActiveIndex, getConversations, getUserMarkers } from 'actions'
+import { TaskDetails, TaskButtonsOwner, UserTasksHeader } from 'components'
 import { UserConversationsContainer } from 'containers'
 
 const url = process.env.REACT_APP_API
@@ -12,25 +13,30 @@ class SettingsContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      headers: { headers: { 'AUTH-TOKEN': this.props.user.authentication_token } },
       activeIndex: this.props.activeIndex,
-      activeConv: null,
-      userMarkers: this.props.markers.filter(marker => marker.user_id == this.props.user.id),
+      activeCategory: 'unfulfiled',
+      tasks: {
+        unfulfiled: [],
+        fulfiled: [],
+        active: [],
+        closed: [],
+      },
     }
   }
 
-  componentWillReceiveProps() {
-    this.setState({
-      userMarkers: this.props.markers.filter(marker => marker.user_id == this.props.user.id),
-    })
-  }
   componentWillMount() {
-    if (this.props.markers.length === 1) {
-      this.props.getMarkers()
-    }
+    axios.get(url + 'tasks', this.props.headers).then(response => {
+      this.setState({
+        tasks: response.data.data.tasks,
+      })
+    })
   }
 
   componentDidMount() {}
+
+  handleItemClick = (e, { id }) => {
+    this.setState({ activeCategory: id })
+  }
 
   onTaskSelect = selectedTask => {
     this.setState({ activeIndex: selectedTask })
@@ -42,13 +48,22 @@ class SettingsContainer extends Component {
     return (
       <Grid stackable columns={2}>
         <Grid.Column>
-          {this.state.userMarkers.map(marker => (
+          <UserTasksHeader
+            tasks={this.state.tasks}
+            activeCategory={this.state.activeCategory}
+            handleItemClick={this.handleItemClick}
+            onTaskSelect={this.onTaskSelect}
+            activeIndex={this.state.activeIndex}
+          />
+        </Grid.Column>
+        {/*#       <Grid.Column>
+          {this.state.tasks[this.state.activeCategory].map(marker => (
             <React.Fragment key={marker.id}>
               <TaskDetails marker={marker} onTaskSelect={this.onTaskSelect} activeIndex={this.state.activeIndex} />
               <TaskButtonsOwner />
             </React.Fragment>
           ))}
-        </Grid.Column>
+        </Grid.Column>*/}
         <Grid.Column>
           <UserConversationsContainer id={String(this.state.activeIndex)} />
         </Grid.Column>
@@ -67,7 +82,7 @@ const mapStateToProps = state => {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateActiveIndex, getMarkers, getConversations }, dispatch)
+  return bindActionCreators({ updateActiveIndex, getUserMarkers, getConversations }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsContainer)

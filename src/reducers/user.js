@@ -1,4 +1,4 @@
-import { LOGIN, SIGNUP, LOGOUT } from 'constants/ActionTypes'
+import { LOGIN, SIGNUP, LOGOUT, USER_MARKERS } from 'constants/ActionTypes'
 
 const initialUserState = localStorage.getItem('user') === null ? {} : JSON.parse(localStorage.getItem('user'))
 

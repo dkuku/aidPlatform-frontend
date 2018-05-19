@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { GET_MARKERS, ADD_MARKER, UPDATE_MARKER, UPDATE_MARKERS, SET_MODAL_DATA } from '../constants/ActionTypes'
+import { GET_MARKERS, ADD_MARKER, UPDATE_MARKER, USER_MARKERS, SET_MODAL_DATA } from '../constants/ActionTypes'
 
 const url = process.env.REACT_APP_API
 
@@ -12,6 +12,27 @@ export function getMarkers() {
         dispatch({
           type: GET_MARKERS,
           payload: response.data.data.tasks,
+        })
+      })
+      .catch(err => {
+        console.log(err)
+        dispatch({
+          type: 'GET_MARKERS_ERROR',
+          payload: err,
+        })
+      })
+  }
+}
+export function getUserMarkers(headers) {
+  return function(dispatch) {
+    const path = 'tasks'
+    axios
+      .get(url + path, headers)
+      .then(response => {
+        console.log(response)
+        dispatch({
+          type: USER_MARKERS,
+          payload: response.data.data,
         })
       })
       .catch(err => {

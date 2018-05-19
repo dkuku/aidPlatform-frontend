@@ -26,7 +26,6 @@ class ConversationsContainer extends Component {
   }
 
   componentWillMount() {
-    console.log('111111111112222222222wqwqwq')
     this.props.getConversations(this.props.id, this.props.headers)
   }
 
