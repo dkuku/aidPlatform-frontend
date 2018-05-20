@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware } from 'redux'
 import ReduxThunk from 'redux-thunk'
+import { responsiveStoreEnhancer } from 'redux-responsive'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import rootReducer from 'reducers'
 
@@ -7,6 +8,7 @@ export default function configureStore(initialState = {}) {
   const middlewares = [ReduxThunk]
   const enhancers = [
     applyMiddleware(...middlewares),
+    responsiveStoreEnhancer,
     // other store enhancers if any
   ]
   const composeEnhancers = composeWithDevTools({

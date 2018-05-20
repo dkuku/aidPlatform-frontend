@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import { responsiveStateReducer as browser } from 'redux-responsive'
 import markers from './markers'
 import filters from './filters'
 import user from './user'
@@ -13,6 +14,7 @@ import messages from './messages'
 import currentTask from './currentTask'
 
 const rootReducer = combineReducers({
+  browser,
   markers,
   filters,
   user,
