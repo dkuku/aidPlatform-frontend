@@ -6,8 +6,9 @@ const Stats = props => (
     <Container
       textAlign="center"
       style={{
-        marginBottom: '5em',
-        marginTop: '3em',
+        height: '15vh',
+        marginBottom: '1em',
+        marginTop: '1em',
       }}
     >
       <Header inverted>Site statistics</Header>
@@ -16,7 +17,7 @@ const Stats = props => (
         divided
         stackable
         style={{
-          marginBottom: '5em',
+          marginBottom: '1em',
           marginTop: 0,
         }}
       >

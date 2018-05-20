@@ -4,8 +4,8 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import { updateActiveIndex, getConversations, getUserMarkers } from 'actions'
-import { TaskDetails, TaskButtonsOwner, UserTasksHeader } from 'components'
-import { UserConversationsContainer } from 'containers'
+import { TaskDetails, TaskButtonsOwner } from 'components'
+import { UserConversationsContainer, UserTasksContainer } from 'containers'
 
 const url = process.env.REACT_APP_API
 
@@ -48,7 +48,7 @@ class SettingsContainer extends Component {
     return (
       <Grid stackable columns={2}>
         <Grid.Column>
-          <UserTasksHeader
+          <UserTasksContainer
             tasks={this.state.tasks}
             activeCategory={this.state.activeCategory}
             handleItemClick={this.handleItemClick}
@@ -56,14 +56,6 @@ class SettingsContainer extends Component {
             activeIndex={this.state.activeIndex}
           />
         </Grid.Column>
-        {/*#       <Grid.Column>
-          {this.state.tasks[this.state.activeCategory].map(marker => (
-            <React.Fragment key={marker.id}>
-              <TaskDetails marker={marker} onTaskSelect={this.onTaskSelect} activeIndex={this.state.activeIndex} />
-              <TaskButtonsOwner />
-            </React.Fragment>
-          ))}
-        </Grid.Column>*/}
         <Grid.Column>
           <UserConversationsContainer id={String(this.state.activeIndex)} />
         </Grid.Column>

@@ -19,15 +19,14 @@ class MapContainer extends React.Component {
   }
   render() {
     return (
-      <Grid divided="vertically">
+      <Grid relaxed stackable reversed="computer">
         <Grid.Row columns={2}>
-          <Grid.Column width={4}>
-            <TaskList />
-          </Grid.Column>
-          <Grid.Column width={12}>
+          <Grid.Column computer={11} largeScreen={13} widescreen={14}>
             <GeoLocation />
-            <MapNav />
             <Map />
+          </Grid.Column>
+          <Grid.Column computer={5} largeScreen={3} widescreen={2}>
+            <TaskList />
           </Grid.Column>
         </Grid.Row>
       </Grid>

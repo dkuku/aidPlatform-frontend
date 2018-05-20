@@ -39,6 +39,7 @@ class VolunteerContainer extends Component {
             <TaskDetails
               marker={this.props.markers.filter(obj => obj.id == activeIndex)[0]}
               onTaskSelect={this.onTaskSelect}
+              active={true}
             />
           )}
         </Grid.Column>
