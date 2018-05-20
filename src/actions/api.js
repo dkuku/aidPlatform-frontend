@@ -91,7 +91,7 @@ export function addTask(task, headers) {
   return function(dispatch) {
     const path = 'tasks'
     axios
-      .post(url + path, headers)
+      .post(url + path, task, headers)
       .then(response => {
         console.log(response)
         dispatch({
