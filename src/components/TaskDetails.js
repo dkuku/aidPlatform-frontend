@@ -1,26 +1,17 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import { Item } from 'semantic-ui-react'
-import { FlickrPhoto, TaskButtonsOwner } from 'components'
+import { MapSmall, TaskButtonsOwner } from 'components'
 
-class TaskDetails extends PureComponent {
+class TaskDetails extends Component {
   render() {
-    const { title, id, task_type, description, done, fulfilment_counter, user_id } = this.props.marker
-
-    const active = id === this.props.activeIndex
-    const activeItem = active
-      ? {
-          padding: '1rem',
-          borderRadius: '0.3rem',
-          boxShadow: '0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5',
-        }
-      : { padding: '1rem' }
-    const color = task_type === 'material' ? 'blue' : 'green'
+    console.log(this.props)
+    const { title, id, task_type, description, done } = this.props.marker
 
     return (
       <div onClick={this.props.onTaskSelect.bind(null, id)}>
-        <FlickrPhoto tags={title} />
-        <Item.Group>
-          <Item style={activeItem}>
+        {this.props.active && <MapSmall marker={this.props.marker} />}
+        <Item.Group relaxed>
+          <Item>
             <Item.Content>
               <Item.Header>{title}</Item.Header>
               <Item.Meta>
