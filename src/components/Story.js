@@ -8,7 +8,7 @@ const Story = props => (
       {props.story.title}
     </Header>
     <Image rounded size="large" verticalAlign="middle" src={props.story.image} />
-    <div text style={{ fontSize: '1.33em' }}>
+    <div style={{ fontSize: '1.33em' }}>
       <p> </p>
       <p>{props.story.body}</p>
     </div>

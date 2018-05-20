@@ -22,12 +22,10 @@ class MobileContainer extends Component {
             <Menu inverted pointing secondary size="large">
               <Menu.Item position="right">
                 <Link to={'/login'}>
-                  <Button as="a" inverted>
-                    Log in
-                  </Button>
+                  <Button inverted>Log in</Button>
                 </Link>
                 <Link to={'/login/signup'}>
-                  <Button as="a" inverted style={{ marginLeft: '0.5em' }}>
+                  <Button inverted style={{ marginLeft: '0.5em' }}>
                     Sign Up
                   </Button>
                 </Link>

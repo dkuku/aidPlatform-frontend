@@ -42,7 +42,7 @@ class SuccessStories extends Component {
           <Grid textAlign="center" celled="internally" columns="equal" stackable>
             <Grid.Row>
               {this.state.stories.slice(0, 2).map(story => (
-                <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
+                <Grid.Column key={story.title} style={{ paddingBottom: '5em', paddingTop: '5em' }}>
                   <Story story={story} />
                 </Grid.Column>
               ))}
