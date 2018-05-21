@@ -6,9 +6,9 @@ const Stats = props => (
     <Container
       textAlign="center"
       style={{
-        height: '15vh',
-        marginBottom: '1em',
-        marginTop: '1em',
+        height: '200px',
+        marginBottom: 0,
+        position: 'relative',
       }}
     >
       <Header inverted>Site statistics</Header>

@@ -3,11 +3,7 @@
   "description": "Aid platform for your neighborhood",
   "version": "0.1.0",
   "author": "Daniel Kukula",
-  "proxy": {
-    "/": {
-      "target": "http://localhost:3000/api/v1/"
-    }
-  },
+  "proxy": "http://localhost:3000",
   "dependencies": {
     "axios": "^0.18.0",
     "fusejs": "^1.4.3",

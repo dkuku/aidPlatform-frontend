@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { getStats, updateStats } from 'actions'
 import { Stats } from 'components'
 
-const ws = process.env.REACT_APP_WS + 'stats'
+const ws = 'stats'
 
 class Footer extends Component {
   componentDidMount() {
