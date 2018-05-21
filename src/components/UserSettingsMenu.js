@@ -48,7 +48,7 @@ class UserSettingsMenu extends Component {
           name="Logout"
           onClick={() => {
             history.push('/')
-            logout().bind(this)
+            this.props.logout().bind(this)
           }}
         />
       </Sidebar>

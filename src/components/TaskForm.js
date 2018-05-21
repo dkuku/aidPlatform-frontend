@@ -27,8 +27,8 @@ class TaskForm extends Component {
       rejected: [],
       address: '',
       task: {
-        title: this.props.history.state.title || '',
-        description: this.props.history.state.description || '',
+        title: '',
+        description: '',
         lat: 51.65,
         lng: 0.05,
         task_type: 'help',

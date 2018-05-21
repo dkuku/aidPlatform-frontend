@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { GET_MARKERS, ADD_MARKER, UPDATE_MARKER, USER_MARKERS, SET_MODAL_DATA } from '../constants/ActionTypes'
-
-const url = process.env.REACT_APP_API
+import { api as url } from '../constants/variables'
 
 export function getMarkers() {
   return function(dispatch) {

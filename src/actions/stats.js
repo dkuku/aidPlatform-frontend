@@ -1,9 +1,9 @@
 import axios from 'axios'
 import { UPDATE_STATS } from '../constants/ActionTypes'
+import { api as url } from '../constants/variables'
 
 export function getStats() {
   return function(dispatch) {
-    const url = process.env.REACT_APP_API
     const path = 'statistics'
     axios
       .get(url + path)

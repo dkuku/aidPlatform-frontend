@@ -6,9 +6,8 @@ import { MarkerDisplay } from 'components'
 import { updateActiveIndex, updateBounds, updateCenter, getMarkersBounds } from 'actions'
 import GoogleMapsWrapper from './GoogleMapsWrapper.js'
 import { BLUE, GREEN, PINK } from '../constants/Icons'
+import { GMAP_KEY } from '../constants/variables'
 
-const GMAP_KEY = process.env.REACT_APP_GMAP_KEY
-const url = process.env.REACT_APP_ADDRESS
 const help = GREEN
 const material = BLUE
 const done = PINK

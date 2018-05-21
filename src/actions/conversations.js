@@ -6,18 +6,14 @@ import {
   GET_MESSAGES,
   SET_MODAL_DATA,
 } from '../constants/ActionTypes'
-
-const url = process.env.REACT_APP_API
+import { api as url } from '../constants/variables'
 
 export function getConversations(task, headers) {
-  console.log(headers)
   return function(dispatch) {
-    console.log('task:', task)
     const path = `tasks/${task}`
     axios
       .get(url + path, headers)
       .then(response => {
-        console.log(response)
         dispatch({
           type: GET_CONVERSATIONS,
           payload: response.data.data,
@@ -50,13 +46,11 @@ export function getMessages(headers) {
   }
 }
 export function createConversation(taskId, headers) {
-  console.log('taskID: ', taskId)
   const form = { conversation: { task_id: taskId } }
   return function(dispatch) {
     axios
       .post(`${url}conversations`, form, headers)
       .then(response => {
-        console.log(response)
         if (response.status === 200) {
           dispatch({
             type: ADD_CONVERSATION,
@@ -88,7 +82,6 @@ export function createConversation(taskId, headers) {
   }
 }
 export function sendMessage(id, body, headers) {
-  const url = process.env.REACT_APP_API
   const path = `conversations/${id}`
   const bodyForm = { message: { body: body } }
   return function(dispatch) {

@@ -9,8 +9,7 @@ import {
 } from 'constants/ActionTypes'
 import { createAction } from 'redux-actions'
 import axios from 'axios/index'
-
-const url = process.env.REACT_APP_API
+import { api as url } from '../constants/variables'
 
 export function login(form) {
   return function(dispatch) {
