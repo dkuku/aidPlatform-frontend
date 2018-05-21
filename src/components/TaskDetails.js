@@ -4,7 +4,6 @@ import { MapSmall, TaskButtonsOwner } from 'components'
 
 class TaskDetails extends Component {
   render() {
-    console.log(this.props)
     const { title, id, task_type, description, done } = this.props.marker
 
     return (

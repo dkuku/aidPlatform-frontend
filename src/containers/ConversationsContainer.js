@@ -25,14 +25,6 @@ class ConversationsContainer extends Component {
 
   componentWillMount() {
     this.props.getConversations(this.state.activeIndex, this.props.headers)
-    /*axios.get(`${url}tasks/${this.state.activeIndex}`, this.props.headers).then(response => {
-      console.log(response)
-      this.setState({
-        conversations: response.data.data.conversations,
-        messages: response.data.data.messages,
-        task: response.data.data.task,
-      })
-    })*/
   }
   componentDidMount() {
     this.props.activeIndex !== this.state.activeIndex ? this.props.updateActiveIndex(this.state.activeIndex) : null
@@ -42,13 +34,12 @@ class ConversationsContainer extends Component {
     const id = this.props.activeIndex
     this.props.sendMessage(this.props.conversations[0].id, this.state.body, this.props.headers)
   }
-
   handleDoneClick = () => this.props.doneTask(this.props.conversations[0].id, this.props.headers)
   handleVolunteer = () => this.props.createConversation(this.props.activeIndex, this.props.headers)
   handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
   renderContent() {
-    const { task, conversations, messages } = this.props
+    const { task, conversations, messages, ltm } = this.props
     const { body } = this.state
     if (task === {}) {
       return <h1>Loading ...</h1>
@@ -67,12 +58,10 @@ class ConversationsContainer extends Component {
 
         {this.props.conversations[0] && (
           <React.Fragment>
-            <MessagesContainer messages={messages} conversation={conversations[0]} />
+            <MessagesContainer height={ltm ? '30vh' : '60vh'} messages={messages} conversation={conversations[0]} />
             <Form reply onSubmit={this.handleSendMessage}>
-              <Form.Group>
-                <Form.Input placeholder="Message" name="body" value={body} onChange={this.handleChange} />
-                <Form.Button content="Submit" />
-              </Form.Group>
+              <Form.Input placeholder="Message" name="body" value={body} onChange={this.handleChange} />
+              <Form.Button floated="right" content="Submit" />
             </Form>
           </React.Fragment>
         )}
@@ -91,6 +80,7 @@ const mapStateToProps = state => ({
   headers: state.headers,
   markers: state.markers,
   task: state.currentTask,
+  ltm: state.browser.lessThan.medium,
 })
 
 function mapDispatchToProps(dispatch) {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Form, TextArea, Select, Grid, Header, Segment } from 'semantic-ui-react'
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
+import { withRouter } from 'react-router'
 import Dropzone from 'react-dropzone'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -26,8 +27,8 @@ class TaskForm extends Component {
       rejected: [],
       address: '',
       task: {
-        title: '',
-        description: '',
+        title: this.props.history.state.title || '',
+        description: this.props.history.state.description || '',
         lat: 51.65,
         lng: 0.05,
         task_type: 'help',
@@ -197,6 +198,7 @@ const mapStateToProps = state => {
   return {
     user: state.user,
     currentLocation: state.position.geolocation,
+    task: state.task,
   }
 }
 
@@ -204,4 +206,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ addTask, updatePicture }, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TaskForm)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TaskForm))

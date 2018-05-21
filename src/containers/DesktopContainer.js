@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Container, Menu, Responsive, Segment, Visibility } from 'semantic-ui-react'
+import { Button, Container, Image, Menu, Segment, Responsive, Visibility } from 'semantic-ui-react'
+import { LOGO } from '../constants/Icons'
+
 import { HomeHeading } from 'components'
 
 /* Heads up!
@@ -36,8 +38,21 @@ class DesktopContainer extends Component {
 
         <Visibility once={false} onBottomPassed={this.showFixedMenu} onBottomPassedReverse={this.hideFixedMenu}>
           <Segment id="backgroundImage" textAlign="center" style={{ minHeight: 700, padding: '1em 0em' }} vertical>
-            <Menu fixed={fixed ? 'top' : null} inverted={!fixed} pointing={!fixed} secondary={!fixed} size="large">
+            <Menu
+              secondary
+              fixed={fixed ? 'top' : null}
+              inverted={!fixed}
+              pointing={!fixed}
+              secondary={!fixed}
+              size="large"
+            >
               <Container>
+                {fixed ? (
+                  <Menu.Item header>
+                    <Image src={LOGO} size="mini" />
+                    Neighborhood{' '}
+                  </Menu.Item>
+                ) : null}
                 <Menu.Item position="right">
                   <Link to={'/login'}>
                     <Button inverted={!fixed}>Log in</Button>

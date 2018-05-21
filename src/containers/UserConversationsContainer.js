@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
-import { Form, Header } from 'semantic-ui-react'
+import { Form, Header, Button } from 'semantic-ui-react'
 import axios from 'axios'
 import { ConversationHeaderContainer, MessagesContainer } from 'containers'
 import { TaskOwnerConvHeader } from 'components'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { updateActiveIndex, getConversations, getMessages, sendMessage } from 'actions'
+import { updateActiveIndex, getConversations, getMessages, sendMessage, doneTask } from 'actions'
 
 const url = process.env.REACT_APP_API
 
@@ -29,12 +29,28 @@ class ConversationsContainer extends Component {
     this.props.getConversations(this.props.id, this.props.headers)
   }
 
+  componentDidUpdate() {
+    if (this.props.conversations.length > 0 && this.state.currentConv === null) {
+      const id = this.props.conversations[0].id
+      this.setState({ activeConv: id })
+      this.setState({ currentConv: this.props.conversations.filter(conv => conv.id == id)[0] })
+    }
+  }
+
   handleSendMessage = () => {
     const id = this.props.activeIndex
     this.props.sendMessage(this.state.activeConv, this.state.body, this.props.headers)
   }
 
-  handleDoneClick = () => this.props.doneTask(this.props.conversations[0].id, this.props.headers)
+  handleDoneClick = () => this.props.doneTask(this.state.activeConv, this.props.headers)
+  handleRepublishClick = () =>
+    this.props.history.push({
+      pathname: '/task',
+      state: {
+        title: this.props.task.title,
+        description: this.props.task.description,
+      },
+    })
   handleChange = (e, { name, value }) => this.setState({ [name]: value })
   handleItemClick = (e, { id }) => {
     this.setState({ activeConv: id })
@@ -46,7 +62,7 @@ class ConversationsContainer extends Component {
   }
 
   renderContent(conv) {
-    const { task, conversations, messages } = this.props
+    const { task, conversations, messages, ltm } = this.props
     const { body } = this.state
     if (task === {}) {
       return <h1>Loading ...</h1>
@@ -54,14 +70,18 @@ class ConversationsContainer extends Component {
     return (
       <React.Fragment>
         <TaskOwnerConvHeader
+          handleDoneClick={this.handleDoneClick}
           handleItemClick={this.handleItemClick}
+          handleRepublishClick={this.handleRepublishClick}
           conversations={conversations}
           activeConv={this.state.activeConv}
+          task={this.props.task}
         />
 
         {this.state.currentConv && (
           <React.Fragment>
             <MessagesContainer
+              height={ltm ? '30vh' : '60vh'}
               messages={messages.filter(message => message.conversation_id == this.state.activeConv)}
               conversation={this.state.currentConv}
             />
@@ -77,12 +97,7 @@ class ConversationsContainer extends Component {
     )
   }
   render() {
-    return (
-      <React.Fragment>
-        <Header>Conversations for {this.props.task.title}</Header>
-        {this.renderContent(this.state.currentConv)}
-      </React.Fragment>
-    )
+    return <React.Fragment>{this.renderContent(this.state.currentConv)}</React.Fragment>
   }
 }
 const mapStateToProps = state => ({
@@ -93,10 +108,12 @@ const mapStateToProps = state => ({
   headers: state.headers,
   markers: state.markers,
   task: state.currentTask,
+  browser: state.browser,
+  ltm: state.browser.lessThan.medium,
 })
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateActiveIndex, sendMessage, getConversations, getMessages }, dispatch)
+  return bindActionCreators({ updateActiveIndex, sendMessage, getConversations, getMessages, doneTask }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ConversationsContainer))

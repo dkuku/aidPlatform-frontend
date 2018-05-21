@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
 import { getMarkers, addMarker } from 'actions'
-import { Grid } from 'semantic-ui-react'
+import { Grid, Container } from 'semantic-ui-react'
 import { Map, TaskList, MapNav } from 'components'
 import { GeoLocation } from 'react-redux-geolocation'
 

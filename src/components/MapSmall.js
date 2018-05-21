@@ -5,12 +5,13 @@ import { Marker, InfoWindow } from 'react-google-maps'
 import { MarkerDisplay } from 'components'
 import { updateActiveIndex, updateBounds, updateCenter, getMarkersBounds } from 'actions'
 import GoogleMapsWrapper from './GoogleMapsWrapper.js'
+import { BLUE, GREEN, PINK } from '../constants/Icons'
 
 const GMAP_KEY = process.env.REACT_APP_GMAP_KEY
 const url = process.env.REACT_APP_ADDRESS
-const help = `${url}/markers/green-pin.png`
-const material = `${url}/markers/blue-pin.png`
-const done = `${url}/markers/pink-pin.png`
+const help = GREEN
+const material = BLUE
+const done = PINK
 
 class MapSmall extends Component {
   componentWillMount() {

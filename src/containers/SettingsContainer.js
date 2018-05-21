@@ -46,20 +46,35 @@ class SettingsContainer extends Component {
 
   render() {
     return (
-      <Grid stackable columns={2}>
-        <Grid.Column>
-          <UserTasksContainer
-            tasks={this.state.tasks}
-            activeCategory={this.state.activeCategory}
-            handleItemClick={this.handleItemClick}
-            onTaskSelect={this.onTaskSelect}
-            activeIndex={this.state.activeIndex}
-          />
-        </Grid.Column>
-        <Grid.Column>
-          <UserConversationsContainer id={String(this.state.activeIndex)} />
-        </Grid.Column>
-      </Grid>
+      <React.Fragment>
+        {this.props.ltm ? (
+          <React.Fragment>
+            <UserConversationsContainer id={String(this.state.activeIndex)} />
+            <UserTasksContainer
+              tasks={this.state.tasks}
+              activeCategory={this.state.activeCategory}
+              handleItemClick={this.handleItemClick}
+              onTaskSelect={this.onTaskSelect}
+              activeIndex={this.state.activeIndex}
+            />
+          </React.Fragment>
+        ) : (
+          <Grid columns={2}>
+            <Grid.Column>
+              <UserTasksContainer
+                tasks={this.state.tasks}
+                activeCategory={this.state.activeCategory}
+                handleItemClick={this.handleItemClick}
+                onTaskSelect={this.onTaskSelect}
+                activeIndex={this.state.activeIndex}
+              />
+            </Grid.Column>
+            <Grid.Column>
+              <UserConversationsContainer id={String(this.state.activeIndex)} />
+            </Grid.Column>
+          </Grid>
+        )}
+      </React.Fragment>
     )
   }
 }
@@ -70,6 +85,7 @@ const mapStateToProps = state => {
     user: state.user,
     activeIndex: state.activeIndex,
     markers: state.markers,
+    ltm: state.browser.lessThan.medium,
   }
 }
 
