@@ -2,14 +2,17 @@ import React, { Component } from 'react'
 import { Grid, Container, Segment, Statistic, Header } from 'semantic-ui-react'
 
 const Stats = props => (
-  <Segment inverted>
+  <Segment inverted 
+  style={{
+    height: '200px',
+    bottom: '0px',
+    left: '0px',
+    width: '100%',
+    position: 'fixed',
+  }}>
     <Container
       textAlign="center"
-      style={{
-        height: '200px',
-        marginBottom: 0,
-        position: 'relative',
-      }}
+
     >
       <Header inverted>Site statistics</Header>
       <Grid

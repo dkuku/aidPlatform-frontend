@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { getStats, updateStats } from 'actions'
 import { Stats } from 'components'
 
-const ws = 'stats'
+const ws = '/stats'
 
 class Footer extends Component {
   componentDidMount() {
@@ -31,7 +31,7 @@ class Footer extends Component {
           onDisconnected={this.onDisconnected}
           onRejected={this.onRejected}
         />
-        <Stats stats={this.props.stats} />
+        <Stats  stats={this.props.stats} />
       </ActionCableProvider>
     )
   }
