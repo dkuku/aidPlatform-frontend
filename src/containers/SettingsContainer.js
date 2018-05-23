@@ -44,19 +44,20 @@ class SettingsContainer extends Component {
   }
 
   render() {
+    const {activeCategory, activeIndex, tasks} = this.state
     return (
       <React.Fragment>
         {/*mobile desktop switch*/}
         {this.props.ltm ? (
           <React.Fragment>
             <UserTasksContainer
-              tasks={this.state.tasks}
-              activeCategory={this.state.activeCategory}
+              tasks={tasks}
+              activeCategory={activeCategory}
               handleItemClick={this.handleItemClick}
               onTaskSelect={this.onTaskSelect}
-              activeIndex={this.state.activeIndex}
+              activeIndex={activeIndex}
             >
-              <UserConversationsContainer id={String(this.state.activeIndex)} />
+              <UserConversationsContainer id={activeIndex} />
             </UserTasksContainer>
           </React.Fragment>
         ) : (
@@ -65,14 +66,14 @@ class SettingsContainer extends Component {
             <Grid.Column>
               <UserTasksContainer
                 tasks={this.state.tasks}
-                activeCategory={this.state.activeCategory}
+                activeCategory={activeCategory}
                 handleItemClick={this.handleItemClick}
                 onTaskSelect={this.onTaskSelect}
-                activeIndex={this.state.activeIndex}
+                activeIndex={activeIndex}
               />
             </Grid.Column>
             <Grid.Column>
-              <UserConversationsContainer id={String(this.state.activeIndex)} />
+              <UserConversationsContainer id={activeIndex} />
             </Grid.Column>
             </Grid.Row>
           </Grid>

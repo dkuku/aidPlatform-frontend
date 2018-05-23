@@ -14,7 +14,7 @@ class UserConversationsContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      activeIndex: Number(this.props.id),
+      activeIndex: this.props.id,
       activeConv: null,
       currentConv: null,
       body: '',
@@ -25,7 +25,7 @@ class UserConversationsContainer extends Component {
   }
 
   componentWillMount() {
-    this.props.getConversations(this.props.id, this.props.headers)
+    {this.props.id? this.props.getConversations(this.props.id, this.props.headers):null}
   }
 
   componentDidMount() {
