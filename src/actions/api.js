@@ -4,7 +4,7 @@ import { api as url } from '../constants/variables'
 
 export function getMarkers() {
   return function(dispatch) {
-    const path = '/tasks'
+    const path = 'tasks'
     axios
       .get(url + path)
       .then(response => {
@@ -24,7 +24,7 @@ export function getMarkers() {
 }
 export function getUserMarkers(headers) {
   return function(dispatch) {
-    const path = '/tasks'
+    const path = 'tasks'
     axios
       .get(url + path, headers)
       .then(response => {
@@ -41,7 +41,7 @@ export function getUserMarkers(headers) {
 }
 export function getMarkersBounds(bounds) {
   return function(dispatch) {
-    const path = '/tasks/within'
+    const path = 'tasks/within'
     axios
       .post(url + path, { task: bounds })
       .then(response => {
@@ -62,7 +62,7 @@ export function getMarkersBounds(bounds) {
 }
 export function doneTask(id, headers) {
   return function(dispatch) {
-    const path = '/conversations/' + id
+    const path = 'conversations/' + id
     axios
       .delete(url + path, headers)
       .then(response => {
@@ -81,7 +81,7 @@ export function doneTask(id, headers) {
 
 export function addTask(task, headers) {
   return function(dispatch) {
-    const path = '/tasks'
+    const path = 'tasks'
     axios
       .post(url + path, task, headers)
       .then(response => {
