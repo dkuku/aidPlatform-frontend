@@ -6,8 +6,7 @@ import axios from 'axios'
 import { updateActiveIndex, getConversations, getUserMarkers } from 'actions'
 import { TaskDetails, TaskButtonsOwner } from 'components'
 import { UserConversationsContainer, UserTasksContainer } from 'containers'
-
-const url = process.env.REACT_APP_API
+import {api as url, WS} from '../constants/variables'
 
 class SettingsContainer extends Component {
   constructor(props) {
