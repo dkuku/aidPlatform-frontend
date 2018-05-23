@@ -11,7 +11,6 @@ class UserSettingsMenu extends Component {
         as={Menu}
         vertical
         animation="push"
-        inverted
         fluid={top}
         width="thin"
         direction={top ? 'top' : 'left'}

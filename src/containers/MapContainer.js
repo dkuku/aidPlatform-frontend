@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Fragment, Component} from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -8,34 +8,44 @@ import { Grid, Container } from 'semantic-ui-react'
 import { Map, TaskList, MapNav } from 'components'
 import { GeoLocation } from 'react-redux-geolocation'
 
-class MapContainer extends React.Component {
+class MapContainer extends Component {
   static propTypes = {
     addMarker: PropTypes.func.isRequired,
   }
 
-  url = process.env.REACT_APP_API
   componentDidMount() {
     this.props.getMarkers()
   }
+
   render() {
     return (
-      <Grid relaxed stackable reversed="computer">
+        <Fragment>
+        <GeoLocation />
+      {this.props.ltm?(
+        <Fragment>
+        <Map />
+        <TaskList />
+        </Fragment>
+        ):(
+        <Grid container>
         <Grid.Row columns={2}>
-          <Grid.Column computer={11} largeScreen={13} widescreen={14}>
-            <GeoLocation />
-            <Map />
-          </Grid.Column>
-          <Grid.Column computer={5} largeScreen={3} widescreen={2}>
-            <TaskList />
-          </Grid.Column>
+        <Grid.Column style={{maxWidth: '400px'}}>
+        <TaskList />
+        </Grid.Column>
+        <Grid.Column>
+        <Map />
+        </Grid.Column>
         </Grid.Row>
-      </Grid>
+        </Grid>
+      )}
+        </Fragment>
     )
   }
 }
 
 const mapStateToProps = state => ({
   markers: state.markers,
+    ltm: state.browser.lessThan.medium,
 })
 
 function mapDispatchToProps(dispatch) {

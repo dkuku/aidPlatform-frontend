@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import { Form } from 'semantic-ui-react'
 import axios from 'axios'
+import { ActionCableProvider, ActionCable } from 'react-actioncable-provider'
 import { ConversationHeaderContainer, MessagesContainer } from 'containers'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { updateActiveIndex, getConversations, getMessages, sendMessage, doneTask, createConversation } from 'actions'
-
-const url = process.env.REACT_APP_API
+import { updateActiveIndex, getConversations, getMessages, sendMessage, doneTask, createConversation, addMessage } from 'actions'
+import {api as url, WS} from '../constants/variables'
 
 class ConversationsContainer extends Component {
   constructor(props) {
@@ -33,6 +33,11 @@ class ConversationsContainer extends Component {
   handleSendMessage = () => {
     const id = this.props.activeIndex
     this.props.sendMessage(this.props.conversations[0].id, this.state.body, this.props.headers)
+    this.setState({body: ''})
+  }
+
+  onReceived = message => {
+    this.props.addMessage(message)
   }
   handleDoneClick = () => this.props.doneTask(this.props.conversations[0].id, this.props.headers)
   handleVolunteer = () => this.props.createConversation(this.props.activeIndex, this.props.headers)
@@ -69,7 +74,19 @@ class ConversationsContainer extends Component {
     )
   }
   render() {
-    return <React.Fragment>{this.renderContent()}</React.Fragment>
+    return (
+        <ActionCableProvider url={WS}>
+    <ActionCable
+      channel={{ channel: `TaskChannel`,
+                  room: `task_channel`}}
+      onReceived={this.onReceived}
+      onConnected={() => console.log("connected")}
+    />
+    <Fragment>
+  {this.renderContent(this.state.currentConv)}
+  </Fragment>
+  </ActionCableProvider>
+    )
   }
 }
 const mapStateToProps = state => ({
@@ -85,7 +102,7 @@ const mapStateToProps = state => ({
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
-    { updateActiveIndex, sendMessage, getConversations, getMessages, doneTask, createConversation },
+    { updateActiveIndex, sendMessage, getConversations, getMessages, doneTask, createConversation, addMessage },
     dispatch
   )
 }

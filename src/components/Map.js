@@ -48,8 +48,8 @@ class MapSearch extends Component {
       <GoogleMapsWrapper
         googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${GMAP_KEY}&libraries=geometry,drawing,places`} // libraries=geometry,drawing,places
         loadingElement={<div style={{}} />}
-        containerElement={<div style={{ height: `75vh` }} />}
-        mapElement={<div style={{ height: `100%` }} />}
+        containerElement={<div style={{ height: `65vh`, width:'100%' }} />}
+        mapElement={<div style={{ height: `65vh`, width:'100%' }} />}
         defaultZoom={9}
         defaultCenter={{ lat: latitude, lng: longitude }}
         onMapMounted={this.state.onMapMounted}

@@ -89,13 +89,18 @@ export function sendMessage(id, body, headers) {
       .post(url + path, bodyForm, headers)
       .then(response => {
         console.log(response.data.data)
-        dispatch({
-          type: GET_MESSAGE,
-          payload: response.data.data,
-        })
       })
       .catch(err => {
         console.log(err)
       })
+  }
+}
+
+export function addMessage(message){
+  return function(dispatch){
+        dispatch({
+          type: GET_MESSAGE,
+          payload: message
+        })
   }
 }

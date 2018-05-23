@@ -5,8 +5,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { getStats, updateStats } from 'actions'
 import { Stats } from 'components'
-
-const ws = '/stats'
+import {api as url, WS} from '../constants/variables'
 
 class Footer extends Component {
   componentDidMount() {
@@ -23,13 +22,10 @@ class Footer extends Component {
 
   render() {
     return (
-      <ActionCableProvider url={ws}>
+      <ActionCableProvider url={WS}>
         <ActionCable
           channel={{ channel: 'StatsChannel' }}
-          onConnected={this.onConnected}
           onReceived={this.onReceived}
-          onDisconnected={this.onDisconnected}
-          onRejected={this.onRejected}
         />
         <Stats  stats={this.props.stats} />
       </ActionCableProvider>

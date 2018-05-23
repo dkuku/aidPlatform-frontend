@@ -13,7 +13,7 @@ class SettingsContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      activeIndex: this.props.activeIndex,
+      activeIndex: null,
       activeCategory: 'unfulfiled',
       tasks: {
         unfulfiled: [],
@@ -47,19 +47,22 @@ class SettingsContainer extends Component {
   render() {
     return (
       <React.Fragment>
+        {/*mobile desktop switch*/}
         {this.props.ltm ? (
           <React.Fragment>
-            <UserConversationsContainer id={String(this.state.activeIndex)} />
             <UserTasksContainer
               tasks={this.state.tasks}
               activeCategory={this.state.activeCategory}
               handleItemClick={this.handleItemClick}
               onTaskSelect={this.onTaskSelect}
               activeIndex={this.state.activeIndex}
-            />
+            >
+              <UserConversationsContainer id={String(this.state.activeIndex)} />
+            </UserTasksContainer>
           </React.Fragment>
         ) : (
-          <Grid columns={2}>
+          <Grid container>
+          <Grid.Row columns={2}>
             <Grid.Column>
               <UserTasksContainer
                 tasks={this.state.tasks}
@@ -72,6 +75,7 @@ class SettingsContainer extends Component {
             <Grid.Column>
               <UserConversationsContainer id={String(this.state.activeIndex)} />
             </Grid.Column>
+            </Grid.Row>
           </Grid>
         )}
       </React.Fragment>

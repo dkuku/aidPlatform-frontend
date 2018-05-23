@@ -32,10 +32,11 @@ class TaskForm extends Component {
         lat: 51.65,
         lng: 0.05,
         task_type: 'help',
+        address: '',
       },
     }
   }
-  url = process.env.REACT_APP_API
+
   handleChange = (e, { name, value }) =>
     this.setState({
       task: {
@@ -52,12 +53,15 @@ class TaskForm extends Component {
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
       .then(latLng => {
-        this.setState({ task: { ...this.state.task, ...latLng } })
+        this.setState({ task: { ...this.state.task, ...latLng, address: address } })
         console.log(this.state.task)
       })
       .catch(error => console.error('Error', error))
   }
-
+  componentDidMount() {
+    this.setState({task: {...this.props.location.state}})
+    console.log(this.props)
+  }
   handleTaskSubmit = () => {
     const { task, headers } = this.state
     this.props.addTask({ task: task }, headers)
@@ -120,6 +124,7 @@ class TaskForm extends Component {
               label="Title"
               placeholder="Title. Max 50 letters."
               name="title"
+              value={task.title}
               onChange={this.handleChange}
             />
             <Form.Input
@@ -127,6 +132,7 @@ class TaskForm extends Component {
               placeholder="Description max 300 letters"
               name="description"
               control={TextArea}
+              value={task.description}
               onChange={this.handleChange}
             />
             <Form.Field
@@ -135,6 +141,7 @@ class TaskForm extends Component {
               label="Type"
               options={options}
               placeholder="Type"
+              value={task.type}
               onChange={this.handleChange}
             />
             <div className="field">

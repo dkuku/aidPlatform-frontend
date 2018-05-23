@@ -36,10 +36,6 @@ export function getUserMarkers(headers) {
       })
       .catch(err => {
         console.log(err)
-        dispatch({
-          type: 'GET_MARKERS_ERROR',
-          payload: err,
-        })
       })
   }
 }
@@ -76,12 +72,9 @@ export function doneTask(id, headers) {
           index: response.data.data.task.id,
         })
       })
+      .then(getUserMarkers(headers))
       .catch(err => {
         console.log(err)
-        dispatch({
-          type: 'GET_MARKER_ERROR',
-          payload: err,
-        })
       })
   }
 }

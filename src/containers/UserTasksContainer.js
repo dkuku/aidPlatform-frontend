@@ -15,8 +15,7 @@ class UserTasksContainer extends Component {
     const { visible } = this.state
     const { toggleVisibility, ltm, tasks, activeCategory, logout, handleItemClick } = this.props
     return (
-      <div style={{ height: '75vh' }}>
-        <Sidebar.Pushable as={Segment}>
+        <Sidebar.Pushable as={Segment} style={{ height: '100%' }}>
           <UserSettingsMenu
             top={ltm}
             toggleVisibility={this.toggleVisibility}
@@ -29,8 +28,9 @@ class UserTasksContainer extends Component {
             <Segment>
               <Button icon basic color="teal" onClick={this.toggleVisibility}>
                 <Icon name="bars" />
-              </Button>
+                </Button>
             </Segment>
+              {this.props.children}              
             <Segment basic>
               {this.props.tasks[this.props.activeCategory].map(marker => (
                 <React.Fragment key={marker.id}>
@@ -44,7 +44,6 @@ class UserTasksContainer extends Component {
             </Segment>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
-      </div>
     )
   }
 }

@@ -33,7 +33,10 @@ class VolunteerContainer extends Component {
     const marker = this.props.markers.filter(obj => obj.id == activeIndex)[0]
     var name
     return (
-      <Grid stackable columns={2}>
+      <Grid container stackable reversed='computer' columns={2}>
+        <Grid.Column>
+          <ConversationsContainer />
+        </Grid.Column>
         <Grid.Column>
           {!(this.props.markers.length === 1) && (
             <TaskDetails
@@ -42,9 +45,6 @@ class VolunteerContainer extends Component {
               active={true}
             />
           )}
-        </Grid.Column>
-        <Grid.Column>
-          <ConversationsContainer />
         </Grid.Column>
       </Grid>
     )

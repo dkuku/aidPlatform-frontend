@@ -1,7 +1,13 @@
-import React, { Component } from 'react'
+import React, { Componenti, Fragment } from 'react'
 import { Grid, Container, Segment, Statistic, Header } from 'semantic-ui-react'
 
 const Stats = props => (
+<Fragment>
+  <div
+  style={{
+    marginBottom: '200px',
+  }}/>
+  />
   <Segment inverted 
   style={{
     height: '200px',
@@ -39,5 +45,6 @@ const Stats = props => (
       Created with lots of sweat, tears and backspaces. 2018 Daniel Kukula
     </Container>
   </Segment>
+  </Fragment>
 )
 export default Stats
