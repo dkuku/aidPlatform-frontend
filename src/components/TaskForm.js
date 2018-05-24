@@ -141,12 +141,12 @@ class TaskForm extends Component {
               label="Type"
               options={options}
               placeholder="Type"
-              value={task.type}
+              value={task.task_type}
               onChange={this.handleChange}
             />
             <div className="field">
               <label>Location</label>
-              <PlacesAutocomplete value={address} onChange={this.handleAddressChange} onSelect={this.handleSelect}>
+              <PlacesAutocomplete value={task.address} onChange={this.handleAddressChange} onSelect={this.handleSelect}>
                 {({ getInputProps, suggestions, getSuggestionItemProps }) => (
                   <div>
                     <input
