@@ -8,7 +8,7 @@ import { TaskOwnerConvHeader, TaskDetails } from 'components'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { updateActiveIndex, getConversations, getMessages, sendMessage, doneTask, addMessage } from 'actions'
-import {api as url, WS} from '../constants/variables'
+import { api as url, WS } from '../constants/variables'
 
 class UserConversationsContainer extends Component {
   constructor(props) {
@@ -25,7 +25,9 @@ class UserConversationsContainer extends Component {
   }
 
   componentWillMount() {
-    {this.props.id? this.props.getConversations(this.props.id, this.props.headers):null}
+    {
+      this.props.id ? this.props.getConversations(this.props.id, this.props.headers) : null
+    }
   }
 
   componentDidMount() {
@@ -47,14 +49,14 @@ class UserConversationsContainer extends Component {
   handleSendMessage = () => {
     const id = this.props.activeIndex
     this.props.sendMessage(this.state.activeConv, this.state.body, this.props.headers)
-    this.setState({body: ''})
+    this.setState({ body: '' })
   }
 
   handleDoneClick = () => this.props.doneTask(this.state.activeConv, this.props.headers)
   handleRepublishClick = () =>
     this.props.history.push({
       pathname: '/task',
-      state: {...this.props.task}
+      state: { ...this.props.task },
     })
   handleChange = (e, { name, value }) => this.setState({ [name]: value })
   handleItemClick = (e, { id }) => {
@@ -66,7 +68,7 @@ class UserConversationsContainer extends Component {
     })
   }
   onReceived = message => {
-    console.log("dssds")
+    console.log('dssds')
     console.log(message)
     this.props.addMessage(message)
   }
@@ -79,47 +81,48 @@ class UserConversationsContainer extends Component {
     }
     return (
       <Fragment>
-        {currentConv && conversations.length>0 && (
-          <Fragment>
-        <TaskOwnerConvHeader
-          handleDoneClick={this.handleDoneClick}
-          handleItemClick={this.handleItemClick}
-          handleRepublishClick={this.handleRepublishClick}
-          conversations={conversations}
-          activeConv={activeConv}
-          task={task}
-        />
+        {currentConv &&
+          conversations.length > 0 && (
+            <Fragment>
+              <TaskDetails onTaskSelect={() => {}} active={'true'} marker={task} />
+              <TaskOwnerConvHeader
+                handleDoneClick={this.handleDoneClick}
+                handleItemClick={this.handleItemClick}
+                handleRepublishClick={this.handleRepublishClick}
+                conversations={conversations}
+                activeConv={activeConv}
+                task={task}
+              />
 
-            <MessagesContainer
-              height={ltm ? '30vh' : '60vh'}
-              messages={messages.filter(message => message.conversation_id == this.state.activeConv)}
-              conversation={this.state.currentConv}
-            />
-            <Form reply onSubmit={this.handleSendMessage}>
-              <Form.Group>
-                <Form.Input placeholder="Message" name="body" value={body} onChange={this.handleChange} />
-                <Form.Button content="Submit" />
-              </Form.Group>
-            </Form>
-            {ltm&&<TaskDetails onTaskSelect={()=>{}} marker={task}/>}
-          </Fragment>
-        )}
+              <MessagesContainer
+                height={ltm ? '30vh' : '60vh'}
+                messages={messages.filter(message => message.conversation_id == this.state.activeConv)}
+                conversation={this.state.currentConv}
+              />
+              <Form reply onSubmit={this.handleSendMessage}>
+                <Form.Group>
+                  <Form.Input placeholder="Message" name="body" value={body} onChange={this.handleChange} />
+                  <Form.Button content="Submit" />
+                </Form.Group>
+              </Form>
+            </Fragment>
+          )}
       </Fragment>
     )
   }
   render() {
     return (
-    <ActionCableProvider url={WS}>
-    <ActionCable
-      channel={{ channel: `TaskChannel`,
-                  room: `task_channel`}}
-      onReceived={this.onReceived}
-      onConnected={() => console.log("connected")}
-    />
-    <Fragment>
-  {this.renderContent(this.state.currentConv)}
-  </Fragment>
-  </ActionCableProvider>
+      <ActionCableProvider url={WS}>
+        <ActionCable
+          channel={{
+            channel: `TaskChannel`,
+            room: `task_channel`,
+          }}
+          onReceived={this.onReceived}
+          onConnected={() => console.log('connected')}
+        />
+        <Fragment>{this.renderContent(this.state.currentConv)}</Fragment>
+      </ActionCableProvider>
     )
   }
 }
@@ -136,8 +139,10 @@ const mapStateToProps = state => ({
 })
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateActiveIndex, sendMessage, getConversations, getMessages, doneTask, addMessage }, dispatch)
+  return bindActionCreators(
+    { updateActiveIndex, sendMessage, getConversations, getMessages, doneTask, addMessage },
+    dispatch
+  )
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(UserConversationsContainer))
-

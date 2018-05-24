@@ -9,11 +9,9 @@ export default class TaskOwnerConvHeader extends Component {
     return taskDate.getDate() + 1 > now.getDate()
   }
   render() {
-
     const { conversations, task } = this.props
     const menuPlaceholder = !!conversations ? (
       <React.Fragment>
-        <Header>Conversations for {task.title}</Header>
         <Button negative floated="right" onClick={this.props.handleDoneClick} disabled={task.done !== 0}>
           Mark task done
         </Button>
@@ -27,9 +25,11 @@ export default class TaskOwnerConvHeader extends Component {
           {this.props.conversations.map(conversation => (
             <Menu.Item
               key={conversation.id}
-              name={this.props.activeConv == conversation.id?
-                conversation.volunteer_name:
-                (conversation.volunteer_name.substring(0,5)+'...')}
+              name={
+                this.props.activeConv == conversation.id
+                  ? conversation.volunteer_name
+                  : conversation.volunteer_name.substring(0, 5) + '...'
+              }
               id={conversation.id}
               active={this.props.activeConv == conversation.id}
               onClick={this.props.handleItemClick.bind(this)}
@@ -47,4 +47,3 @@ export default class TaskOwnerConvHeader extends Component {
     return <React.Fragment>{menuPlaceholder}</React.Fragment>
   }
 }
-
