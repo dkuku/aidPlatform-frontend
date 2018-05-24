@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Grid } from 'semantic-ui-react'
+import { Grid, Container } from 'semantic-ui-react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import axios from 'axios'
@@ -61,22 +61,17 @@ class SettingsContainer extends Component {
             </UserTasksContainer>
           </React.Fragment>
         ) : (
-          <Grid container>
-          <Grid.Row columns={2}>
-            <Grid.Column>
+            <Container>
               <UserTasksContainer
                 tasks={this.state.tasks}
                 activeCategory={activeCategory}
                 handleItemClick={this.handleItemClick}
                 onTaskSelect={this.onTaskSelect}
                 activeIndex={activeIndex}
-              />
-            </Grid.Column>
-            <Grid.Column>
+              >
               <UserConversationsContainer id={activeIndex} />
-            </Grid.Column>
-            </Grid.Row>
-          </Grid>
+            </UserTasksContainer>
+            </Container>
         )}
       </React.Fragment>
     )

@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom'
 class UserSettingsMenu extends Component {
   capitalize = s => s && s[0].toUpperCase() + s.slice(1)
   render() {
-    const { top, toggleVisibility, visible, history, tasks, activeCategory, logout, handleItemClick } = this.props
+    const { top, logout, toggleVisibility, visible, history, tasks, activeCategory, handleItemClick } = this.props
     return (
       <Sidebar
         as={Menu}
@@ -47,7 +47,7 @@ class UserSettingsMenu extends Component {
           name="Logout"
           onClick={() => {
             history.push('/')
-            this.props.logout().bind(this)
+            logout().bind(this)
           }}
         />
       </Sidebar>
