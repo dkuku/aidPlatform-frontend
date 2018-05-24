@@ -17,7 +17,7 @@ class TaskDetails extends Component {
   }
   render() {
     const {marker, active} = this.props
-    const { title, id, task_type, description, done } = marker
+    const { title, id, task_type, description, done, address } = marker
 
     return (
       <div onClick={this.props.onTaskSelect.bind(null, id)} 
@@ -30,11 +30,15 @@ class TaskDetails extends Component {
             <Item.Content>
               <Item.Header>{title}</Item.Header>
               <Item.Meta>
-                <span>status: {done ? 'done' : 'waiting'}</span>
-                <span>type: {task_type}</span>
+                <span>posted from: {address}</span>
               </Item.Meta>
               <Item.Description>{description}</Item.Description>
+        <Item.Extra>
+        <span>status: {done ? 'done' : 'waiting'}</span>
+        <span>type: {task_type}</span>
+        </Item.Extra>
             </Item.Content>
+
           </Item>
         </Item.Group>
       </div>
