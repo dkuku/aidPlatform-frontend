@@ -31,7 +31,7 @@ export function getUserMarkers(headers) {
         console.log(response)
         dispatch({
           type: USER_MARKERS,
-          payload: response.data.data,
+          payload: response.data.data.tasks,
         })
       })
       .catch(err => {

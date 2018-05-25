@@ -37,7 +37,7 @@ class MessagesContainer extends Component {
     const { task_owner_name, volunteer_name } = this.props.conversation
 
     return (
-      <Comment.Group style={{ height: height, overflow: 'hidden', overflowY: 'scroll' }}>
+      <Comment.Group style={{ height: height, overflow: 'hidden', overflowY: 'auto' }}>
         {messages.map(message => (
           <Message
             ref={message.id}

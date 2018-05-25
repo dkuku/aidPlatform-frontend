@@ -12,6 +12,7 @@ import stats from './stats'
 import headers from './headers'
 import messages from './messages'
 import currentTask from './currentTask'
+import userTasks from './userTasks'
 
 const rootReducer = combineReducers({
   browser,
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   headers,
   messages,
   currentTask,
+  userTasks,
 })
 
 export default rootReducer

@@ -5,12 +5,11 @@ const Stats = props => (
 <Fragment>
   <div
   style={{
-    marginBottom: '200px',
+    marginBottom: '150px',
   }}/>
-  />
-  <Segment inverted 
+  <Segment inverted
   style={{
-    height: '200px',
+    height: '150px',
     bottom: '0px',
     left: '0px',
     width: '100%',
@@ -23,26 +22,23 @@ const Stats = props => (
       <Header inverted>Site statistics</Header>
       <Grid
         columns={3}
-        divided
-        stackable
         style={{
-          marginBottom: '1em',
           marginTop: 0,
         }}
       >
         <Grid.Row>
           <Grid.Column>
-            <Statistic inverted label="Unfulfiled Tasks:" value={props.stats.unfulfiled} />
+            <Statistic inverted size="small" label="Unfulfiled Tasks:" value={props.stats.unfulfiled} />
           </Grid.Column>
           <Grid.Column>
-            <Statistic inverted label="Fulfiled Tasks:" value={props.stats.fulfiled} />
+            <Statistic inverted size="small" label="Fulfiled Tasks:" value={props.stats.fulfiled} />
           </Grid.Column>
           <Grid.Column>
-            <Statistic inverted label="Registered Users" value={props.stats.users} />
+            <Statistic inverted size="small" label="Registered Users" value={props.stats.users} />
           </Grid.Column>
         </Grid.Row>
       </Grid>
-      Created with lots of sweat, tears and backspaces. 2018 Daniel Kukula
+      2018 Daniel Kukula
     </Container>
   </Segment>
   </Fragment>

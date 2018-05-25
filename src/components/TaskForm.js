@@ -7,14 +7,6 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { addTask, updatePicture } from 'actions'
 
-const GMAP_KEY = process.env.REACT_APP_GMAP_KEY
-const inlineStyle = {
-  modal: {
-    marginTop: '0px !important',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-}
 const options = [{ key: 'material', text: 'material', value: 'material' }, { key: 'help', text: 'help', value: 'help' }]
 
 class TaskForm extends Component {
@@ -22,14 +14,13 @@ class TaskForm extends Component {
     super(props)
     this.state = {
       picture: '',
-      headers: { headers: { 'AUTH-TOKEN': this.props.user.authentication_token } },
       accepted: [],
       rejected: [],
       address: '',
       task: {
         title: '',
         description: '',
-        lat: 51.65,
+        lat: 0,
         lng: 0.05,
         task_type: 'help',
         address: '',
@@ -46,7 +37,7 @@ class TaskForm extends Component {
     })
 
   handleAddressChange = address => {
-    this.setState({ address })
+    this.setState({task: {...this.state.task, address: address} })
   }
 
   handleSelect = address => {
@@ -63,15 +54,15 @@ class TaskForm extends Component {
     console.log(this.props)
   }
   handleTaskSubmit = () => {
-    const { task, headers } = this.state
-    this.props.addTask({ task: task }, headers)
+    const { task } = this.state
+    this.props.addTask({ task: task }, this.props.headers)
   }
 
   handleChangePicture = file => {
     this.setState({ picture: file.target.files[0] })
   }
   handlePictureSubmit = () => {
-    this.props.updatePicture(this.state.accepted[0], this.state.headers)
+    this.props.updatePicture(this.state.accepted[0], this.props.headers)
   }
   onDropAccepted() {
     this.setState({ picture: this.state.accepted[0] })
@@ -115,7 +106,7 @@ class TaskForm extends Component {
       <React.Fragment>
         <Header as="h2" color="teal" textAlign="center">
           {' '}
-          Add new Request
+          Add a new request
         </Header>
         <Form size="large" onSubmit={this.handleTaskSubmit}>
           <Segment stacked>
@@ -187,13 +178,7 @@ class TaskForm extends Component {
       You can do same with CSS, the main idea is that all the elements up to the `Grid`
       below must have a height of 100%.
     */}
-        <style>{`
-      body > div,
-      body > div > div.login-form {
-        height: 100%;
-      }
-    `}</style>
-        <Grid textAlign="center" style={{ height: '100%' }} verticalAlign="middle">
+        <Grid textAlign="center" style={{ marginTop: '80px' }} verticalAlign="middle">
           <Grid.Column style={{ maxWidth: 450 }}>{form}</Grid.Column>
         </Grid>
       </div>
@@ -206,6 +191,7 @@ const mapStateToProps = state => {
     user: state.user,
     currentLocation: state.position.geolocation,
     task: state.task,
+    headers: state.headers,
   }
 }
 

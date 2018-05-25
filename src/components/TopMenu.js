@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import Proptypes from 'prop-types'
 import { Menu, Segment, Image } from 'semantic-ui-react'
@@ -7,21 +7,18 @@ import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
 import * as UserActions from 'actions/user'
 import * as MarkerActions from 'actions/markers'
-import { ActionCableProvider } from 'react-actioncable-provider'
 import { LOGO } from '../constants/Icons'
 
 class TopMenu extends PureComponent {
   render() {
     const isLoggedIn = Object.keys(this.props.user).length > 1 ? true : false
-    const activeItem = 'login'
 
     return (
-      <Segment inverted>
+      <Segment inverted style={{height:'80px'}}>
         <Menu inverted secondary>
           <Menu.Item
             header
             name="Home"
-            active={activeItem === 'home'}
             onClick={() => {
               this.props.history.push('/')
             }}
@@ -29,9 +26,10 @@ class TopMenu extends PureComponent {
             <Image src={LOGO} size="mini" />
             Neighborhood
           </Menu.Item>
+          {isLoggedIn&&
+            <Fragment>
           <Menu.Item
             name="Settings"
-            active={activeItem === 'settings'}
             onClick={() => {
               this.props.history.push('/settings')
             }}
@@ -43,12 +41,12 @@ class TopMenu extends PureComponent {
             {}
             <Menu.Item
               name="Add Task"
-              active={activeItem === 'task'}
               onClick={() => {
                 this.props.history.push('/task')
               }}
             />
           </Menu.Menu>
+              </Fragment>}
         </Menu>
       </Segment>
     )

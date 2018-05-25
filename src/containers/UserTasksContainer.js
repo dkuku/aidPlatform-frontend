@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Menu, Label, Button, Sidebar, Header, Segment, Container, Icon } from 'semantic-ui-react'
+import { Menu, Label, Button, Sidebar, Header, Segment, Container, Icon, Portal } from 'semantic-ui-react'
 import { Link, withRouter } from 'react-router-dom'
 import { TaskDetails, TaskButtonsOwner, UserSettingsMenu } from 'components'
 import { bindActionCreators } from 'redux'
@@ -36,7 +36,8 @@ class UserTasksContainer extends Component {
                 </Button>
             </Segment>
               {ltm&&<Fragment>{this.props.children}</Fragment>}
-            <Segment basic>
+            <Segment basic
+              style={{minHeight:"200px"}}>
               {this.props.tasks[this.props.activeCategory].map(marker => (
                 <React.Fragment key={marker.id}>
                   <TaskDetails
@@ -48,11 +49,12 @@ class UserTasksContainer extends Component {
               ))}
             </Segment>
           </Sidebar.Pusher>
-        {!ltm&& <Container>
-            <Sidebar visible={conversation} width="very wide" direction="right" animation="overlay" style={{background:"white"}} >
+        {!ltm&&
+            <Portal open={conversation}>
+              <Segment style={{background:"white", left: '20vh', position: 'fixed', top: '15vh', height: '60vh', maxWidth: '600px', zIndex: 1000 }} >
         {this.props.children}
-            </Sidebar>
-            </Container>
+              </Segment>
+            </Portal>
         }
         </Sidebar.Pushable>
     )

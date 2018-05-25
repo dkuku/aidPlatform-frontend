@@ -4,8 +4,8 @@ const initialMarkersState = []
 const markerDemo = [
   {
     id: 1,
-    title: 'test marker',
-    description: "Couldn'nt download task list from server - please check connection",
+    title: '',
+    description: "",
     user: '123',
     createdAt: 0,
   },

@@ -24,15 +24,15 @@ class SettingsContainer extends Component {
   }
 
   componentWillMount() {
-    axios.get(url + 'tasks', this.props.headers).then(response => {
-      this.setState({
-        tasks: response.data.data.tasks,
-      })
-    })
+    this.props.getUserMarkers(this.props.headers)
   }
 
-  componentDidMount() {}
-
+  componentWillReceiveProps(){
+    JSON.stringify(this.state.tasks) != JSON.stringify(this.props.tasks)? this.setState({tasks: this.props.tasks}): null
+  }
+  componentDidUpdate(){
+    JSON.stringify(this.state.tasks) != JSON.stringify(this.props.tasks)? this.setState({tasks: this.props.tasks}): null
+  }
   handleItemClick = (e, { id }) => {
     this.setState({ activeCategory: id })
   }
@@ -45,23 +45,9 @@ class SettingsContainer extends Component {
 
   render() {
     const {activeCategory, activeIndex, tasks} = this.state
+    const {getUserMarkers} = this.props
     return (
-      <React.Fragment>
-        {/*mobile desktop switch*/}
-        {this.props.ltm ? (
-          <React.Fragment>
-            <UserTasksContainer
-              tasks={tasks}
-              activeCategory={activeCategory}
-              handleItemClick={this.handleItemClick}
-              onTaskSelect={this.onTaskSelect}
-              activeIndex={activeIndex}
-            >
-              <UserConversationsContainer id={activeIndex} />
-            </UserTasksContainer>
-          </React.Fragment>
-        ) : (
-            <Container>
+            <Container >
               <UserTasksContainer
                 tasks={this.state.tasks}
                 activeCategory={activeCategory}
@@ -69,11 +55,9 @@ class SettingsContainer extends Component {
                 onTaskSelect={this.onTaskSelect}
                 activeIndex={activeIndex}
               >
-              <UserConversationsContainer id={activeIndex} />
+              <UserConversationsContainer id={activeIndex}/>
             </UserTasksContainer>
             </Container>
-        )}
-      </React.Fragment>
     )
   }
 }
@@ -85,6 +69,7 @@ const mapStateToProps = state => {
     activeIndex: state.activeIndex,
     markers: state.markers,
     ltm: state.browser.lessThan.medium,
+    tasks: state.userTasks,
   }
 }
 

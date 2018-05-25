@@ -7,7 +7,7 @@ import { ConversationHeaderContainer, MessagesContainer } from 'containers'
 import { TaskOwnerConvHeader, TaskDetails } from 'components'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { updateActiveIndex, getConversations, getMessages, sendMessage, doneTask, addMessage } from 'actions'
+import { updateActiveIndex, getConversations, getMessages, sendMessage, doneTask, addMessage, getUserMarkers } from 'actions'
 import { api as url, WS } from '../constants/variables'
 
 class UserConversationsContainer extends Component {
@@ -52,11 +52,15 @@ class UserConversationsContainer extends Component {
     this.setState({ body: '' })
   }
 
-  handleDoneClick = () => this.props.doneTask(this.state.activeConv, this.props.headers)
+  handleDoneClick = () =>{
+    this.props.doneTask(this.state.activeConv, this.props.headers)
+    this.props.getUserMarkers(this.props.headers)
+  }
+
   handleRepublishClick = () =>
     this.props.history.push({
       pathname: '/task',
-      state: { ...this.props.task },
+      state: { ...this.props.task, done: 0 },
     })
   handleChange = (e, { name, value }) => this.setState({ [name]: value })
   handleItemClick = (e, { id }) => {
@@ -68,13 +72,11 @@ class UserConversationsContainer extends Component {
     })
   }
   onReceived = message => {
-    console.log('dssds')
-    console.log(message)
     this.props.addMessage(message)
   }
 
   renderContent(conv) {
-    const { task, conversations, messages, ltm } = this.props
+    const { task, user, conversations, messages, ltm } = this.props
     const { body, currentConv, activeConv } = this.state
     if (task === {}) {
       return <h1>Loading ...</h1>
@@ -84,7 +86,7 @@ class UserConversationsContainer extends Component {
         {currentConv &&
           conversations.length > 0 && (
             <Fragment>
-              <TaskDetails onTaskSelect={() => {}} active={'true'} marker={task} />
+              <Header>'Conversation for task: '{task.title}</Header>
               <TaskOwnerConvHeader
                 handleDoneClick={this.handleDoneClick}
                 handleItemClick={this.handleItemClick}
@@ -92,10 +94,11 @@ class UserConversationsContainer extends Component {
                 conversations={conversations}
                 activeConv={activeConv}
                 task={task}
+                user={user}
               />
 
               <MessagesContainer
-                height={ltm ? '30vh' : '60vh'}
+                height={ltm ? '30vh' : '30vh'}
                 messages={messages.filter(message => message.conversation_id == this.state.activeConv)}
                 conversation={this.state.currentConv}
               />
@@ -140,7 +143,7 @@ const mapStateToProps = state => ({
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
-    { updateActiveIndex, sendMessage, getConversations, getMessages, doneTask, addMessage },
+    { updateActiveIndex, sendMessage, getConversations, getMessages, doneTask, addMessage, getUserMarkers },
     dispatch
   )
 }

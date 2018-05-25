@@ -63,7 +63,7 @@ class ConversationsContainer extends Component {
 
         {this.props.conversations[0] && (
           <React.Fragment>
-            <MessagesContainer height={ltm ? '30vh' : '60vh'} messages={messages} conversation={conversations[0]} />
+            <MessagesContainer height={ltm ? '30vh' : '50vh'} messages={messages} conversation={conversations[0]} />
             <Form reply onSubmit={this.handleSendMessage}>
               <Form.Input placeholder="Message" name="body" value={body} onChange={this.handleChange} />
               <Form.Button floated="right" content="Submit" />

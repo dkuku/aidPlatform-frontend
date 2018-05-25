@@ -16,7 +16,7 @@ export default class TaskOwnerConvHeader extends Component {
           Mark task done
         </Button>
         {task.done !== 0 &&
-          this.olderThanOneDay() && (
+          this.olderThanOneDay() &&this.props.task.user_id == this.props.user.id && (
             <Button color="teal" floated="right" onClick={this.props.handleRepublishClick}>
               Republish Task
             </Button>
