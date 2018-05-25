@@ -23,7 +23,7 @@ class MapContainer extends Component {
         <GeoLocation />
         {this.props.ltm ? (
           <Fragment>
-            <div style={{ position: 'fixed', left: '0px', top: '80px', width: '100%', bottom: '40%' }}>
+            <div style={{ position: 'fixed', left: '0px', top: '80px', width: '100%', bottom: '60%' }}>
               <Map />
             </div>
             <div style={{ position: 'fixed', left: '0px', top: '40%', width: '100%', bottom: '150px' }}>
