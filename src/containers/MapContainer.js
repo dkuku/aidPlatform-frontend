@@ -1,4 +1,4 @@
-import React, {Fragment, Component} from 'react'
+import React, { Fragment, Component } from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -19,33 +19,35 @@ class MapContainer extends Component {
 
   render() {
     return (
-        <Fragment>
+      <div>
         <GeoLocation />
-      {this.props.ltm?(
-        <Fragment>
-        <Map />
-        <TaskList />
-        </Fragment>
-        ):(
-        <Grid container>
-        <Grid.Row columns={2}>
-        <Grid.Column computer={4} largeScreen={3}>
-        <TaskList />
-        </Grid.Column>
-            <Grid.Column computer={12} largeScreen={13}>
-            <Map />
-        </Grid.Column>
-        </Grid.Row>
-        </Grid>
-      )}
-        </Fragment>
+        {this.props.ltm ? (
+          <Fragment>
+            <div style={{ position: 'fixed', left: '0px', top: '80px', width: '100%', bottom: '40%' }}>
+              <Map />
+            </div>
+            <div style={{ position: 'fixed', left: '0px', top: '40%', width: '100%', bottom: '150px' }}>
+              <TaskList />
+            </div>
+          </Fragment>
+        ) : (
+          <Fragment>
+            <div style={{ position: 'fixed', left: '300px', top: '80px', width: '100%', bottom: '150px' }}>
+              <Map />
+            </div>
+            <div style={{ position: 'fixed', left: '0px', top: '80px', width: '300px', bottom: '150px' }}>
+              <TaskList />
+            </div>
+          </Fragment>
+        )}
+      </div>
     )
   }
 }
 
 const mapStateToProps = state => ({
   markers: state.markers,
-    ltm: state.browser.lessThan.medium,
+  ltm: state.browser.lessThan.medium,
 })
 
 function mapDispatchToProps(dispatch) {

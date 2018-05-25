@@ -26,7 +26,7 @@ class TaskList extends Component {
   render() {
     const { activeIndex, markers, user } = this.props
     return (
-      <Accordion fluid styled style={{ minHeight: '30vh', overflow: 'hidden', overflowY: 'auto' }}>
+      <Accordion fluid styled style={{ height: '100%', overflow: 'hidden', overflowY: 'auto' }}>
         {markers.map(marker => (
           <div ref={marker.id} key={marker.id}>
             <Accordion.Title active={activeIndex === marker.id} index={marker.id} onClick={this.handleClick}>
