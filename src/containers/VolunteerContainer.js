@@ -56,7 +56,7 @@ const mapStateToProps = state => {
     user: state.user,
     headers: state.headers,
     conversations: state.conversations,
-    activeIndex: state.activeIndex,
+    activeIndex: state.variables.activeIndex,
     markers: state.markers,
   }
 }

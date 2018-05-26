@@ -29,12 +29,12 @@ class TopMenu extends PureComponent {
           {isLoggedIn&&
             <Fragment>
           <Menu.Item
-            name="Settings"
+            name="Dashboard"
             onClick={() => {
-              this.props.history.push('/settings')
+              this.props.history.push('/dashboard')
             }}
           >
-            Settings
+            Dashboard
           </Menu.Item>
 
           <Menu.Menu position="right">

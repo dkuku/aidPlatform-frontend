@@ -1,5 +1,5 @@
 import React from 'react'
-import { GoogleMap, withGoogleMap, withScriptjs } from 'react-google-maps'
+import { GoogleMap, withGoogleMap } from 'react-google-maps'
 
 const GoogleMapsWrapper = withGoogleMap(props => {
   return (

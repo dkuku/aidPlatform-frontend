@@ -3,7 +3,7 @@ import { Grid, Container } from 'semantic-ui-react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import axios from 'axios'
-import { updateActiveIndex, getConversations, getUserMarkers } from 'actions'
+import { updateActiveIndex, updateActiveCategory, getConversations, getUserMarkers, messagesToggle } from 'actions'
 import { TaskDetails, TaskButtonsOwner } from 'components'
 import { UserConversationsContainer, UserTasksContainer } from 'containers'
 import {api as url, WS} from '../constants/variables'
@@ -12,7 +12,6 @@ class SettingsContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      activeIndex: null,
       activeCategory: 'unfulfiled',
       tasks: {
         unfulfiled: [],
@@ -34,18 +33,12 @@ class SettingsContainer extends Component {
     JSON.stringify(this.state.tasks) != JSON.stringify(this.props.tasks)? this.setState({tasks: this.props.tasks}): null
   }
   handleItemClick = (e, { id }) => {
-    this.setState({ activeCategory: id })
-  }
-
-  onTaskSelect = selectedTask => {
-    this.setState({ activeIndex: selectedTask })
-    this.props.updateActiveIndex(selectedTask)
-    this.props.getConversations(selectedTask, this.props.headers)
+    this.props.updateActiveCategory(id)
   }
 
   render() {
-    const {activeCategory, activeIndex, tasks} = this.state
-    const {getUserMarkers} = this.props
+    const {tasks} = this.state
+    const {getUserMarkers, activeCategory, activeIndex} = this.props
     return (
             <Container >
               <UserTasksContainer
@@ -55,7 +48,7 @@ class SettingsContainer extends Component {
                 onTaskSelect={this.onTaskSelect}
                 activeIndex={activeIndex}
               >
-              <UserConversationsContainer id={activeIndex}/>
+              <UserConversationsContainer/>
             </UserTasksContainer>
             </Container>
     )
@@ -66,7 +59,8 @@ const mapStateToProps = state => {
   return {
     headers: state.headers,
     user: state.user,
-    activeIndex: state.activeIndex,
+    activeIndex: state.variables.activeIndex,
+    activeCategory: state.variables.activeCategory,
     markers: state.markers,
     ltm: state.browser.lessThan.medium,
     tasks: state.userTasks,
@@ -74,7 +68,7 @@ const mapStateToProps = state => {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateActiveIndex, getUserMarkers, getConversations }, dispatch)
+  return bindActionCreators({ updateActiveIndex, getUserMarkers, getConversations, messagesToggle, updateActiveCategory }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsContainer)

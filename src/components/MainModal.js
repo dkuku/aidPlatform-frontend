@@ -17,9 +17,12 @@ class MainModal extends PureComponent {
     const { closeModal, history, modal } = this.props
     closeModal()
     if (!!modal.redirect) {
-      this.props.history.push(modal.redirect)
+      if (modal.redirect instanceof Function) {
+        modal.redirect()}
+      else
+        this.props.history.push(modal.redirect)
+      }
     }
-  }
 
   render() {
     console.log(this.state, this.props)

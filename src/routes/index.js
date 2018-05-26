@@ -34,7 +34,7 @@ class Routes extends React.Component {
             <React.Fragment>
               <TopMenu />
               <Switch>
-                <Route path="/settings" component={SettingsContainer} />
+                <Route path="/dashboard" component={SettingsContainer} />
                 <Route path="/task/:id" component={VolunteerContainer} />
                 <Route path="/task" component={TaskForm} />
                 <Route path="/" component={MapContainer} />}

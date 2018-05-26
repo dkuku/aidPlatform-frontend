@@ -4,34 +4,33 @@ import { Link, withRouter } from 'react-router-dom'
 import { TaskDetails, TaskButtonsOwner, UserSettingsMenu } from 'components'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { logout } from 'actions'
+import { logout, messagesToggle, sidebarToggle, updateActiveIndex, getConversations } from 'actions'
 
 class UserTasksContainer extends Component {
-    state = { visible: false,
-              conversation:false
-    }
 
-  toggleVisibility = () => this.setState({ visible: !this.state.visible })
     componentDidUpdate(){
-        console.log(this.props.conversations.length);
-       (this.state.conversation!=(this.props.conversations.length>=1))? this.setState({conversation:(this.props.conversations.length>=1)}):null
+       (this.props.messageWindow!=(this.props.conversations.length>=1))? this.props.messagesToggle():null
     }
+  onTaskSelect = selectedTask => {
+    this.props.updateActiveIndex(selectedTask)
+    this.props.getConversations(selectedTask, this.props.headers)
+  }
+
   render() {
-    const { visible, conversation } = this.state
-    const { toggleVisibility, ltm, tasks, activeCategory, logout, handleItemClick } = this.props
+    const { sidebarVisible, messageWindow, ltm, tasks, activeCategory, logout, handleItemClick } = this.props
     return (
         <Sidebar.Pushable as={Segment} style={{ height: '100%' }}>
           <UserSettingsMenu
             top={ltm}
-            toggleVisibility={this.toggleVisibility}
+            toggleVisibility={this.props.sidebarToggle}
             tasks={tasks}
             handleItemClick={handleItemClick}
             logout={logout}
-            visible={visible}
+            visible={sidebarVisible}
           />
           <Sidebar.Pusher>
             <Segment>
-              <Button icon basic color="teal" onClick={this.toggleVisibility}>
+              <Button icon basic color="teal" onClick={this.props.sidebarToggle}>
                 <Icon name="bars" />
                 </Button>
             </Segment>
@@ -42,7 +41,7 @@ class UserTasksContainer extends Component {
                 <React.Fragment key={marker.id}>
                   <TaskDetails
                     marker={marker}
-                    onTaskSelect={this.props.onTaskSelect.bind(this)}
+                    onTaskSelect={this.onTaskSelect}
                     active={this.props.activeIndex == marker.id}
                   />
                 </React.Fragment>
@@ -50,8 +49,8 @@ class UserTasksContainer extends Component {
             </Segment>
           </Sidebar.Pusher>
         {!ltm&&
-            <Portal open={conversation}>
-              <Segment style={{background:"white", left: '20vh', position: 'fixed', top: '15vh', height: '60vh', maxWidth: '600px', zIndex: 1000 }} >
+            <Portal open={this.props.messageWindow}>
+              <Segment style={{background:"white", left: '50%', position: 'fixed', top: '160px', height: '60vh', maxWidth: '600px', zIndex: 1000 }} >
         {this.props.children}
               </Segment>
             </Portal>
@@ -62,13 +61,16 @@ class UserTasksContainer extends Component {
 }
 const mapStateToProps = state => {
   return {
-    activeIndex: state.activeIndex,
+    activeIndex: state.variables.activeIndex,
     ltm: state.browser.lessThan.medium,
     conversations: state.conversations,
+    sidebarVisible: state.variables.sidebar,
+    messageWindow: state.variables.messageWindow,
+    headers: state.headers,
   }
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ logout }, dispatch)
+  return bindActionCreators({ logout, sidebarToggle, messagesToggle, updateActiveIndex, getConversations }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(UserTasksContainer))

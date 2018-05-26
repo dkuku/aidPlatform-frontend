@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
-import { Form } from 'semantic-ui-react'
+import { Form, Header, Button } from 'semantic-ui-react'
 import axios from 'axios'
 import { ActionCableProvider, ActionCable } from 'react-actioncable-provider'
 import { ConversationHeaderContainer, MessagesContainer } from 'containers'
@@ -92,7 +92,7 @@ class ConversationsContainer extends Component {
 const mapStateToProps = state => ({
   messages: state.messages,
   user: state.user,
-  activeIndex: state.activeIndex,
+  activeIndex: state.variables.activeIndex,
   conversations: state.conversations,
   headers: state.headers,
   markers: state.markers,
@@ -109,9 +109,3 @@ function mapDispatchToProps(dispatch) {
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ConversationsContainer))
 
-ConversationsContainer.propTypes = {
-  first_name: PropTypes.string,
-  last_name: PropTypes.string,
-  id: PropTypes.string,
-  task_id: PropTypes.string,
-}
