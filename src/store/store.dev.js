@@ -7,8 +7,8 @@ import rootReducer from 'reducers'
 export default function configureStore(initialState = {}) {
   const middlewares = [ReduxThunk]
   const enhancers = [
-    applyMiddleware(...middlewares),
     responsiveStoreEnhancer,
+    applyMiddleware(...middlewares),
     // other store enhancers if any
   ]
   const composeEnhancers = composeWithDevTools({
@@ -21,8 +21,6 @@ export default function configureStore(initialState = {}) {
   store.subscribe(() => {
     console.log(store.getState())
   })
-
-  // store.dispatch(addMarker({description: "test marker", title: "first.test.marker", lat: "51.5", lng: '0.2'}))
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers

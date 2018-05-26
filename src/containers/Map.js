@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Marker, InfoWindow } from 'react-google-maps'
 import { MarkerDisplay } from 'components'
 import { updateActiveIndex, updateBounds, updateCenter, getMarkersBounds } from 'actions'
-import GoogleMapsWrapper from './GoogleMapsWrapper.js'
+import GoogleMapsWrapper from '../components/GoogleMapsWrapper.js'
 import { BLUE, GREEN, PINK } from '../constants/Icons'
 import { GMAP_KEY } from '../constants/variables'
 
@@ -75,7 +75,7 @@ class MapSearch extends Component {
 }
 const mapStateToProps = state => ({
   markers: state.markers,
-  activeIndex: state.activeIndex,
+  activeIndex: state.variables.activeIndex,
   currentLocation: state.position.geolocation,
   filters: state.filters,
   user: state.user,
