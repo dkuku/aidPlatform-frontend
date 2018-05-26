@@ -1,11 +1,10 @@
-import React, { PureComponent } from 'react'
-import { Item, Image, Icon, Button } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
+import React, { Component } from 'react'
+import { Item} from 'semantic-ui-react'
 
-class TaskDetailsSimple extends PureComponent {
+class TaskDetailsSimple extends Component {
+
   render() {
     const { title, id, task_type, description, done, fulfilment_counter, user_id } = this.props.marker
-    const color = task_type === 'material' ? 'blue' : 'green'
 
     return (
       <Item.Group>
@@ -19,11 +18,7 @@ class TaskDetailsSimple extends PureComponent {
             </Item.Meta>
             <Item.Description>{description}</Item.Description>
             <Item.Extra>
-              <Link to={`/task/${id}`}>
-                <Button basic floated="right" color={color}>
-                  View task
-                </Button>
-              </Link>
+              {this.props.children}
             </Item.Extra>
           </Item.Content>
         </Item>
