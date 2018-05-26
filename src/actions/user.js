@@ -31,7 +31,7 @@ export function login(form) {
               open: true,
               header: `Welcome ${response.data.data.user.first_name}`,
               body: 'You are now logged in',
-              redirect: '/',
+              redirect: ()=> window.location.replace("/")
             },
           })
         }
@@ -74,7 +74,7 @@ export function signup(body) {
               open: true,
               header: `Welcome ${response.data.data.user.first_name}`,
               body: 'Your account has been created.',
-              redirect: '/',
+              redirect: ()=> window.location.replace("/")
             },
           })
         }

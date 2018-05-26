@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 export * from './markers'
 export * from './user'
 export * from './stats'

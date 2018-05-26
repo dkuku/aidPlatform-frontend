@@ -1,11 +1,12 @@
 import axios from 'axios'
 import {
+  ACTIVE_CONVERSATION,
   GET_CONVERSATIONS,
   GET_MESSAGE,
   ADD_CONVERSATION,
   GET_MESSAGES,
   SET_MODAL_DATA,
-} from '../constants/ActionTypes'
+} from "../constants/ActionTypes";
 import { api as url } from '../constants/variables'
 
 export function getConversations(task, headers) {
@@ -51,10 +52,15 @@ export function createConversation(taskId, headers) {
     axios
       .post(`${url}conversations`, form, headers)
       .then(response => {
+        console.log(response)
         if (response.status === 200) {
           dispatch({
             type: ADD_CONVERSATION,
-            payload: response.data.data,
+            payload: response.data.data.conversation,
+          })
+          dispatch({
+            type: ACTIVE_CONVERSATION,
+            payload: response.data.data.conversation
           })
           dispatch({
             type: SET_MODAL_DATA,
@@ -68,6 +74,7 @@ export function createConversation(taskId, headers) {
         }
       })
       .catch(err => {
+        console.log(err)
         dispatch({
           type: SET_MODAL_DATA,
           modal: {

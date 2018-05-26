@@ -1,9 +1,7 @@
 import { combineReducers } from 'redux'
 import { responsiveStateReducer as browser } from 'redux-responsive'
 import markers from './markers'
-import filters from './filters'
 import user from './user'
-import activeIndex from './activeIndex'
 import position from './position'
 import mapCoords from './mapCoords'
 import modal from './modal'
@@ -13,13 +11,12 @@ import headers from './headers'
 import messages from './messages'
 import currentTask from './currentTask'
 import userTasks from './userTasks'
+import variables from './variables'
 
 const rootReducer = combineReducers({
   browser,
   markers,
-  filters,
   user,
-  activeIndex,
   position,
   mapCoords,
   modal,
@@ -29,6 +26,7 @@ const rootReducer = combineReducers({
   messages,
   currentTask,
   userTasks,
+  variables,
 })
 
 export default rootReducer

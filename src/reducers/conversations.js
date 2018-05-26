@@ -4,7 +4,7 @@ const InitialConversations = []
 export default function conversations(state = InitialConversations, action) {
   switch (action.type) {
     case ADD_CONVERSATION:
-      return action.payload.conversations
+      return action.payload
     case GET_CONVERSATIONS:
       return action.payload.conversations
     default:
