@@ -28,7 +28,6 @@ export function getUserMarkers(headers) {
     axios
       .get(url + path, headers)
       .then(response => {
-        console.log(response)
         dispatch({
           type: USER_MARKERS,
           payload: response.data.data.tasks,
@@ -45,7 +44,6 @@ export function getMarkersBounds(bounds) {
     axios
       .post(url + path, { task: bounds })
       .then(response => {
-        console.log(response)
         dispatch({
           type: GET_MARKERS,
           payload: response.data.data.tasks,
@@ -62,14 +60,20 @@ export function getMarkersBounds(bounds) {
 }
 export function doneTask(id, headers) {
   return function(dispatch) {
-    const path = 'conversations/' + id
+    const path = `conversations/${id}`
+    console.log(path)
     axios
       .delete(url + path, headers)
       .then(response => {
+        console.log(response)
         dispatch({
-          type: UPDATE_MARKER,
-          payload: response.data.data.task,
-          index: response.data.data.task.id,
+          type: SET_MODAL_DATA,
+          modal: {
+            open: true,
+            header: `Task marked as done`,
+            body: response.data.messages,
+            redirect: '/',
+          },
         })
       })
       .then(getUserMarkers(headers))

@@ -8,7 +8,6 @@ const initialTaskState = {
 }
 
 const userTasks = (state = initialTaskState, action) => {
-  console.log(action)
   switch (action.type) {
     case USER_MARKERS:
       return action.payload

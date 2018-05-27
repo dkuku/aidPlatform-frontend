@@ -12,7 +12,6 @@ const markerDemo = [
 ]
 
 const markers = (state = markerDemo, action) => {
-  console.log(action)
   switch (action.type) {
     case GET_MARKERS:
       return action.payload

@@ -1,4 +1,4 @@
-import React, { Componenti, Fragment } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Grid, Container, Segment, Statistic, Header } from 'semantic-ui-react'
 
 const Stats = props => (

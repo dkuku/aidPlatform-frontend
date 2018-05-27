@@ -22,7 +22,6 @@ class MessagesContainer extends Component {
   }
 
   componentDidUpdate() {
-    console.log(this.props)
     this.scrollToBottom()
   }
 

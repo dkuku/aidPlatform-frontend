@@ -3,7 +3,7 @@ import { Grid, Container } from 'semantic-ui-react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import axios from 'axios'
-import { updateActiveIndex, updateActiveCategory, getConversations, getUserMarkers, messagesToggle } from 'actions'
+import { updateActiveIndex, updateActiveCategory, getConversations, getUserMarkers, messagesToggle, sidebarToggle } from 'actions'
 import { TaskDetails, TaskButtonsOwner } from 'components'
 import { UserConversationsContainer, UserTasksContainer } from 'containers'
 import {api as url, WS} from '../constants/variables'
@@ -34,6 +34,7 @@ class SettingsContainer extends Component {
   }
   handleItemClick = (e, { id }) => {
     this.props.updateActiveCategory(id)
+    this.props.sidebarToggle()
   }
 
   render() {
@@ -62,13 +63,13 @@ const mapStateToProps = state => {
     activeIndex: state.variables.activeIndex,
     activeCategory: state.variables.activeCategory,
     markers: state.markers,
-    ltm: state.browser.lessThan.medium,
+    smallScreen: state.browser.lessThan.medium,
     tasks: state.userTasks,
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateActiveIndex, getUserMarkers, getConversations, messagesToggle, updateActiveCategory }, dispatch)
+  return bindActionCreators({ sidebarToggle, updateActiveIndex, getUserMarkers, getConversations, messagesToggle, updateActiveCategory }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsContainer)

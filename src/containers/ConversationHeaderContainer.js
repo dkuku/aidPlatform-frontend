@@ -17,9 +17,6 @@ class ConversationHeaderContainer extends PureComponent {
       <div>
         <Header as="h3">
           {`Conversation with ${this.props.conversations[0].task_owner_name} `}
-          <Button negative floated="right" onClick={this.props.handleDoneClick.bind(this)} disabled={this.props.done}>
-            Mark task done
-          </Button>
         </Header>
       </div>
     )

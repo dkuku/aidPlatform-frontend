@@ -25,7 +25,6 @@ class MainModal extends PureComponent {
     }
 
   render() {
-    console.log(this.state, this.props)
     const { open, header, body, redirect, error } = this.props.modal
 
     return (

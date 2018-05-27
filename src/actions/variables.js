@@ -39,7 +39,7 @@ export function messagesOpen() {
   } }
 export function messagesClose() {
   return {
-    type: MESSAGE_WINDOW_CLOSE,
+    type:MESSAGE_WINDOW_CLOSE,
   } }
 export function sidebarToggle() {
   return {

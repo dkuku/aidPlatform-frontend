@@ -35,9 +35,9 @@ class MapSmall extends Component {
       <GoogleMapsWrapper
         googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${GMAP_KEY}&libraries=geometry,drawing,places`} // libraries=geometry,drawing,places
         loadingElement={<div style={{}} />}
-        containerElement={<div style={{ height: `25vh` }} />}
+        containerElement={<div style={{ height: `150px` }} />}
         mapElement={<div style={{ height: `100%` }} />}
-        defaultZoom={9}
+        defaultZoom={12}
         defaultCenter={{ lat, lng }}
       >
         <Marker
@@ -45,9 +45,6 @@ class MapSmall extends Component {
           onClick={() => updateActiveIndex(marker.id)}
           icon={this.markerPin(marker.task_type, marker.done, marker.fulfilment_counter)}
         >
-          <InfoWindow>
-            <p>{marker.title}</p>
-          </InfoWindow>
         </Marker>
       </GoogleMapsWrapper>
     )

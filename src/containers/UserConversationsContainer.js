@@ -2,8 +2,8 @@ import React, { Component, Fragment } from 'react'
 import { withRouter } from 'react-router'
 import { Form, Header, Button, Icon } from 'semantic-ui-react'
 import { ActionCableProvider, ActionCable } from 'react-actioncable-provider'
-import { ConversationHeaderContainer, MessagesContainer } from 'containers'
-import { TaskOwnerConvHeader, TaskDetails } from 'components'
+import { ConversationHeaderContainer, MessagesContainer, } from 'containers'
+import { TaskOwnerConvHeader, TaskDetails, MessageForm } from 'components'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { updateActiveIndex,
@@ -97,15 +97,13 @@ class UserConversationsContainer extends Component {
         {currentConv &&
           conversations.length > 0 && (
             <Fragment>
-              <Header>'Conversation for task: '{task.title}
+              <Header>Task: {task.title}
                 <Button icon basic color="teal" floated="right" onClick={this.handleCloseClick}>
                   <Icon name="delete" />
                 </Button>
               </Header>
               <TaskOwnerConvHeader
-                handleDoneClick={this.handleDoneClick}
                 handleItemClick={this.handleItemClick}
-                handleRepublishClick={this.handleRepublishClick}
                 conversations={conversations}
                 activeConv={activeConversation}
                 task={task}
@@ -113,16 +111,11 @@ class UserConversationsContainer extends Component {
               />
 
               <MessagesContainer
-                height={ltm ? '30vh' : '30vh'}
+                height={ltm ? '100%' : '300px'}
                 messages={messages.filter(message => message.conversation_id == this.props.activeConversation)}
                 conversation={this.state.currentConv}
               />
-              <Form reply onSubmit={this.handleSendMessage}>
-                <Form.Group>
-                  <Form.Input placeholder="Message" name="body" value={body} onChange={this.handleChange} />
-                  <Form.Button content="Submit" />
-                </Form.Group>
-              </Form>
+              <MessageForm handleSendMessage={this.handleSendMessage} handleChange={this.handleChange} body={body}/>
             </Fragment>
           )}
       </Fragment>
@@ -154,7 +147,7 @@ const mapStateToProps = state => ({
   markers: state.markers,
   task: state.currentTask,
   browser: state.browser,
-  ltm: state.browser.lessThan.medium,
+  smallScreen: state.browser.lessThan.medium,
 })
 
 function mapDispatchToProps(dispatch) {

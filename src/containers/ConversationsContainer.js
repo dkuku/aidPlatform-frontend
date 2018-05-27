@@ -2,9 +2,9 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import { Form, Header, Button } from 'semantic-ui-react'
-import axios from 'axios'
 import { ActionCableProvider, ActionCable } from 'react-actioncable-provider'
 import { ConversationHeaderContainer, MessagesContainer } from 'containers'
+import { MessageForm } from 'components'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { updateActiveIndex, getConversations, getMessages, sendMessage, doneTask, createConversation, addMessage } from 'actions'
@@ -15,7 +15,6 @@ class ConversationsContainer extends Component {
     super(props)
     this.state = {
       activeIndex: Number(this.props.match.params.id),
-      activeConv: null,
       body: '',
       task: {},
       conversations: [],
@@ -50,7 +49,7 @@ class ConversationsContainer extends Component {
       return <h1>Loading ...</h1>
     }
     return (
-      <React.Fragment>
+      <div style={{paddingBottom:"150px", height: 'calc(100vh - 220px)'}}>
         {task && (
           <ConversationHeaderContainer
             done={task.done > 0}
@@ -63,14 +62,11 @@ class ConversationsContainer extends Component {
 
         {this.props.conversations[0] && (
           <React.Fragment>
-            <MessagesContainer height={ltm ? '30vh' : '50vh'} messages={messages} conversation={conversations[0]} />
-            <Form reply onSubmit={this.handleSendMessage}>
-              <Form.Input placeholder="Message" name="body" value={body} onChange={this.handleChange} />
-              <Form.Button floated="right" content="Submit" />
-            </Form>
+            <MessagesContainer height={ltm ? '100%' : 'calc(100vh - 420px)'} messages={messages} conversation={conversations[0]} />
+            <MessageForm handleSendMessage={this.handleSendMessage} handleChange={this.handleChange} body={body}/>
           </React.Fragment>
         )}
-      </React.Fragment>
+      </div>
     )
   }
   render() {
@@ -80,7 +76,6 @@ class ConversationsContainer extends Component {
       channel={{ channel: `TaskChannel`,
                   room: `task_channel`}}
       onReceived={this.onReceived}
-      onConnected={() => console.log("connected")}
     />
     <Fragment>
   {this.renderContent(this.state.currentConv)}
@@ -97,7 +92,7 @@ const mapStateToProps = state => ({
   headers: state.headers,
   markers: state.markers,
   task: state.currentTask,
-  ltm: state.browser.lessThan.medium,
+  smallScreen: state.browser.lessThan.medium,
 })
 
 function mapDispatchToProps(dispatch) {

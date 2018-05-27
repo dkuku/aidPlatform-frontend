@@ -21,7 +21,7 @@ class MapContainer extends Component {
     return (
       <div>
         <GeoLocation />
-        {this.props.ltm ? (
+        {this.props.smallScreen ? (
           <Fragment>
             <div style={{ position: 'fixed', left: '0px', top: '80px', width: '100%', bottom: '60%' }}>
               <Map />
@@ -47,7 +47,7 @@ class MapContainer extends Component {
 
 const mapStateToProps = state => ({
   markers: state.markers,
-  ltm: state.browser.lessThan.medium,
+  smallScreen: state.browser.lessThan.medium,
 })
 
 function mapDispatchToProps(dispatch) {

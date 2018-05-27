@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux'
 import { responsiveStateReducer as browser } from 'redux-responsive'
+import { reducer as geolocation } from 'react-redux-geolocation';
+
 import markers from './markers'
 import user from './user'
 import position from './position'
@@ -14,6 +16,7 @@ import userTasks from './userTasks'
 import variables from './variables'
 
 const rootReducer = combineReducers({
+  geolocation,
   browser,
   markers,
   user,
