@@ -6,7 +6,7 @@ import {
   ADD_CONVERSATION,
   GET_MESSAGES,
   SET_MODAL_DATA,
-} from "../constants/ActionTypes";
+} from '../constants/ActionTypes'
 import { api as url } from '../constants/variables'
 
 export function getConversations(task, headers) {
@@ -60,7 +60,7 @@ export function createConversation(taskId, headers) {
           })
           dispatch({
             type: ACTIVE_CONVERSATION,
-            payload: response.data.data.conversation
+            payload: response.data.data.conversation,
           })
           dispatch({
             type: SET_MODAL_DATA,
@@ -94,20 +94,18 @@ export function sendMessage(id, body, headers) {
   return function(dispatch) {
     axios
       .post(url + path, bodyForm, headers)
-      .then(response => {
-        console.log(response.data.data)
-      })
+      .then(response => {})
       .catch(err => {
         console.log(err)
       })
   }
 }
 
-export function addMessage(message){
-  return function(dispatch){
-        dispatch({
-          type: GET_MESSAGE,
-          payload: message
-        })
+export function addMessage(message) {
+  return function(dispatch) {
+    dispatch({
+      type: GET_MESSAGE,
+      payload: message,
+    })
   }
 }

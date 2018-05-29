@@ -25,7 +25,7 @@ class MapSmall extends Component {
 
   //TODO: temporary
   markerPin = (type, status, fulfiled) => {
-    return (fulfiled === 5) | status ? done : type == 'material' ? material : help
+    return window.location.origin + `${(fulfiled === 5) | status ? done : type == 'material' ? material : help}`
   }
   render() {
     const { marker } = this.props
@@ -44,8 +44,7 @@ class MapSmall extends Component {
           position={{ lat: Number(marker.lat), lng: Number(marker.lng) }}
           onClick={() => updateActiveIndex(marker.id)}
           icon={this.markerPin(marker.task_type, marker.done, marker.fulfilment_counter)}
-        >
-        </Marker>
+        />
       </GoogleMapsWrapper>
     )
   }

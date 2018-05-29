@@ -7,8 +7,16 @@ import { ConversationHeaderContainer, MessagesContainer } from 'containers'
 import { MessageForm } from 'components'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { updateActiveIndex, getConversations, getMessages, sendMessage, doneTask, createConversation, addMessage } from 'actions'
-import {api as url, WS} from '../constants/variables'
+import {
+  updateActiveIndex,
+  getConversations,
+  getMessages,
+  sendMessage,
+  doneTask,
+  createConversation,
+  addMessage,
+} from 'actions'
+import { api as url, WS } from '../constants/variables'
 
 class ConversationsContainer extends Component {
   constructor(props) {
@@ -32,7 +40,7 @@ class ConversationsContainer extends Component {
   handleSendMessage = () => {
     const id = this.props.activeIndex
     this.props.sendMessage(this.props.conversations[0].id, this.state.body, this.props.headers)
-    this.setState({body: ''})
+    this.setState({ body: '' })
   }
 
   onReceived = message => {
@@ -49,7 +57,7 @@ class ConversationsContainer extends Component {
       return <h1>Loading ...</h1>
     }
     return (
-      <div style={{paddingBottom:"150px", height: 'calc(100vh - 220px)'}}>
+      <div style={{ paddingBottom: '150px', height: 'calc(100vh - 220px)' }}>
         {task && (
           <ConversationHeaderContainer
             done={task.done > 0}
@@ -60,10 +68,14 @@ class ConversationsContainer extends Component {
           />
         )}
 
-        {this.props.conversations[0] && (
+        {conversations[0] && (
           <React.Fragment>
-            <MessagesContainer height={ltm ? '100%' : 'calc(100vh - 420px)'} messages={messages} conversation={conversations[0]} />
-            <MessageForm handleSendMessage={this.handleSendMessage} handleChange={this.handleChange} body={body}/>
+            <MessagesContainer
+              height={ltm ? '100%' : 'calc(100vh - 420px)'}
+              messages={messages}
+              conversation={conversations[0]}
+            />
+            <MessageForm handleSendMessage={this.handleSendMessage} handleChange={this.handleChange} body={body} />
           </React.Fragment>
         )}
       </div>
@@ -71,16 +83,17 @@ class ConversationsContainer extends Component {
   }
   render() {
     return (
-        <ActionCableProvider url={WS}>
-    <ActionCable
-      channel={{ channel: `TaskChannel`,
-                  room: `task_channel`}}
-      onReceived={this.onReceived}
-    />
-    <Fragment>
-  {this.renderContent(this.state.currentConv)}
-  </Fragment>
-  </ActionCableProvider>
+      <ActionCableProvider url={WS}>
+        <ActionCable
+          channel={{
+            channel: `TaskChannel`,
+            room: `task_channel`,
+          }}
+          onReceived={this.onReceived}
+          onConnected={() => console.log('connected')}
+        />
+        <Fragment>{this.renderContent(this.state.currentConv)}</Fragment>
+      </ActionCableProvider>
     )
   }
 }
@@ -103,4 +116,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ConversationsContainer))
-

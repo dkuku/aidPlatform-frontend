@@ -2,26 +2,27 @@ import React, { Component, Fragment } from 'react'
 import { withRouter } from 'react-router'
 import { Form, Header, Button, Icon } from 'semantic-ui-react'
 import { ActionCableProvider, ActionCable } from 'react-actioncable-provider'
-import { ConversationHeaderContainer, MessagesContainer, } from 'containers'
+import { ConversationHeaderContainer, MessagesContainer } from 'containers'
 import { TaskOwnerConvHeader, TaskDetails, MessageForm } from 'components'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { updateActiveIndex,
-         updateActiveConversation,
-         getConversations,
-         getMessages,
-         sendMessage,
-         doneTask,
-         addMessage,
-         getUserMarkers,
-         messagesClose} from 'actions'
+import {
+  updateActiveIndex,
+  updateActiveConversation,
+  getConversations,
+  getMessages,
+  sendMessage,
+  doneTask,
+  addMessage,
+  getUserMarkers,
+  messagesClose,
+} from 'actions'
 import { api as url, WS } from '../constants/variables'
 
 class UserConversationsContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      activeIndex: this.props.activeIndex,
       currentConv: null,
       body: '',
       task: {},
@@ -58,7 +59,7 @@ class UserConversationsContainer extends Component {
     this.setState({ body: '' })
   }
 
-  handleDoneClick = () =>{
+  handleDoneClick = () => {
     this.props.doneTask(this.props.activeConversation, this.props.headers)
     this.props.getUserMarkers(this.props.headers)
   }
@@ -97,7 +98,8 @@ class UserConversationsContainer extends Component {
         {currentConv &&
           conversations.length > 0 && (
             <Fragment>
-              <Header>Task: {task.title}
+              <Header>
+                Task: {task.title}
                 <Button icon basic color="teal" floated="right" onClick={this.handleCloseClick}>
                   <Icon name="delete" />
                 </Button>
@@ -115,7 +117,7 @@ class UserConversationsContainer extends Component {
                 messages={messages.filter(message => message.conversation_id == this.props.activeConversation)}
                 conversation={this.state.currentConv}
               />
-              <MessageForm handleSendMessage={this.handleSendMessage} handleChange={this.handleChange} body={body}/>
+              <MessageForm handleSendMessage={this.handleSendMessage} handleChange={this.handleChange} body={body} />
             </Fragment>
           )}
       </Fragment>
@@ -152,7 +154,8 @@ const mapStateToProps = state => ({
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
-    { updateActiveIndex,
+    {
+      updateActiveIndex,
       sendMessage,
       getConversations,
       updateActiveConversation,

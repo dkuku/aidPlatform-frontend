@@ -15,9 +15,9 @@ class ConversationHeaderContainer extends PureComponent {
       </div>
     ) : (
       <div>
-        <Header as="h3">
-          {`Conversation with ${this.props.conversations[0].task_owner_name} `}
-        </Header>
+        {console.log(this.props) && (
+          <Header as="h3">{`Conversation with ${this.props.conversations[0].task_owner_name} `}</Header>
+        )}
       </div>
     )
   }

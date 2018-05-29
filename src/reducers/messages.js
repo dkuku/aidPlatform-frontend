@@ -8,6 +8,7 @@ export default function messages(state = InitialConversations, action) {
     case GET_MESSAGES:
       return action.payload.messages
     case GET_MESSAGE:
+      console.log(action)
       return [...state, action.payload.message]
     default:
       return state

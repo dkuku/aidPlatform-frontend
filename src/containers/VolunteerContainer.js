@@ -30,19 +30,13 @@ class VolunteerContainer extends Component {
   }
   render() {
     const { activeIndex } = this.state
-    const marker = this.props.markers.filter(obj => obj.id == activeIndex)[0]
     var name
     return (
-      <Grid container stackable columns={2}
-            style={{paddingBottom:"150px"}}
-      >
+      <Grid container stackable columns={2} style={{ paddingBottom: '150px' }}>
+        {console.log(this.props.markers)}
         <Grid.Column>
-          {!(this.props.markers.length === 1) && (
-            <TaskDetails
-              marker={this.props.markers.filter(obj => obj.id == activeIndex)[0]}
-              onTaskSelect={this.onTaskSelect}
-              active={true}
-            />
+          {!!this.props.currentTask && (
+            <TaskDetails marker={this.props.currentTask} onTaskSelect={this.onTaskSelect} active={true} />
           )}
         </Grid.Column>
         <Grid.Column>
@@ -60,6 +54,7 @@ const mapStateToProps = state => {
     conversations: state.conversations,
     activeIndex: state.variables.activeIndex,
     markers: state.markers,
+    currentTask: state.currentTask,
   }
 }
 
