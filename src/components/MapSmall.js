@@ -28,14 +28,14 @@ class MapSmall extends Component {
     return window.location.origin + `${(fulfiled === 5) | status ? done : type == 'material' ? material : help}`
   }
   render() {
-    const { marker } = this.props
+    const { marker, height='150px' } = this.props
     const { lat, lng } = marker
 
     return (
       <GoogleMapsWrapper
         googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${GMAP_KEY}&libraries=geometry,drawing,places`} // libraries=geometry,drawing,places
         loadingElement={<div style={{}} />}
-        containerElement={<div style={{ height: `150px` }} />}
+        containerElement={<div style={{ height: `${height}` }} />}
         mapElement={<div style={{ height: `100%` }} />}
         defaultZoom={12}
         defaultCenter={{ lat, lng }}

@@ -35,7 +35,10 @@ class TaskDetails extends Component {
                 </Item.Image>
               )}
             <Item.Content>
-              <Item.Header>{title}</Item.Header>
+              {this.props.large && <Item.Image>
+                <MapSmall height={'300px'} marker={marker} />
+              </Item.Image>}
+              <Item.Header style={{paddingTop: '10px'}}>{title}</Item.Header>
               <Item.Meta>
                 <span>posted from: {address}</span>
               </Item.Meta>
