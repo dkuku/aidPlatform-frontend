@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Sidebar, Menu, Label } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
+import {capitalize} from 'constants/functions'
 
 class UserSettingsMenu extends Component {
-  capitalize = s => s && s[0].toUpperCase() + s.slice(1)
   render() {
     const { top, logout, toggleVisibility, visible, history, tasks, activeCategory, handleItemClick } = this.props
     return (
@@ -37,7 +37,7 @@ class UserSettingsMenu extends Component {
                 active={activeCategory == title}
                 onClick={handleItemClick.bind(this)}
               >
-                {this.capitalize(title)}
+                {capitalize(title)}
                 <Label>{tasks[title].length}</Label>
               </Menu.Item>
             ))}

@@ -1,0 +1,2 @@
+export function capitalize(s) { if (s) {return s[0].toUpperCase() + s.slice(1)}}
+

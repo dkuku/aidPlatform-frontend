@@ -5,6 +5,7 @@ import { TaskDetails, UserSettingsMenu, TaskButtons, MessageForm } from 'compone
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { logout, messagesToggle, sidebarToggle, updateActiveIndex, getConversations, doneTask, getUserMarkers } from 'actions'
+import {capitalize} from 'constants/functions'
 
 class UserTasksContainer extends Component {
 
@@ -37,15 +38,19 @@ class UserTasksContainer extends Component {
           handleItemClick={handleItemClick}
           logout={logout}
           visible={sidebarVisible}
+          activeCategory={activeCategory}
         />
         <Sidebar.Pusher>
-          <Segment>
-            <Button icon basic color="teal" onClick={this.props.sidebarToggle}>
+          <Segment textAlign='center'>
+            <Button icon basic color="teal" floated='left' onClick={this.props.sidebarToggle}>
               <Icon name="bars" />
             </Button>
+          <Header as={'span'} size='large' color='teal'>
+            {capitalize(activeCategory) + " Tasks"}
+          </Header>
           </Segment>
           <Segment basic
-                   style={{minHeight:"200px"}}>
+                   style={{minHeight:"205px"}}>
             {this.props.tasks[this.props.activeCategory].map(marker => (
               <React.Fragment key={marker.id}>
                 {this.props.activeIndex == marker.id &&
@@ -68,7 +73,7 @@ class UserTasksContainer extends Component {
 
                   {smallScreen?<Fragment>{this.props.children}</Fragment>:
                     <Portal open={this.props.messageWindow}>
-                      <Segment style={{background:"white", left: '50%', position: 'fixed', top: '160px', zIndex: 1000 }} >
+                      <Segment style={{background:"white",position:"fixed",bottom: '10vh', left: '40%', zIndex: 1000 }} >
                         {this.props.children}
                       </Segment>
                     </Portal>
@@ -104,7 +109,8 @@ const mapStateToProps = state => {
     messageWindow: state.variables.messageWindow,
     headers: state.headers,
     converations: state.conversations,
-    user: state.user
+    user: state.user,
+    activeCategory: state.variables.activeCategory
   }
 }
 function mapDispatchToProps(dispatch) {
