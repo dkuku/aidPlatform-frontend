@@ -113,7 +113,7 @@ class UserConversationsContainer extends Component {
               />
 
               <MessagesContainer
-                height={ltm ? '100%' : '300px'}
+                height={'100%'}
                 messages={messages.filter(message => message.conversation_id == this.props.activeConversation)}
                 conversation={this.state.currentConv}
               />

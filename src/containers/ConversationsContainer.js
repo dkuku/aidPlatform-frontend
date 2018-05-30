@@ -57,7 +57,7 @@ class ConversationsContainer extends Component {
       return <h1>Loading ...</h1>
     }
     return (
-      <div style={{ paddingBottom: '150px', height: 'calc(100vh - 220px)' }}>
+      <div style={{height: '100%' }}>
         {task && (
           <ConversationHeaderContainer
             done={task.done > 0}
@@ -71,7 +71,7 @@ class ConversationsContainer extends Component {
         {conversations[0] && (
           <React.Fragment>
             <MessagesContainer
-              height={ltm ? '100%' : 'calc(100vh - 420px)'}
+              height={'100%'}
               messages={messages}
               conversation={conversations[0]}
             />

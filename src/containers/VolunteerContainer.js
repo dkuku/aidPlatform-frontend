@@ -32,11 +32,11 @@ class VolunteerContainer extends Component {
     const { activeIndex } = this.state
     var name
     return (
-      <Grid container stackable columns={2} style={{ paddingBottom: '150px' }}>
+      <Grid container stackable columns={2} style={{ }}>
         {console.log(this.props.markers)}
         <Grid.Column>
           {!!this.props.currentTask && (
-            <TaskDetails marker={this.props.currentTask} onTaskSelect={this.onTaskSelect} active={true} />
+            <TaskDetails marker={this.props.currentTask} onTaskSelect={this.onTaskSelect} large={true} />
           )}
         </Grid.Column>
         <Grid.Column>
