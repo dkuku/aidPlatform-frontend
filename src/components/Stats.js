@@ -5,13 +5,7 @@ const Stats = props => (
   <Fragment>
     <Segment
       inverted
-      style={{
-        height: '150px',
-        bottom: '0px',
-        left: '0px',
-        width: '100%',
-        position: 'fixed',
-      }}
+      id={"footer"}
     >
       <Container textAlign="center">
         <Header inverted>Site statistics</Header>

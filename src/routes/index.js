@@ -23,6 +23,7 @@ class Routes extends React.Component {
     return (
       <Router>
         <React.Fragment>
+          <div id={"body"}>
           <MainModal />
           {!this.props.user.authentication_token ? (
             <Switch>
@@ -36,10 +37,13 @@ class Routes extends React.Component {
                 <Route path="/dashboard" component={SettingsContainer} />
                 <Route path="/task/:id" component={VolunteerContainer} />
                 <Route path="/task" component={TaskForm} />
-                <Route path="/" component={MapContainer} />}
+                <Route path="/" component={MapContainer} />
               </Switch>
-            </React.Fragment>
+        </React.Fragment>
+
           )}
+          <div id={'pusher'}/>
+        </div>
           <Footer />
         </React.Fragment>
       </Router>
