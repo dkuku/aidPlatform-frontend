@@ -49,13 +49,13 @@ class UserTasksContainer extends Component {
             <Button icon basic color="teal" floated='left' onClick={this.props.sidebarToggle}>
               <Icon name="bars" />
             </Button>
-          <Header as={'span'} size='large' color='teal'>
+          <Header as={'span'} size='large' >
             {capitalize(activeCategory) + " Tasks"}
           </Header>
           </Segment>
           <Segment basic
                    style={{minHeight:"205px"}}>
-            {this.props.tasks[this.props.activeCategory].map(marker => (
+            {tasks[activeCategory].map(marker => (
               <React.Fragment key={marker.id}>
                 {this.props.activeIndex == marker.id &&
                 <React.Fragment>

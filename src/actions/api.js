@@ -72,7 +72,7 @@ export function doneTask(id, headers) {
             open: true,
             header: `Task marked as done`,
             body: response.data.messages,
-            redirect: '/',
+            redirect: false,
           },
         })
       })
