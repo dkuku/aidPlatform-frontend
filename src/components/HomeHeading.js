@@ -27,7 +27,7 @@ const HomeHeading = ({ mobile }) => (
       }}
     />
     <Link to={'/login/signup'}>
-      <Button primary size="huge">
+      <Button color="teal" size="huge">
         Get Started
         <Icon name="right arrow" />
       </Button>

@@ -38,8 +38,8 @@ class SuccessStories extends Component {
 
     return (
       <React.Fragment>
-        <Segment style={{ padding: '0em' }} vertical>
-          <Grid textAlign="center" celled="internally" columns="equal" stackable>
+        <Segment style={{ padding: '0em' }} vertical basic>
+          <Grid textAlign="center" columns="equal" stackable>
             <Grid.Row>
               {this.state.stories.slice(0, 2).map(story => (
                 <Grid.Column key={story.title} style={{ paddingBottom: '5em', paddingTop: '5em' }}>
@@ -50,7 +50,7 @@ class SuccessStories extends Component {
           </Grid>
         </Segment>
 
-        <Segment textAlign="center" style={{ padding: '8em 0em' }} vertical>
+        <Segment textAlign="center" style={{ padding: '8em 0em' }} vertical basic>
           <Container text>
             <Story story={this.state.stories[2]} />
           </Container>

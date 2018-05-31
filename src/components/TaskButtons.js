@@ -16,12 +16,12 @@ export default class TaskButtons extends PureComponent {
           <Button primary onClick={this.props.handleOpenMessages.bind(this)} disabled={!messages}>
             Conversations
           </Button>
-          <Button negative onClick={this.props.handleDoneClick.bind(this, task.id)} disabled={task.done !== 0}>
+          <Button color={"pink"} onClick={this.props.handleDoneClick.bind(this, task.id)} disabled={task.done !== 0}>
             Mark done
           </Button>
           {task.done != 0 &&
           !this.olderThanOneDay(task.updated_at) &&this.props.task.user_id == this.props.user.id &&
-          <Button positive onClick={this.props.handleRepublishClick.bind(this, task)}>
+          <Button color={"teal"} onClick={this.props.handleRepublishClick.bind(this, task)}>
             Republish
           </Button>
           }

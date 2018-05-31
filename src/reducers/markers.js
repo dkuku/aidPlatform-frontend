@@ -2,13 +2,6 @@ import { GET_MARKERS, DELETE_MARKER, UPDATE_MARKER } from 'constants/ActionTypes
 
 const initialMarkersState = []
 const markerDemo = [
-  {
-    id: 1,
-    title: '',
-    description: "",
-    user: '123',
-    createdAt: 0,
-  },
 ]
 
 const markers = (state = markerDemo, action) => {

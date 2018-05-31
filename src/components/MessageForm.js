@@ -5,9 +5,9 @@ export default class MessageForm extends PureComponent {
   render(){
     return (
       <Form reply onSubmit={this.props.handleSendMessage.bind(this)}>
-        <Form.Group>
-          <Form.Input placeholder="Message" name="body" value={this.props.body} onChange={this.props.handleChange.bind(this)} />
-          <Form.Button content="Submit" />
+        <Form.Group unstackable inline>
+          <Form.Input placeholder="Message" name="body" value={this.props.body} width='12' onChange={this.props.handleChange.bind(this)} />
+          <Form.Button color="teal" width='4' content="Submit" />
         </Form.Group>
       </Form>
 

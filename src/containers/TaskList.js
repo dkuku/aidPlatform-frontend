@@ -31,7 +31,7 @@ class TaskList extends Component {
   volunterClick(id ){
     const { headers} = this.props
     this.props.createConversation(id, headers)
-    this.props.history.push(`/dashboard`)
+    this.props.history.push(`task/${id}`)
   }
 
   render() {
@@ -47,7 +47,7 @@ class TaskList extends Component {
                   {marker.title}
                 </Fragment>)}
             </Accordion.Title>
-            <Accordion.Content active={activeIndex === marker.id}>
+            <Accordion.Content active={activeIndex == marker.id}>
               <TaskDetailsSimple marker={marker}>
 
                   <Button basic floated="right"
@@ -55,8 +55,8 @@ class TaskList extends Component {
                           color={ marker.task_type === 'material' ? 'blue' : 'green' }>
                     View task
                   </Button>
-                {marker.fulfilment_counter<4&&
-                <Button basic floated="right" color="pink" onClick={this.volunterClick.bind(this, marker.id)}>
+                {marker.fulfilment_counter<5&&marker.user_id!=user.id&&
+                <Button basic floated="right" color="teal" onClick={this.volunterClick.bind(this, marker.id)}>
                   Volunteer
                 </Button>
                 }

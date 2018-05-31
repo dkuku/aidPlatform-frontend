@@ -13,7 +13,7 @@ export default class TaskOwnerConvHeader extends Component {
               name={
                 this.props.activeConv == conversation.id
                   ? conversation.volunteer_name
-                  : conversation.volunteer_name.substring(0, 5) + '...'
+                  : conversation.volunteer_name.split(" ")[0]
               }
               id={conversation.id}
               active={this.props.activeConv == conversation.id}

@@ -29,7 +29,7 @@ class MapSmall extends Component {
   }
   render() {
     const { marker, height='150px' } = this.props
-    const { lat, lng } = marker
+    const { lat = Number(lat), lng=Number(lng) } = marker
 
     return (
       <GoogleMapsWrapper
@@ -41,7 +41,7 @@ class MapSmall extends Component {
         defaultCenter={{ lat, lng }}
       >
         <Marker
-          position={{ lat: Number(marker.lat), lng: Number(marker.lng) }}
+          position={{ lat, lng }}
           onClick={() => updateActiveIndex(marker.id)}
           icon={this.markerPin(marker.task_type, marker.done, marker.fulfilment_counter)}
         />

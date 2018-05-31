@@ -23,7 +23,7 @@ class TaskForm extends Component {
         lat: 0,
         lng: 0.05,
         task_type: 'help',
-        address: '',
+        address: ' ',
       },
     }
   }

@@ -4,6 +4,7 @@ import { MapContainer, LoginContainer, VolunteerContainer, SettingsContainer, Ho
 import { TopMenu, Footer, TaskForm, MainModal } from 'components'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
+import { GeoLocation } from 'react-redux-geolocation'
 
 const Container = styled.div`
   text-align: center;
@@ -23,6 +24,7 @@ class Routes extends React.Component {
     return (
       <Router>
         <React.Fragment>
+          <GeoLocation />
           <div id={"body"}>
           <MainModal />
           {!this.props.user.authentication_token ? (

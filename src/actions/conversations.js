@@ -12,9 +12,11 @@ import { api as url } from '../constants/variables'
 export function getConversations(task, headers) {
   return function(dispatch) {
     const path = `tasks/${task}`
+    console.log(path)
     axios
       .get(url + path, headers)
       .then(response => {
+        console.log(response)
         dispatch({
           type: GET_CONVERSATIONS,
           payload: response.data.data,
@@ -54,6 +56,7 @@ export function createConversation(taskId, headers) {
       .then(response => {
         console.log(response)
         if (response.status === 200) {
+          console.log(response)
           dispatch({
             type: ADD_CONVERSATION,
             payload: response.data.data.conversation,

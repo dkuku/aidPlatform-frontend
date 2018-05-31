@@ -9,6 +9,10 @@ import {capitalize} from 'constants/functions'
 
 class UserTasksContainer extends Component {
 
+  componentDidUpdate() {
+    if (this.props.tasks[this.props.activeCategory].length === 1)
+      this.props.updateActiveIndex(this.props.tasks[this.props.activeCategory][0].id)
+  }
   onTaskSelect = selectedTask => {
     this.props.updateActiveIndex(selectedTask)
     this.props.getConversations(selectedTask, this.props.headers)
@@ -73,7 +77,7 @@ class UserTasksContainer extends Component {
 
                   {smallScreen?<Fragment>{this.props.children}</Fragment>:
                     <Portal open={this.props.messageWindow}>
-                      <Segment style={{background:"white",position:"fixed",bottom: '10vh', left: '40%', zIndex: 1000 }} >
+                      <Segment style={{background:"white",minWidth: '450px', position:"fixed",bottom: '10vh', left: '40%', zIndex: 1000 }} >
                         {this.props.children}
                       </Segment>
                     </Portal>

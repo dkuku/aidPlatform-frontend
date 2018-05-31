@@ -88,7 +88,7 @@ class UserConversationsContainer extends Component {
   }
 
   renderContent(conv) {
-    const { task, user, conversations, messages, ltm, activeConversation } = this.props
+    const { task, user, conversations, messages, activeConversation, closeButton=false } = this.props
     const { body, currentConv } = this.state
     if (task === {}) {
       return <h1>Loading ...</h1>
@@ -100,9 +100,10 @@ class UserConversationsContainer extends Component {
             <Fragment>
               <Header>
                 Task: {task.title}
+                {closeButton&&
                 <Button icon basic color="teal" floated="right" onClick={this.handleCloseClick}>
                   <Icon name="delete" />
-                </Button>
+                </Button>}
               </Header>
               <TaskOwnerConvHeader
                 handleItemClick={this.handleItemClick}
@@ -115,7 +116,8 @@ class UserConversationsContainer extends Component {
               <MessagesContainer
                 height={'100%'}
                 messages={messages.filter(message => message.conversation_id == this.props.activeConversation)}
-                conversation={this.state.currentConv}
+                conversation={currentConv}
+                isOwner={user.id==currentConv.task_owner_id}
               />
               <MessageForm handleSendMessage={this.handleSendMessage} handleChange={this.handleChange} body={body} />
             </Fragment>

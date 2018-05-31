@@ -49,7 +49,7 @@ class SettingsContainer extends Component {
                 onTaskSelect={this.onTaskSelect}
                 activeIndex={activeIndex}
               >
-              <UserConversationsContainer/>
+              <UserConversationsContainer closeButton={true}/>
             </UserTasksContainer>
             </Container>
     )
