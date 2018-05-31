@@ -51,14 +51,15 @@ export function createConversation(taskId, headers) {
     axios
       .post(`${url}conversations`, form, headers)
       .then(response => {
+        console.log(response)
         if (response.status === 200) {
           dispatch({
             type: ADD_CONVERSATION,
-            payload: response.data.data.conversation,
+            payload: response.data.data.conversation[0],
           })
           dispatch({
             type: ACTIVE_CONVERSATION,
-            payload: response.data.data.conversation,
+            payload: response.data.data.conversation[0].id,
           })
           dispatch({
             type: SET_MODAL_DATA,

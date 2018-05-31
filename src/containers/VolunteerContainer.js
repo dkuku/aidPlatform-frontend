@@ -43,7 +43,7 @@ class VolunteerContainer extends Component {
     return (
       <Grid container stackable columns={2} style={{ }}>
         <Grid.Column>
-          {!!currentTask && (
+          {!!currentTask.id && (
             <TaskDetails marker={currentTask} onTaskSelect={this.onTaskSelect} large={true} />
           )}
         </Grid.Column>

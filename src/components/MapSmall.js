@@ -29,11 +29,10 @@ class MapSmall extends Component {
     })
   }
   componentDidMount() {
-    setTimeout(this.setState({zoom: 11}), 900)
   }
   componentDidUpdate() {
    console.log(this.state, this.props.marker)
-    if (Number(this.state.lat) == Number(this.props.marker.lat)) {
+    if (Number(this.state.lat) !== Number(this.props.marker.lat)) {
       this.setState({lat: Number(this.props.marker.lat),
       lng: Number(this.props.marker.lng) })}
   }
@@ -52,7 +51,7 @@ class MapSmall extends Component {
         loadingElement={<div style={{}} />}
         containerElement={<div style={{ height: `${height}` }} />}
         mapElement={<div style={{ height: `100%` }} />}
-        defaultZoom={this.state.zoom}
+        defaultZoom={11}
         defaultCenter={{ lat, lng }}
       >
         <Marker
