@@ -4,7 +4,6 @@ const InitialConversations = []
 export default function currentTask(state = InitialConversations, action) {
   switch (action.type) {
     case GET_CONVERSATIONS:
-      console.log(action)
       return action.payload.task
     case UPDATE_MARKER:
       return action.payload

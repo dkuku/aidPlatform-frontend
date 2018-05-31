@@ -6,7 +6,6 @@ import { BLUE } from '../constants/Icons'
 class TaskDetails extends Component {
   constructor() {
     super()
-    this.state = { style: {} }
   }
 
   mouseOut() {
@@ -22,7 +21,7 @@ class TaskDetails extends Component {
     return (
       <div
         onClick={this.props.onTaskSelect.bind(null, id)}
-        style={active ? { background: 'rgba(0,0,0,0.1)', padding: '1rem' } : this.state.style}
+        style={active ? { background: 'rgba(0,0,0,0.1)', padding: '1rem' } : {}}
         onMouseOver={() => this.mouseOver()}
         onMouseOut={() => this.mouseOut()}
       >
@@ -35,7 +34,7 @@ class TaskDetails extends Component {
                 </Item.Image>
               )}
             <Item.Content>
-              {this.props.large && <Item.Image>
+              {this.props.large&& !!marker && <Item.Image>
                 <MapSmall height={'300px'} marker={marker} />
               </Item.Image>}
               <Item.Header style={{paddingTop: '10px'}}>{title}</Item.Header>

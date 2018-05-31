@@ -11,19 +11,19 @@ import { ACTIVE_INDEX,
 export function updateActiveConversation(activeConversation) {
   return {
     type: ACTIVE_CONVERSATION,
-    payload: {id: activeConversation},
+    payload: {id: Number(activeConversation)},
   }
 }
 export function updateActiveCategory(activeCategory) {
   return {
     type: ACTIVE_CATEGORY,
-    payload: {id :activeCategory},
+    payload: {id: activeCategory},
   }
 }
 export function updateActiveIndex(activeIndex) {
   return {
     type: ACTIVE_INDEX,
-    activeIndex,
+    payload: {id: Number(activeIndex)},
   }  }
 export function sidebarClose() {
   return {

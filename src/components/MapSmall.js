@@ -13,6 +13,12 @@ const material = BLUE
 const done = PINK
 
 class MapSmall extends Component {
+  constructor(props){
+    super(props)
+    this.state={lat: Number(this.props.marker.lat) || 51.2,
+                lng: Number(this.props.marker.lng) || 0,
+    }
+  }
   componentWillMount() {
     let refs = {}
 
@@ -22,14 +28,23 @@ class MapSmall extends Component {
       },
     })
   }
+  componentDidMount() {
+    setTimeout(this.setState({zoom: 11}), 900)
+  }
+  componentDidUpdate() {
+   console.log(this.state, this.props.marker)
+    if (Number(this.state.lat) == Number(this.props.marker.lat)) {
+      this.setState({lat: Number(this.props.marker.lat),
+      lng: Number(this.props.marker.lng) })}
+  }
 
   //TODO: temporary
-  markerPin = (type, status, fulfiled) => {
-    return window.location.origin + `${(fulfiled === 5) | status ? done : type == 'material' ? material : help}`
+  markerPin = (type) => {
+    return window.location.origin + `${type == 'material' ? material : help}`
   }
   render() {
     const { marker, height='150px' } = this.props
-    const { lat = Number(lat), lng=Number(lng) } = marker
+    const { lat = Number(lat), lng=Number(lng) } = this.state
 
     return (
       <GoogleMapsWrapper
@@ -37,13 +52,13 @@ class MapSmall extends Component {
         loadingElement={<div style={{}} />}
         containerElement={<div style={{ height: `${height}` }} />}
         mapElement={<div style={{ height: `100%` }} />}
-        defaultZoom={12}
+        defaultZoom={this.state.zoom}
         defaultCenter={{ lat, lng }}
       >
         <Marker
           position={{ lat, lng }}
           onClick={() => updateActiveIndex(marker.id)}
-          icon={this.markerPin(marker.task_type, marker.done, marker.fulfilment_counter)}
+          icon={this.markerPin(marker.task_type)}
         />
       </GoogleMapsWrapper>
     )

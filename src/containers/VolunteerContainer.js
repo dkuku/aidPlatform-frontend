@@ -28,9 +28,9 @@ class VolunteerContainer extends Component {
   }
 
   componentDidUpdate(){
-    if (this.props.match.params.id !== this.props.activeIndex) {
+    if (this.props.match.params.id != this.props.activeIndex) {
       this.props.updateActiveIndex(this.props.match.params.id)
-      this.props.getConversations(this.props.activeIndex, this.state.headers)
+      this.props.getConversations(this.props.activeIndex, this.props.headers)
     }
   }
 

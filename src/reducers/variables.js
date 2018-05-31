@@ -22,7 +22,7 @@ export default function variables(state = initial, action) {
     case ACTIVE_CATEGORY:
       return {...state, activeCategory: action.payload.id}
     case ACTIVE_INDEX:
-      return {...state, activeIndex: action.activeIndex}
+      return {...state, activeIndex: action.payload.id}
     case SIDEBAR_OPEN:
       return {...state, sidebar: true}
     case SIDEBAR_TOGGLE:

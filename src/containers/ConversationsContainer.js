@@ -31,10 +31,10 @@ class ConversationsContainer extends Component {
   }
 
   componentWillMount() {
-    this.props.getConversations(this.state.activeIndex, this.props.headers)
+    this.props.getConversations(this.props.activeIndex, this.props.headers)
   }
   componentDidMount() {
-    this.props.activeIndex !== this.state.activeIndex ? this.props.updateActiveIndex(this.state.activeIndex) : null
+    this.props.activeIndex != this.state.activeIndex ? this.props.updateActiveIndex(this.state.activeIndex) : null
   }
 
   handleSendMessage = () => {
@@ -51,20 +51,20 @@ class ConversationsContainer extends Component {
   handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
   renderContent() {
-    const { task, conversations, messages, ltm } = this.props
+    const { currentTask, conversations, messages, ltm } = this.props
     const { body } = this.state
-    if (task === {}) {
+    if (currentTask === {}) {
       return <h1>Loading ...</h1>
     }
     return (
       <div style={{height: '100%' }}>
-        {task && (
+        {currentTask && (
           <ConversationHeaderContainer
-            done={task.done > 0}
+            done={currentTask.done > 0}
             handleVolunteer={this.handleVolunteer}
             handleDoneClick={this.handleDoneClick}
             conversations={conversations}
-            task={task}
+            task={currentTask}
           />
         )}
 
