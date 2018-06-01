@@ -13,13 +13,10 @@ import { api as url } from '../constants/variables'
 
 export function login(form) {
   return function(dispatch) {
-    console.log(form)
     axios
       .post(`${url}sign_in`, form)
       .then(response => {
-        console.log(response)
         if (response.status === 200) {
-          console.log(response.data.data.user)
           localStorage.setItem('user', JSON.stringify(response.data.data.user))
           dispatch({
             type: LOGIN,
@@ -61,7 +58,6 @@ export function signup(body) {
     axios
       .post(`${url}sign_up`, body)
       .then(response => {
-        console.log(response)
         if (response.status === 200) {
           localStorage.setItem('user', JSON.stringify(response.data.data.user))
           dispatch({
@@ -101,14 +97,11 @@ export function signup(body) {
 export function updatePicture(file, headers) {
   const form = new FormData()
   form.append('user[picture]', file)
-  console.log(headers)
   return function(dispatch) {
     axios
       .put(`${url}user`, form, headers)
       .then(response => {
-        console.log(response)
         if (response.status === 200) {
-          console.log(response)
           localStorage.setItem('user', JSON.stringify(response.data.data.user))
 
           dispatch({

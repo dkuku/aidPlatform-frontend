@@ -51,7 +51,6 @@ export function createConversation(taskId, headers) {
     axios
       .post(`${url}conversations`, form, headers)
       .then(response => {
-        console.log(response)
         if (response.status === 200) {
           dispatch({
             type: ADD_CONVERSATION,

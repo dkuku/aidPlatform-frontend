@@ -61,11 +61,9 @@ export function getMarkersBounds(bounds) {
 export function doneTask(id, headers) {
   return function(dispatch) {
     const path = `conversations/${id}`
-    console.log(path)
     axios
       .delete(url + path, headers)
       .then(response => {
-        console.log(response)
         dispatch({
           type: SET_MODAL_DATA,
           modal: {
@@ -89,7 +87,6 @@ export function addTask(task, headers) {
     axios
       .post(url + path, task, headers)
       .then(response => {
-        console.log(response)
         dispatch({
           type: ADD_MARKER,
           payload: response.data.data,

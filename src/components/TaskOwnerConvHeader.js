@@ -3,7 +3,8 @@ import { Menu, Header, Button } from 'semantic-ui-react'
 
 export default class TaskOwnerConvHeader extends Component {
   render() {
-    const { conversations, task } = this.props
+    const { conversations, task, volunteer } = this.props
+    const nameToDisplay = volunteer? 'task_owner_name': 'volunteer_name'
     const menuPlaceholder = !!conversations ? (
       <React.Fragment>
         <Menu compact attached="top" tabular>
@@ -12,8 +13,8 @@ export default class TaskOwnerConvHeader extends Component {
               key={conversation.id}
               name={
                 this.props.activeConv == conversation.id
-                  ? conversation.volunteer_name
-                  : conversation.volunteer_name.split(" ")[0]
+                  ? conversation[nameToDisplay]
+                  : conversation[nameToDisplay].split(" ")[0]
               }
               id={conversation.id}
               active={this.props.activeConv == conversation.id}

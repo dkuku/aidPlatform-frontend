@@ -21,7 +21,6 @@ class TaskList extends Component {
   }
   handleTitleClick = (e, titleProps) => {
     const { index } = titleProps
-    console.log(titleProps)
     const { activeIndex } = this.state
     const newIndex = activeIndex === index ? -1 : index
     this.props.updateActiveIndex(newIndex)

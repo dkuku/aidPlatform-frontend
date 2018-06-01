@@ -17,7 +17,6 @@ const initial =  {
 export default function variables(state = initial, action) {
   switch (action.type) {
     case ACTIVE_CONVERSATION:
-      console.log(action)
       return {...state, activeConversation: action.payload.id}
     case ACTIVE_CATEGORY:
       return {...state, activeCategory: action.payload.id}

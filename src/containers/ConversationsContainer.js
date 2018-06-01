@@ -61,6 +61,7 @@ class ConversationsContainer extends Component {
         {currentTask && (
           <ConversationHeaderContainer
             done={currentTask.done > 0}
+            reverse={true}
             handleVolunteer={this.handleVolunteer}
             handleDoneClick={this.handleDoneClick}
             conversations={conversations}

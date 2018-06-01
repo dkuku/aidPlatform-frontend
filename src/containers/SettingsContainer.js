@@ -36,7 +36,7 @@ class SettingsContainer extends Component {
     this.props.updateActiveCategory(id)
     this.props.sidebarToggle()
   }
-
+  volunteerInHeader = () => this.props.activeCategory=="active" || this.props.activeCategory == 'closed' ? true:false
   render() {
     const {tasks} = this.state
     const {getUserMarkers, activeCategory, activeIndex} = this.props
@@ -49,7 +49,7 @@ class SettingsContainer extends Component {
                 onTaskSelect={this.onTaskSelect}
                 activeIndex={activeIndex}
               >
-              <UserConversationsContainer closeButton={true}/>
+              <UserConversationsContainer volunteer={this.volunteerInHeader()} closeButton={true}/>
             </UserTasksContainer>
             </Container>
     )

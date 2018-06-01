@@ -5,7 +5,6 @@ export default class TaskButtons extends PureComponent {
   olderThanOneDay = (date) => {
     const taskDate = new Date(date)
     const now = new Date()
-    console.log(taskDate.getDate(), now.getDate())
     return (taskDate.getDate() + 1 > now.getDate())
   }
   render() {

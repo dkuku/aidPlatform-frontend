@@ -15,7 +15,7 @@ class ConversationHeaderContainer extends PureComponent {
       </div>
     ) : (
       <div>
-        {console.log(this.props) && (
+        {false && (
           <Header as="h3">{`Conversation with ${this.props.conversations[0].task_owner_name} `}</Header>
         )}
       </div>

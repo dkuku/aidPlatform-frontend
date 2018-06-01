@@ -30,8 +30,6 @@ class VolunteerContainer extends Component {
     }
   }
   componentDidMount() {
-    console.log(this.props)
-    console.log(this.state)
     const { headers, getConversations } = this.state
     this.props.getConversations(this.state.activeIndex, headers)
     this.setState({
@@ -48,7 +46,6 @@ class VolunteerContainer extends Component {
   volunteerRequest = () => this.props.createConversation(this.state.activeIndex, this.state.headers)
 
   render() {
-    console.log(this.props.conversations)
     const { activeConv, activeIndex } = this.state
     const { conversations, createConversation } = this.props.conversations
     const marker = this.props.markers.filter(obj => obj.id == activeIndex)[0]

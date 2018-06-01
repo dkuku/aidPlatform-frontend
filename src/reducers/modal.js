@@ -19,7 +19,6 @@ export default function modal(state = initialState, action) {
         open: false,
       }
     case SET_MODAL_DATA:
-      console.log(action)
       return {
         ...state,
         ...action.modal,

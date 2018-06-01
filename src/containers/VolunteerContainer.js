@@ -51,7 +51,7 @@ class VolunteerContainer extends Component {
           {this.props.currentTask.id == this.props.user.id?
             <Header>This task was posted by you</Header>:
             !!conversations.length > 0 ?
-            <UserConversationsContainer />
+            <UserConversationsContainer volunteer={true} />
             :
             <div>
               <Header as="h3">

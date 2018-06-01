@@ -21,9 +21,9 @@ class TaskForm extends Component {
         title: '',
         description: '',
         lat: 0,
-        lng: 0.05,
+        lng: 0,
         task_type: 'help',
-        address: ' ',
+        address: '',
       },
     }
   }
@@ -45,13 +45,11 @@ class TaskForm extends Component {
       .then(results => getLatLng(results[0]))
       .then(latLng => {
         this.setState({ task: { ...this.state.task, ...latLng, address: address } })
-        console.log(this.state.task)
       })
       .catch(error => console.error('Error', error))
   }
   componentDidMount() {
-    this.setState({task: {...this.props.location.state}})
-    console.log(this.props)
+    this.setState({task: {...this.state.task,...this.props.location.state}})
   }
   handleTaskSubmit = () => {
     const { task } = this.state

@@ -31,7 +31,6 @@ class MapSmall extends Component {
   componentDidMount() {
   }
   componentDidUpdate() {
-   console.log(this.state, this.props.marker)
     if (Number(this.state.lat) !== Number(this.props.marker.lat)) {
       this.setState({lat: Number(this.props.marker.lat),
       lng: Number(this.props.marker.lng) })}

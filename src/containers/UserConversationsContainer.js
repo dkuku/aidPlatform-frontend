@@ -106,6 +106,7 @@ class UserConversationsContainer extends Component {
                 </Button>}
               </Header>
               <TaskOwnerConvHeader
+                volunteer={this.props.volunteer}
                 handleItemClick={this.handleItemClick}
                 conversations={conversations}
                 activeConv={activeConversation}
