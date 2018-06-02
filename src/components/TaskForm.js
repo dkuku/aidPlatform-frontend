@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Button, Form, TextArea, Select, Grid, Header, Segment } from 'semantic-ui-react'
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 import { withRouter } from 'react-router'
@@ -6,6 +6,7 @@ import Dropzone from 'react-dropzone'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { addTask, updatePicture } from 'actions'
+import formHOC from 'components/formHOC'
 
 const options = [{ key: 'material', text: 'material', value: 'material' }, { key: 'help', text: 'help', value: 'help' }]
 
@@ -37,7 +38,7 @@ class TaskForm extends Component {
     })
 
   handleAddressChange = address => {
-    this.setState({task: {...this.state.task, address: address} })
+    this.setState({ task: { ...this.state.task, address: address } })
   }
 
   handleSelect = address => {
@@ -49,7 +50,7 @@ class TaskForm extends Component {
       .catch(error => console.error('Error', error))
   }
   componentDidMount() {
-    this.setState({task: {...this.state.task,...this.props.location.state}})
+    this.setState({ task: { ...this.state.task, ...this.props.location.state } })
   }
   handleTaskSubmit = () => {
     const { task } = this.state
@@ -66,12 +67,13 @@ class TaskForm extends Component {
     this.setState({ picture: this.state.accepted[0] })
   }
   render() {
+    const { color } = this.props
     const { task, address, accepted, rejected } = this.state
     const form = !this.props.user.picture_file_name ? (
       <React.Fragment>
         <Form size="large" onSubmit={this.handlePictureSubmit}>
           <Segment stacked>
-            <Header as="h2" color="teal" textAlign="center">
+            <Header as="h2" color={color} textAlign="center">
               {' '}
               Add a picture of Your ID
             </Header>
@@ -94,7 +96,7 @@ class TaskForm extends Component {
               ))}
             </ul>
 
-            <Button color="teal" fluid size="large">
+            <Button color={color} fluid size="large">
               Upload
             </Button>
           </Segment>
@@ -102,7 +104,7 @@ class TaskForm extends Component {
       </React.Fragment>
     ) : (
       <React.Fragment>
-        <Header as="h2" color="teal" textAlign="center">
+        <Header as="h2" color={color} textAlign="center">
           {' '}
           Add a new request
         </Header>
@@ -162,25 +164,14 @@ class TaskForm extends Component {
                 )}
               </PlacesAutocomplete>
             </div>
-            <Button color="teal" fluid size="large">
+            <Button color={color} fluid size="large">
               Add task
             </Button>
           </Segment>
         </Form>
       </React.Fragment>
     )
-    return (
-      <div className="login-form">
-        {/*
-      Heads up! The styles below are necessary for the correct render of this example.
-      You can do same with CSS, the main idea is that all the elements up to the `Grid`
-      below must have a height of 100%.
-    */}
-        <Grid textAlign="center" style={{ marginTop: '80px' }} verticalAlign="middle">
-          <Grid.Column style={{ maxWidth: 450 }}>{form}</Grid.Column>
-        </Grid>
-      </div>
-    )
+    return <Fragment>{form}</Fragment>
   }
 }
 
@@ -197,4 +188,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ addTask, updatePicture }, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TaskForm))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(formHOC(TaskForm)))
