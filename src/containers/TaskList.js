@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component, Fragment } from 'react'
 import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -12,11 +12,11 @@ class TaskList extends Component {
     activeIndex: 0,
   }
   componentDidUpdate() {
-    !!this.refs[this.props.activeIndex]
-      ? this.refs[this.props.activeIndex].scrollIntoView({ block: 'start', behavior: 'smooth' })
-      : null
+    if (!!this.refs[this.props.activeIndex]) {
+      this.refs[this.props.activeIndex].scrollIntoView({ block: 'start', behavior: 'smooth' })
+    }
   }
-  handleDetailsClick = (id) => {
+  handleDetailsClick = id => {
     this.props.history.push(`task/${id}`)
   }
   handleTitleClick = (e, titleProps) => {
@@ -27,8 +27,8 @@ class TaskList extends Component {
     this.setState({ activeIndex: newIndex })
   }
 
-  volunterClick(id ){
-    const { headers} = this.props
+  volunterClick(id) {
+    const { headers } = this.props
     this.props.createConversation(id, headers)
     this.props.history.push(`task/${id}`)
   }
@@ -39,26 +39,29 @@ class TaskList extends Component {
       <Accordion fluid styled style={{ height: '100%', overflow: 'hidden', overflowY: 'auto' }}>
         {markers.map(marker => (
           <div ref={marker.id} key={marker.id}>
-            <Accordion.Title active={activeIndex === marker.id}  index={marker.id} onClick={this.handleTitleClick}>
-              {activeIndex!=marker.id&&(
+            <Accordion.Title active={activeIndex === marker.id} index={marker.id} onClick={this.handleTitleClick}>
+              {activeIndex != marker.id && (
                 <Fragment>
                   <Icon name="dropdown" />
                   {marker.title}
-                </Fragment>)}
+                </Fragment>
+              )}
             </Accordion.Title>
             <Accordion.Content active={activeIndex == marker.id}>
               <TaskDetailsSimple marker={marker}>
-
-                  <Button basic floated="right"
-                          onClick={this.handleDetailsClick.bind(this, marker.id)}
-                          color={ marker.task_type === 'material' ? 'blue' : 'green' }>
-                    View task
-                  </Button>
-                {marker.fulfilment_counter<5&&marker.user_id!=user.id&&
-                <Button basic floated="right" color="teal" onClick={this.volunterClick.bind(this, marker.id)}>
-                  Volunteer
+                <Button
+                  basic
+                  floated="right"
+                  onClick={this.handleDetailsClick.bind(this, marker.id)}
+                  color={marker.task_type === 'material' ? 'blue' : 'green'}
+                >
+                  View task
                 </Button>
-                }
+                {marker.fulfilment_counter < 5 && marker.user_id != user.id && (
+                  <Button basic floated="right" color="teal" onClick={this.volunterClick.bind(this, marker.id)}>
+                    Volunteer
+                  </Button>
+                )}
               </TaskDetailsSimple>
             </Accordion.Content>
           </div>
@@ -78,4 +81,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ getMarkers, updateActiveIndex, createConversation }, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TaskList))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(TaskList))

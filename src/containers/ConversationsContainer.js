@@ -34,7 +34,7 @@ class ConversationsContainer extends Component {
     this.props.getConversations(this.props.activeIndex, this.props.headers)
   }
   componentDidMount() {
-    this.props.activeIndex != this.state.activeIndex ? this.props.updateActiveIndex(this.state.activeIndex) : null
+    if (this.props.activeIndex != this.state.activeIndex) this.props.updateActiveIndex(this.state.activeIndex)
   }
 
   handleSendMessage = () => {
@@ -57,7 +57,7 @@ class ConversationsContainer extends Component {
       return <h1>Loading ...</h1>
     }
     return (
-      <div style={{height: '100%' }}>
+      <div style={{ height: '100%' }}>
         {currentTask && (
           <ConversationHeaderContainer
             done={currentTask.done > 0}
@@ -71,11 +71,7 @@ class ConversationsContainer extends Component {
 
         {conversations[0] && (
           <React.Fragment>
-            <MessagesContainer
-              height={'100%'}
-              messages={messages}
-              conversation={conversations[0]}
-            />
+            <MessagesContainer height={'100%'} messages={messages} conversation={conversations[0]} />
             <MessageForm handleSendMessage={this.handleSendMessage} handleChange={this.handleChange} body={body} />
           </React.Fragment>
         )}
@@ -116,4 +112,7 @@ function mapDispatchToProps(dispatch) {
   )
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ConversationsContainer))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(ConversationsContainer))

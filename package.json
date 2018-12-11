@@ -6,6 +6,7 @@
   "proxy": "http://localhost:3000",
   "dependencies": {
     "axios": "^0.18.0",
+    "eslint": "^5.10.0",
     "fusejs": "^1.4.3",
     "google-maps-react": "^1.1.6",
     "prop-types": "^15.6.0",
@@ -19,7 +20,7 @@
     "react-redux": "^5.0.6",
     "react-redux-geolocation": "^1.0.14",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "^1.1.4",
+    "react-scripts": "^2.1.1",
     "recompose": "^0.26.0",
     "redux": "^3.7.2",
     "redux-actions": "^2.2.1",
@@ -33,14 +34,12 @@
     "styled-components": "^2.3.0"
   },
   "devDependencies": {
-    "babel-eslint": "^8.0.2",
-    "eslint": "^4.10.0",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-config-prettier": "^2.7.0",
-    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-prettier": "^2.3.1",
-    "eslint-plugin-react": "^7.4.0",
+    "eslint-plugin-react": "^7.11.1",
     "husky": "^0.14.3",
     "lint-staged": "^4.3.0",
     "node-plop": "^0.5.5",
@@ -69,5 +68,11 @@
   "engines": {
     "npm": ">=4",
     "node": ">=6"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

@@ -18,23 +18,16 @@ class MainModal extends PureComponent {
     closeModal()
     if (!!modal.redirect) {
       if (modal.redirect instanceof Function) {
-        modal.redirect()}
-      else
-        this.props.history.push(modal.redirect)
-      }
+        modal.redirect()
+      } else this.props.history.push(modal.redirect)
     }
+  }
 
   render() {
     const { open, header, body, redirect, error } = this.props.modal
 
     return (
-      <Modal
-        style={inlineStyle.modal}
-        open={open}
-        onClose={() => {
-          this.props.closeModal
-        }}
-      >
+      <Modal style={inlineStyle.modal} open={open} onClose={this.props.closeModal}>
         {error ? <Modal.Header> {header} </Modal.Header> : <Modal.Header> {header} </Modal.Header>}
         <Modal.Content>{body}</Modal.Content>
         <Modal.Actions>
@@ -57,4 +50,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(ModalActions, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MainModal))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(MainModal))

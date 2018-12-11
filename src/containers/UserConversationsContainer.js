@@ -33,7 +33,7 @@ class UserConversationsContainer extends Component {
 
   componentWillMount() {
     {
-      this.props.activeIndex ? this.props.getConversations(this.props.activeIndex, this.props.headers) : null
+      if (this.props.activeIndex) this.props.getConversations(this.props.activeIndex, this.props.headers)
     }
   }
 
@@ -88,41 +88,41 @@ class UserConversationsContainer extends Component {
   }
 
   renderContent(conv) {
-    const { task, user, conversations, messages, activeConversation, closeButton=false } = this.props
+    const { task, user, conversations, messages, activeConversation, closeButton = false } = this.props
     const { body, currentConv } = this.state
     if (task === {}) {
       return <h1>Loading ...</h1>
     }
     return (
       <Fragment>
-        {currentConv &&
-          conversations.length > 0 && (
-            <Fragment>
-              <Header>
-                Task: {task.title}
-                {closeButton&&
+        {currentConv && conversations.length > 0 && (
+          <Fragment>
+            <Header>
+              Task: {task.title}
+              {closeButton && (
                 <Button icon basic color="teal" floated="right" onClick={this.handleCloseClick}>
                   <Icon name="delete" />
-                </Button>}
-              </Header>
-              <TaskOwnerConvHeader
-                volunteer={this.props.volunteer}
-                handleItemClick={this.handleItemClick}
-                conversations={conversations}
-                activeConv={activeConversation}
-                task={task}
-                user={user}
-              />
+                </Button>
+              )}
+            </Header>
+            <TaskOwnerConvHeader
+              volunteer={this.props.volunteer}
+              handleItemClick={this.handleItemClick}
+              conversations={conversations}
+              activeConv={activeConversation}
+              task={task}
+              user={user}
+            />
 
-              <MessagesContainer
-                height={'100%'}
-                messages={messages.filter(message => message.conversation_id == this.props.activeConversation)}
-                conversation={currentConv}
-                isOwner={user.id==currentConv.task_owner_id}
-              />
-              <MessageForm handleSendMessage={this.handleSendMessage} handleChange={this.handleChange} body={body} />
-            </Fragment>
-          )}
+            <MessagesContainer
+              height={'100%'}
+              messages={messages.filter(message => message.conversation_id == this.props.activeConversation)}
+              conversation={currentConv}
+              isOwner={user.id == currentConv.task_owner_id}
+            />
+            <MessageForm handleSendMessage={this.handleSendMessage} handleChange={this.handleChange} body={body} />
+          </Fragment>
+        )}
       </Fragment>
     )
   }
@@ -172,4 +172,7 @@ function mapDispatchToProps(dispatch) {
   )
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(UserConversationsContainer))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(UserConversationsContainer))

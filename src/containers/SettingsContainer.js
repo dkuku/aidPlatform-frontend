@@ -3,10 +3,17 @@ import { Grid, Container } from 'semantic-ui-react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import axios from 'axios'
-import { updateActiveIndex, updateActiveCategory, getConversations, getUserMarkers, messagesToggle, sidebarToggle } from 'actions'
+import {
+  updateActiveIndex,
+  updateActiveCategory,
+  getConversations,
+  getUserMarkers,
+  messagesToggle,
+  sidebarToggle,
+} from 'actions'
 import { TaskDetails, TaskButtonsOwner } from 'components'
 import { UserConversationsContainer, UserTasksContainer } from 'containers'
-import {api as url, WS} from '../constants/variables'
+import { api as url, WS } from '../constants/variables'
 
 class SettingsContainer extends Component {
   constructor(props) {
@@ -26,32 +33,37 @@ class SettingsContainer extends Component {
     this.props.getUserMarkers(this.props.headers)
   }
 
-  componentWillReceiveProps(){
-    JSON.stringify(this.state.tasks) != JSON.stringify(this.props.tasks)? this.setState({tasks: this.props.tasks}): null
+  componentWillReceiveProps() {
+    if (JSON.stringify(this.state.tasks) != JSON.stringify(this.props.tasks)) {
+      this.setState({ tasks: this.props.tasks })
+    }
   }
-  componentDidUpdate(){
-    JSON.stringify(this.state.tasks) != JSON.stringify(this.props.tasks)? this.setState({tasks: this.props.tasks}): null
+  componentDidUpdate() {
+    if (JSON.stringify(this.state.tasks) != JSON.stringify(this.props.tasks)) {
+      this.setState({ tasks: this.props.tasks })
+    }
   }
   handleItemClick = (e, { id }) => {
     this.props.updateActiveCategory(id)
     this.props.sidebarToggle()
   }
-  volunteerInHeader = () => this.props.activeCategory=="active" || this.props.activeCategory == 'closed' ? true:false
+  volunteerInHeader = () =>
+    this.props.activeCategory == 'active' || this.props.activeCategory == 'closed' ? true : false
   render() {
-    const {tasks} = this.state
-    const {getUserMarkers, activeCategory, activeIndex} = this.props
+    const { tasks } = this.state
+    const { getUserMarkers, activeCategory, activeIndex } = this.props
     return (
-            <Container >
-              <UserTasksContainer
-                tasks={this.state.tasks}
-                activeCategory={activeCategory}
-                handleItemClick={this.handleItemClick}
-                onTaskSelect={this.onTaskSelect}
-                activeIndex={activeIndex}
-              >
-              <UserConversationsContainer volunteer={this.volunteerInHeader()} closeButton={true}/>
-            </UserTasksContainer>
-            </Container>
+      <Container>
+        <UserTasksContainer
+          tasks={this.state.tasks}
+          activeCategory={activeCategory}
+          handleItemClick={this.handleItemClick}
+          onTaskSelect={this.onTaskSelect}
+          activeIndex={activeIndex}
+        >
+          <UserConversationsContainer volunteer={this.volunteerInHeader()} closeButton={true} />
+        </UserTasksContainer>
+      </Container>
     )
   }
 }
@@ -69,7 +81,13 @@ const mapStateToProps = state => {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ sidebarToggle, updateActiveIndex, getUserMarkers, getConversations, messagesToggle, updateActiveCategory }, dispatch)
+  return bindActionCreators(
+    { sidebarToggle, updateActiveIndex, getUserMarkers, getConversations, messagesToggle, updateActiveCategory },
+    dispatch
+  )
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SettingsContainer)
