@@ -40,7 +40,7 @@
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-prettier": "^2.3.1",
     "eslint-plugin-react": "^7.11.1",
-    "husky": "^0.14.3",
+    "husky": "^4.3.6",
     "lint-staged": "^4.3.0",
     "node-plop": "^0.5.5",
     "plop": "^1.7.4",
